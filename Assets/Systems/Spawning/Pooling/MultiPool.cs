@@ -4,19 +4,36 @@ using UnityEngine;
 
 namespace Pooling
 {
+    /// <summary>
+    /// Represents something that is poolable.
+    /// </summary>
+    /// <typeparam name="Id">The type of id by which the object will be categorized 
+    /// in a multipool.</typeparam>
     public interface IPoolable<Id> : ISpawnable<Id>
     {
+        /// <summary>
+        /// The id by which the object will be categorized in a multipool.
+        /// </summary>
         Id ID { get; }
+        /// <summary>
+        /// Reset this poolable object.
+        /// </summary>
         void ResetObject();
     }
+    /// <summary>
+    /// Handles pooling for multiple categories of objects.
+    /// </summary>
+    /// <typeparam name="Id">The type of id by which the objects will be categorized.</typeparam>
+    /// <typeparam name="T">The type of objects that will be stored.</typeparam>
     public class MultiPool<Id, T> where T : IPoolable<Id>
     {
         protected Dictionary<Id, Stack<T>> pools = new();
         /// <summary>
-        /// Get a new object from the pool identified by the id.
+        /// Try to get an object from the pool.
         /// </summary>
-        /// <param name="id">The id of the object.</param>
-        /// <returns>The object if found, or null if the pool was empty/not found.</returns>
+        /// <param name="id">The id to search for.</param>
+        /// <param name="result">The object, if a valid one was found.</param>
+        /// <returns>True if an object was found.</returns>
         public bool TryGet(Id id, out T result)
         {
             result = default;

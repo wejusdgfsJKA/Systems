@@ -16,10 +16,6 @@ public class Poolable<Id> : MonoBehaviour, IPoolable<Id>
     {
         id = data.ID;
     }
-
-    /// <summary>
-    /// Reset this poolable object. This is called BEFORE enabling it!
-    /// </summary>
     public virtual void ResetObject() { }
     protected virtual void OnDisable()
     {

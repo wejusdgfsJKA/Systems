@@ -26,8 +26,8 @@ namespace PlayerController
             if (inputActions == null)
             {
                 inputActions = new PlayerControls();
-                inputActions.Player.SetCallbacks(this);
             }
+            inputActions.Player.SetCallbacks(this);
             inputActions.Enable();
         }
         public void DisablePlayerActions()

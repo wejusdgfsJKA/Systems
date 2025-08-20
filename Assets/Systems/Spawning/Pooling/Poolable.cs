@@ -17,8 +17,4 @@ public class Poolable<Id> : MonoBehaviour, IPoolable<Id>
         id = data.ID;
     }
     public virtual void ResetObject() { }
-    protected virtual void OnDisable()
-    {
-        ObjectManager<Id>.Instance.Release(this);
-    }
 }

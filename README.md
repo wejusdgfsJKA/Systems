@@ -7,3 +7,5 @@ This project contains various systems which can be used in other projects. So fa
 # Player Controller and Interaction system.
 
 # Spawning and Pooling system.
+
+# Weapon abstract class with cooldown system.

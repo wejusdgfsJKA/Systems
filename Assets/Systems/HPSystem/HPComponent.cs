@@ -7,13 +7,12 @@ namespace HP
     public class HPComponent : MonoBehaviour
     {
         [field: SerializeField] public int MaxHealth { get; set; }
-        public int CurrentHealth { get; set; }
+        public float CurrentHealth { get; set; }
         /// <summary>
         /// Fires when this entity dies.
         /// </summary>
         public UnityEvent OnDeath;
-        public UnityEvent<int> OnDamageTaken;
-        protected void Awake()
+        protected virtual void Awake()
         {
             //add damage binding for this entity
             EventBus<TakeDamage>.AddActions(transform.GetInstanceID(), TakeDamage);
@@ -28,13 +27,16 @@ namespace HP
         /// <param name="dmg">Damage event.</param>
         public void TakeDamage(TakeDamage dmg)
         {
-            CurrentHealth -= dmg.Damage;
+            CurrentHealth -= CalculateDamage(dmg);
             if (CurrentHealth <= 0)
             {
                 OnDeath?.Invoke();
                 return;
             }
-            OnDamageTaken?.Invoke(CurrentHealth);
+        }
+        protected virtual float CalculateDamage(TakeDamage dmg)
+        {
+            return dmg.Damage;
         }
         protected void OnDestroy()
         {

@@ -18,12 +18,12 @@ namespace HP
         /// <summary>
         /// The collider we hit.
         /// </summary>
-        public Collider ColliderHit { get; set; }
+        public int ColliderID { get; set; }
         public TakeDamage(int damage, Transform source, Collider collider)
         {
             Damage = damage;
             Source = source;
-            ColliderHit = collider;
+            ColliderID = collider.GetInstanceID();
         }
     }
 }

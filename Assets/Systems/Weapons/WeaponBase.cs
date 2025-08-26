@@ -4,29 +4,31 @@ namespace Weapons
 {
     public abstract class WeaponBase : MonoBehaviour
     {
-        [SerializeField] protected float cooldown;
+        [SerializeField] protected float shotCooldown;
+        /// <summary>
+        /// If true, the weapon will fire every frame it is off cooldown.
+        /// </summary>
         [field: SerializeField] public bool Firing { get; set; }
-        protected float timeLastShot = -1;
+        /// <summary>
+        /// When did we last shoot? Used for cooldown system.
+        /// </summary>
+        protected float timeLastShot;
         protected void Update()
         {
             if (Firing)
             {
-                if (Time.time - timeLastShot >= cooldown)
+                if (Time.time - timeLastShot >= shotCooldown)
                 {
                     timeLastShot = Time.time;
                     Fire();
                 }
             }
-            else
-            {
-                HandleNotFiring();
-            }
         }
         protected virtual void OnEnable()
         {
+            timeLastShot = -1;
             Firing = false;
         }
-        protected abstract void HandleNotFiring();
         protected abstract void Fire();
     }
 }

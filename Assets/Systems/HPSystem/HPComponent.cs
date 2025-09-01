@@ -7,7 +7,28 @@ namespace HP
     public class HPComponent : MonoBehaviour
     {
         [field: SerializeField] public int MaxHealth { get; set; }
-        public float CurrentHealth { get; set; }
+        protected float currentHealth;
+        public float CurrentHealth
+        {
+            get
+            {
+                return currentHealth;
+            }
+            set
+            {
+                value = Mathf.Clamp(value, 0, MaxHealth);
+                if (value != currentHealth)
+                {
+                    currentHealth = value;
+                    OnDamageTaken?.Invoke(currentHealth);
+                }
+            }
+        }
+        /// <summary>
+        /// Fires when this entity's health value changes. Has as parameter the 
+        /// entity's current health.
+        /// </summary>
+        public UnityEvent<float> OnDamageTaken;
         /// <summary>
         /// Fires when this entity dies.
         /// </summary>
@@ -15,11 +36,21 @@ namespace HP
         protected virtual void Awake()
         {
             //add damage binding for this entity
-            EventBus<TakeDamage>.AddActions(transform.GetInstanceID(), TakeDamage);
+            EventBus<TakeDamage>.AddActions(transform.root.GetInstanceID(), TakeDamage);
         }
         protected void OnEnable()
         {
             CurrentHealth = MaxHealth;
+        }
+        /// <summary>
+        /// Attempt to deal damage to an object.
+        /// </summary>
+        /// <param name="transform">The object whose root that we are trying to damage.</param>
+        /// <param name="dmg">The damage event.</param>
+        /// <returns>True if successfully dealt damage to the object's root.</returns>
+        public static bool TakeDamage(Transform transform, TakeDamage dmg)
+        {
+            return EventBus<TakeDamage>.Raise(transform.root.GetInstanceID(), dmg);
         }
         /// <summary>
         /// Take damage. Invoke OnDeath when HP reaches 0. 

@@ -1,4 +1,3 @@
-using EventBus;
 using HP;
 using UnityEngine;
 public class DamageDealer : MonoBehaviour
@@ -10,7 +9,7 @@ public class DamageDealer : MonoBehaviour
     {
         if (b)
         {
-            EventBus<TakeDamage>.Raise(target.GetInstanceID(), new TakeDamage(damage, transform, null));
+            HPComponent.TakeDamage(target, new TakeDamage(damage, transform, null));
             b = false;
         }
     }

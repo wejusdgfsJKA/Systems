@@ -4,12 +4,14 @@ public class DamageDealer : MonoBehaviour
 {
     public bool b;
     public Transform target;
+    public Collider coll;
     public int damage;
+    public bool c;
     void Update()
     {
         if (b)
         {
-            HPComponent.TakeDamage(target, new TakeDamage(damage, transform, null));
+            c = HPComponent.TakeDamage(target, new TakeDamage(damage, transform, coll));
             b = false;
         }
     }

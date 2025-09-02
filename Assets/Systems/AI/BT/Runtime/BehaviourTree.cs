@@ -38,7 +38,7 @@ namespace BT
         {
             waitInterval = new(updateinterval);
             waitForPermission = new(() => { return ShouldRun; });
-            root = SetupTree();
+            SetupTree();
         }
         protected virtual void OnEnable()
         {
@@ -65,8 +65,7 @@ namespace BT
         /// <summary>
         /// Called on Awake, builds the BT.
         /// </summary>
-        /// <returns>The root node.</returns>
-        protected abstract Composite SetupTree();
+        protected abstract void SetupTree();
         /// <summary>
         /// Set the value of a resource in the Blackboard.
         /// </summary>

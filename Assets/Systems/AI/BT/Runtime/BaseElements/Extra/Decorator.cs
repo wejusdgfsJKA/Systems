@@ -83,6 +83,7 @@ namespace BT
         {
             //subscribe to relevant data
             data.AddListener(onDataChanged, key);
+            OnEvaluate();
         }
         /// <summary>
         /// Stop monitoring a resource.
@@ -93,6 +94,7 @@ namespace BT
         {
             //unsubscribe from data which is no longer relevant
             data.RemoveListener(onDataChanged, key);
+            OnEvaluate();
         }
     }
 }

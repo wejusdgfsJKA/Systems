@@ -25,7 +25,7 @@ namespace EventBus
         /// <summary>
         /// Maps the assembly name to the corresponding AssemblyType.
         /// </summary>
-        /// <param name="assemblyName">Name of the assembly.</param>
+        /// <param name="assemblyName">ID of the assembly.</param>
         /// <returns>AssemblyType corresponding to the assembly name, null if no match.</returns>
         static AssemblyType? GetAssemblyType(string assemblyName)
         {

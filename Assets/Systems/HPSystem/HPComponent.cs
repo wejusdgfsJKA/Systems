@@ -46,7 +46,7 @@ namespace HP
         /// Attempt to deal damage to an object.
         /// </summary>
         /// <param name="transform">The object whose root that we are trying to damage.</param>
-        /// <param name="dmg">The damage event.</param>
+        /// <param name="dmg">The damage Event.</param>
         /// <returns>True if successfully dealt damage to the object's root.</returns>
         public static bool TakeDamage(Transform transform, TakeDamage dmg)
         {
@@ -55,7 +55,7 @@ namespace HP
         /// <summary>
         /// Take damage. Invoke OnDeath when HP reaches 0. 
         /// </summary>
-        /// <param name="dmg">Damage event.</param>
+        /// <param name="dmg">Damage Event.</param>
         public void TakeDamage(TakeDamage dmg)
         {
             CurrentHealth -= CalculateDamage(dmg);
@@ -71,7 +71,7 @@ namespace HP
         }
         protected void OnDestroy()
         {
-            //clear this binding from the event bus.
+            //clear this binding from the Event bus.
             EventBus<TakeDamage>.RemoveActions(transform.GetInstanceID(), TakeDamage);
         }
     }

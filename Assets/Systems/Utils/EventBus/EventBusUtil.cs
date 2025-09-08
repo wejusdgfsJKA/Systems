@@ -7,7 +7,7 @@ using UnityEngine;
 namespace EventBus
 {
     /// <summary>
-    /// Contains methods and properties related to event buses and event types in the Unity application.
+    /// Contains methods and properties related to Event buses and Event types in the Unity application.
     /// </summary>
     public static class EventBusUtil
     {
@@ -23,7 +23,7 @@ namespace EventBus
         /// is loaded or when the game enters Play Mode in the Editor. This is useful to initialize
         /// fields or states of the class that are necessary during the editing state that also apply
         /// when the game enters Play Mode.
-        /// The method sets up a subscriber to the playModeStateChanged event to allow
+        /// The method sets up a subscriber to the playModeStateChanged Event to allow
         /// actions to be performed when the Editor's play mode changes.
         /// </summary>    
         [InitializeOnLoadMethod]
@@ -73,7 +73,7 @@ namespace EventBus
         }
 
         /// <summary>
-        /// Clears (removes all listeners from) all event buses in the application.
+        /// Clears (removes all listeners from) all Event buses in the application.
         /// </summary>
         public static void ClearAllBuses()
         {

@@ -119,6 +119,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: 2453771284677459285}
   m_StateMachineBehaviours:
+  - {fileID: 7300276147540803302}
   - {fileID: 5756448506586745791}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -173,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerTime: 0.5
   event:
-    <Name>k__BackingField: bla
+    <ID>k__BackingField: 1
 --- !u!114 &5756448506586745791
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -186,7 +187,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84198937224d56b4e8e5edb1d37fa1e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onEnter:
-    <Name>k__BackingField: 1
   onExit:
-    <Name>k__BackingField: 2
+    <ID>k__BackingField: 2
+--- !u!114 &7300276147540803302
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3d40c29e76e63a42875c1887e28f148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onEnter:
+    <ID>k__BackingField: 0

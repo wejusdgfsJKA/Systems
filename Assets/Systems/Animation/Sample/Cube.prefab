@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 1074100171718403286}
   - component: {fileID: 217495286474187212}
   - component: {fileID: 4289745016781139822}
-  - component: {fileID: 8649652008946364832}
+  - component: {fileID: 3722869728471823191}
+  - component: {fileID: 7900141296630431775}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -106,7 +107,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8649652008946364832
+--- !u!114 &3722869728471823191
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,10 +116,67 @@ MonoBehaviour:
   m_GameObject: {fileID: 8521156607608399478}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 224c8561ee5ec754ba8ee83c2f2bbc6b, type: 3}
+  m_Script: {fileID: 11500000, guid: 336b796c95a64e64884f5270399fa2c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m1: 
-  m2: 
-  m3: 
-  animator: {fileID: 4289745016781139822}
+--- !u!114 &7900141296630431775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8521156607608399478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4df076e362d4f434180af93e458c3057, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+  - Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3722869728471823191}
+          m_TargetAssemblyTypeName: DebugLogger, Assembly-CSharp
+          m_MethodName: Debug1
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    <ID>k__BackingField: 0
+  - Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3722869728471823191}
+          m_TargetAssemblyTypeName: DebugLogger, Assembly-CSharp
+          m_MethodName: Debug2
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    <ID>k__BackingField: 1
+  - Event:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3722869728471823191}
+          m_TargetAssemblyTypeName: DebugLogger, Assembly-CSharp
+          m_MethodName: Debug3
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    <ID>k__BackingField: 2

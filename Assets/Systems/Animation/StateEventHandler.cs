@@ -6,7 +6,7 @@ namespace Animation
     {
         [Range(0, 1)][SerializeField] protected float triggerTime;
         protected bool triggered;
-        [SerializeField] protected MyAnimationEvent @event;
+        [SerializeField] protected CustomAnimEvent @event;
         public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
             triggered = false;
@@ -16,9 +16,9 @@ namespace Animation
             float time = stateInfo.normalizedTime % 1;
             if (!triggered && time >= triggerTime)
             {
-                //trigger event
+                //trigger Event
                 triggered = true;
-                EventBus<MyAnimationEvent>.Raise(animator.transform.root.GetInstanceID(), @event);
+                EventBus<CustomAnimEvent>.Raise(animator.transform.root.GetInstanceID(), @event);
             }
         }
     }

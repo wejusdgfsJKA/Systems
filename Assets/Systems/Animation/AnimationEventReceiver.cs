@@ -9,7 +9,7 @@ namespace Animation
         [SerializeField] protected AnimEvent[] events;
         protected virtual void Awake()
         {
-            EventBus<CustomAnimEvent>.AddActions(transform.GetInstanceID(), ReceiveEvent);
+            EventBus<CustomAnimEvent>.AddActions(transform.root.GetInstanceID(), ReceiveEvent);
         }
         protected void ReceiveEvent(CustomAnimEvent @event)
         {

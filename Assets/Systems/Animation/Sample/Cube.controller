@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerTime: 0.5
   event:
-    <ID>k__BackingField: 1
+    <ID>k__BackingField: {fileID: 11400000, guid: ac0b1a97a64c1034f93e9a5fd89684d1, type: 2}
 --- !u!114 &5756448506586745791
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onExit:
-    <ID>k__BackingField: 2
+    <ID>k__BackingField: {fileID: 11400000, guid: 4cd441abe4385db46b420618613fe9b3, type: 2}
 --- !u!114 &7300276147540803302
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -202,4 +202,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onEnter:
-    <ID>k__BackingField: 0
+    <ID>k__BackingField: {fileID: 11400000, guid: 471ed3587a6054848bfd5d2cf215d10e, type: 2}

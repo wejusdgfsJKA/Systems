@@ -147,7 +147,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-    <ID>k__BackingField: 0
+    <ID>k__BackingField: {fileID: 11400000, guid: 471ed3587a6054848bfd5d2cf215d10e, type: 2}
   - Event:
       m_PersistentCalls:
         m_Calls:
@@ -163,7 +163,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-    <ID>k__BackingField: 1
+    <ID>k__BackingField: {fileID: 11400000, guid: ac0b1a97a64c1034f93e9a5fd89684d1, type: 2}
   - Event:
       m_PersistentCalls:
         m_Calls:
@@ -179,4 +179,4 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-    <ID>k__BackingField: 2
+    <ID>k__BackingField: {fileID: 11400000, guid: 4cd441abe4385db46b420618613fe9b3, type: 2}

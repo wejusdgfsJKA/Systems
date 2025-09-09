@@ -10,7 +10,7 @@ namespace PlayerController
         void EnablePlayerActions();
     }
 
-    [CreateAssetMenu(fileName = "InputReader", menuName = "ScriptableObjects/PlayerController/InputReader")]
+    [CreateAssetMenu(fileName = "InputReader", menuName = "ScriptableObjects/InputReader")]
     public class InputReader : ScriptableObject, IPlayerActions, IInputReader
     {
         public event UnityAction<Vector2> Move = delegate { };

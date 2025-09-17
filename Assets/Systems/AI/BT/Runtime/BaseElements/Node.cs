@@ -89,13 +89,13 @@ namespace BT
         /// <returns>True if the execution so far was successfull. This is necessary because children need to know if they should continue execution or not.</returns>
         public virtual bool Evaluate()
         {
-            RunServices();
             if (BlockingDecorators > 0)
             {
                 //we have invalid decorators
                 State = NodeState.FAILURE;
                 return false;
             }
+            RunServices();
             if (State != NodeState.RUNNING && onEnter != null)
             {
                 //run the enter function if the node was not running before

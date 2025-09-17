@@ -7,7 +7,7 @@ namespace BT
     public class LeafNode : Node
     {
         protected Func<NodeState> onEvaluate;
-        public LeafNode(string name, Func<NodeState> evaluate, Action enter = null,
+        public LeafNode(string name = "Leaf", Func<NodeState> evaluate = null, Action enter = null,
             Action exit = null) : base(name, enter, exit)
         {
             onEvaluate = evaluate;

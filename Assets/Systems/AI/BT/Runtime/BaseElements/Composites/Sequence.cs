@@ -9,7 +9,7 @@ namespace BT
     /// </summary>
     public class Sequence : Composite
     {
-        public Sequence(string name) : base(name) { }
+        public Sequence(string name = "Sequence") : base(name) { }
         public override bool Evaluate()
         {
             if (base.Evaluate())

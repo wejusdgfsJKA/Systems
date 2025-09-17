@@ -8,7 +8,7 @@ namespace HP
     public struct TakeDamage : IEvent
     {
         /// <summary>
-        /// How much damage this attack has dealt.
+        /// How much damage this attackEvent has dealt.
         /// </summary>
         public int Damage { get; set; }
         /// <summary>
@@ -19,7 +19,7 @@ namespace HP
         /// The collider we hit.
         /// </summary>
         public int? ColliderID { get; set; }
-        public TakeDamage(int damage, Transform source, Collider collider)
+        public TakeDamage(int damage, Transform source, Collider collider = null)
         {
             Damage = damage;
             Source = source;

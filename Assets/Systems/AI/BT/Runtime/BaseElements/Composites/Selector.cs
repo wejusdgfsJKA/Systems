@@ -7,7 +7,7 @@ namespace BT
  /// </summary>
     public class Selector : Composite
     {
-        public Selector(string name) : base(name) { }
+        public Selector(string name = "Selector") : base(name) { }
         /// <summary>
         /// Start with leftmost child which can be evaluated. If leftmost not running,
         /// continue rightward.<br/>

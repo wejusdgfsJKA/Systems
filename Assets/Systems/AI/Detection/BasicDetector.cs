@@ -44,7 +44,7 @@ namespace Detection
         }
         protected virtual bool CanSee(Vector3 pos)
         {
-            return !Physics.Linecast(transform.position, pos, obstructionMask);
+            return obstructionMask == 0 || !Physics.Linecast(transform.position, pos, obstructionMask);
         }
         protected virtual void OnDrawGizmosSelected()
         {

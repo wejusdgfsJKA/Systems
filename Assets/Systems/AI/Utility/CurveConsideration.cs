@@ -6,7 +6,7 @@ namespace UtilityAI
     public class CurveConsideration : Consideration
     {
         public AnimationCurve Curve;
-        public ContextKeys ContextKey;
+        public ContextDataKeys ContextKey;
         public override float Evaluate(Context context)
         {
             var value = context.GetData<float>(ContextKey);

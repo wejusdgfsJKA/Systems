@@ -2,17 +2,17 @@ using UnityEngine;
 
 namespace UtilityAI
 {
-    [CreateAssetMenu(menuName = "UtilityAI/Considerations/InRangeConsideration")]
+    [CreateAssetMenu(menuName = "UtilityAI/Considerations/TransformInRangeConsideration")]
     public class TransformInRangeConsideration : Consideration
     {
         public float MaxDistance = 10;
         public AnimationCurve Curve;
-        public ContextKeys ContextKey;
+        public ContextDataKeys ContextKey;
         public override float Evaluate(Context context)
         {
             var tr = context.GetData<Transform>(ContextKey);
             if (tr == null) return 0;
-            float dist = Vector3.Distance(context.transform.position, tr.position) / MaxDistance;
+            float dist = Vector3.Distance(context.Transform.position, tr.position) / MaxDistance;
             float result = Curve.Evaluate(dist);
             return Mathf.Clamp01(result);
         }

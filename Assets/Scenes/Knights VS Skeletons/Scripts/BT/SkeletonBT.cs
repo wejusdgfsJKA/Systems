@@ -1,6 +1,5 @@
 using BT;
 using UnityEngine;
-using UnityEngine.AI;
 public class SkeletonBT : MeleeBT
 {
     [SerializeField] protected float wanderRadius = 30;
@@ -13,7 +12,7 @@ public class SkeletonBT : MeleeBT
         {
             if (agent.remainingDistance <= agent.stoppingDistance)
             {
-                Vector3? v = NewWanderPoint();
+                Vector3? v = Utilities.Utilities.GetRandomPointOnMesh(wanderRadius, agent, nrOfWanderTries);
                 if (v != null)
                 {
                     agent.SetDestination(v.Value);
@@ -23,24 +22,11 @@ public class SkeletonBT : MeleeBT
         }, () =>
         {
             agent.isStopped = false;
-            Vector3? v = NewWanderPoint();
+            Vector3? v = Utilities.Utilities.GetRandomPointOnMesh(wanderRadius, agent, nrOfWanderTries);
             if (v != null)
             {
                 agent.SetDestination(v.Value);
             }
         }));
-    }
-    protected Vector3? NewWanderPoint()
-    {
-        NavMeshHit hit;
-        Vector3 v = transform.position + Random.onUnitSphere * wanderRadius;
-        int c = 0;
-        while (!NavMesh.SamplePosition(v, out hit, wanderRadius, agent.areaMask))
-        {
-            v = transform.position + Random.onUnitSphere * wanderRadius;
-            c++;
-            if (c > nrOfWanderTries) return null;
-        }
-        return hit.position;
     }
 }

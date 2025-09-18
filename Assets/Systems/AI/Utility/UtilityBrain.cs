@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UtilityAI;
@@ -5,14 +6,30 @@ using UtilityAI;
 public abstract class UtilityBrain : MonoBehaviour
 {
     [field: SerializeField] public List<AIAction> Actions = new();
+    [field: SerializeField] public Context Context { get; protected set; } = new();
+    public bool ShouldRun { get; set; }
+    [SerializeField] protected float updateCooldown = 0.1f;
+    #region Don't fuck with this
     protected int currentActionIndex;
-    public Context Context { get; protected set; }
+    protected Coroutine coroutine;
+    /// <summary>
+    /// This governs how often the brain updates.
+    /// </summary>
+    protected WaitForSeconds waitInterval;
+    /// <summary>
+    /// Secondary condition, used with ShouldRun.
+    /// </summary>
+    protected WaitUntil waitForPermission;
+    #endregion
+    #region Setup
     protected virtual void SetupContext()
     {
-        Context = new(transform.root);
+        Context.Initialize(transform.root);
     }
     protected virtual void Awake()
     {
+        waitInterval = new(updateCooldown);
+        waitForPermission = new(() => { return ShouldRun; });
         SetupContext();
         for (int i = 0; i < Actions.Count; i++)
         {
@@ -22,7 +39,30 @@ public abstract class UtilityBrain : MonoBehaviour
     protected virtual void OnEnable()
     {
         currentActionIndex = -1;
+        ShouldRun = true;
+        coroutine = StartCoroutine(UpdateLoop());
     }
+    protected void OnDisable()
+    {
+        if (coroutine != null)
+        {
+            StopCoroutine(coroutine);
+        }
+        if (currentActionIndex != -1)
+        {
+            Actions[currentActionIndex].Exit(Context);
+        }
+    }
+    protected IEnumerator UpdateLoop()
+    {
+        while (true)
+        {
+            yield return waitInterval;
+            yield return waitForPermission;
+            Execute(updateCooldown);
+        }
+    }
+    #endregion
     public void Execute(float deltaTime)
     {
         UpdateContext();

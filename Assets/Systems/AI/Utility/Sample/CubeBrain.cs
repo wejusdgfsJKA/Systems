@@ -6,7 +6,7 @@ public class CubeBrain : UtilityBrain
     protected override void SetupContext()
     {
         base.SetupContext();
-        Context.SetData(UtilityAI.ContextKeys.Target, target);
+        Context.SetData(UtilityAI.ContextDataKeys.Target, target);
     }
     protected override void UpdateContext()
     {

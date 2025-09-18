@@ -10,8 +10,8 @@ namespace UtilityAI
             return Consideration.Evaluate(context);
         }
         public virtual void Initialize(Context context) { }
-        public abstract void Enter(Context context);
+        public virtual void Enter(Context context) { }
         public abstract void Execute(Context context, float deltaTime);
-        public abstract void Exit(Context context);
+        public virtual void Exit(Context context) { }
     }
 }

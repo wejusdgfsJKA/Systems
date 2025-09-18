@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BT
 {
-    public abstract class BehaviourTree : MonoBehaviour
+    public abstract class BehaviourTree<ID> : MonoBehaviour
     {
         /// <summary>
         /// The period of time between updates.
@@ -25,7 +25,7 @@ namespace BT
         /// <summary>
         /// This tree's Blackboard.
         /// </summary>
-        protected BlackBoard localMemory = new();
+        protected BlackBoard<ID> localMemory = new();
         /// <summary>
         /// This governs how often the BT updates.
         /// </summary>
@@ -72,9 +72,9 @@ namespace BT
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        public void SetData<T>(string key, T value)
+        public void SetData<T>(ID key, T value)
         {
-            localMemory.SetData<T>(key, value);
+            localMemory.SetData(key, value);
         }
         /// <summary>
         /// Get information about the BT.

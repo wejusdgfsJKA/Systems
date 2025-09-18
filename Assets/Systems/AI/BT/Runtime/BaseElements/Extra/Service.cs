@@ -4,7 +4,7 @@ namespace BT
     public class Service : ElementBase
     {
         protected System.Action onEvaluateFn;
-        public Service(string name = "Service", System.Action evaluate)
+        public Service(string name, System.Action evaluate)
         {
             Name = name;
             onEvaluateFn = evaluate;

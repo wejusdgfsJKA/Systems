@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
-public class MeleeBT : BehaviourTree
+public class MeleeBT : BehaviourTree<int>
 {
     protected static readonly int Target = "Target".GetHashCode(),
         DistanceToTarget = "DistToTarget".GetHashCode(),

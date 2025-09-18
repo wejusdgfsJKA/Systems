@@ -46,26 +46,26 @@ using UnityEngine.InputSystem.Utilities;
 ///
 ///     void OnEnable()
 ///     {
-///         m_Player.Enable();                                // Enable all actions within map.
+///         m_Player.Enable();                                // Enable all Actions within map.
 ///     }
 ///
 ///     void OnDisable()
 ///     {
-///         m_Player.Disable();                               // Disable all actions within map.
+///         m_Player.Disable();                               // Disable all Actions within map.
 ///     }
 ///
 ///     #region Interface implementation of MyActions.IPlayerActions
 ///
 ///     // Invoked when "Move" action is either started, performed or canceled.
-///     public void OnMove(InputAction.CallbackContext context)
+///     public void OnMove(InputAction.CallbackContext Context)
 ///     {
-///         Debug.Log($"OnMove: {context.ReadValue&lt;Vector2&gt;()}");
+///         Debug.Log($"OnMove: {Context.ReadValue&lt;Vector2&gt;()}");
 ///     }
 ///
 ///     // Invoked when "Attack" action is either started, performed or canceled.
-///     public void OnAttack(InputAction.CallbackContext context)
+///     public void OnAttack(InputAction.CallbackContext Context)
 ///     {
-///         Debug.Log($"OnAttack: {context.ReadValue&lt;float&gt;()}");
+///         Debug.Log($"OnAttack: {Context.ReadValue&lt;float&gt;()}");
 ///     }
 ///
 ///     #endregion
@@ -91,7 +91,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             ""name"": ""Player"",
             ""id"": ""09b3342a-5fc5-49db-961f-165abb0547b9"",
-            ""actions"": [
+            ""Actions"": [
                 {
                     ""name"": ""Move"",
                     ""type"": ""PassThrough"",
@@ -314,7 +314,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Jump;
     /// <summary>
-    /// Provides access to input actions defined in input action map "Player".
+    /// Provides access to input Actions defined in input action map "Player".
     /// </summary>
     public struct PlayerActions
     {
@@ -355,7 +355,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
         /// <summary>
-        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input Actions contained in this map.
         /// </summary>
         /// <param name="instance">Callback instance.</param>
         /// <remarks>
@@ -381,7 +381,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
 
         /// <summary>
-        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input Actions contained in this map.
         /// </summary>
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
@@ -435,7 +435,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     /// </summary>
     public PlayerActions @Player => new PlayerActions(this);
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input Actions defined by "Player" which allows adding and removing callbacks.
     /// </summary>
     /// <seealso cref="PlayerActions.AddCallbacks(IPlayerActions)" />
     /// <seealso cref="PlayerActions.RemoveCallbacks(IPlayerActions)" />

@@ -13,7 +13,7 @@ namespace Interaction
         {
             if (!EventBus<InteractionEvent>.AddActions(transform.GetInstanceID(), Interact))
             {
-                Debug.LogError($"{transform} unable to add actions to InteractionEvent bus!");
+                Debug.LogError($"{transform} unable to add Actions to InteractionEvent bus!");
             }
         }
         protected void OnDisable()

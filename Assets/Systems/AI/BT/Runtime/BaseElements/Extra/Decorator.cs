@@ -49,7 +49,7 @@ namespace BT
         /// Fires when the Decorator is no longer passing all conditions.
         /// </summary>
         public Action OnFail;
-        public Decorator(string name = "Decorator", Func<bool> onevaluate)
+        public Decorator(string name, Func<bool> onevaluate)
         {
             Name = name;
             OnEvaluate = onevaluate;
@@ -78,22 +78,22 @@ namespace BT
         /// Begin monitoring a relevant resource.
         /// </summary>
         /// <param name="data">Blackboard being monitored.</param>
-        /// <param name="hash">The hash of the resource we want monitored.</param>
-        public void MonitorValue(BlackBoard data, int hash)
+        /// <param name="key">The key of the resource we want monitored.</param>
+        public void MonitorValue<ID>(BlackBoard<ID> data, ID key)
         {
             //subscribe to relevant data
-            data.AddListener(onDataChanged, hash);
+            data.AddListener(onDataChanged, key);
             Result = OnEvaluate();
         }
         /// <summary>
         /// Stop monitoring a resource.
         /// </summary>
         /// <param name="data">The Blackboard we were monitoring.</param>
-        /// <param name="hash">The hash of the resource we were monitoring</param>
-        public void StopMonitoringValue(BlackBoard data, int hash)
+        /// <param name="key">The key of the resource we were monitoring</param>
+        public void StopMonitoringValue<ID>(BlackBoard<ID> data, ID key)
         {
             //unsubscribe from data which is no longer relevant
-            data.RemoveListener(onDataChanged, hash);
+            data.RemoveListener(onDataChanged, key);
             Result = OnEvaluate();
         }
     }

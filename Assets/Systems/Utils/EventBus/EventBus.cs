@@ -78,11 +78,11 @@ namespace EventBus
             return false;
         }
         /// <summary>
-        /// Add actions to binding 0. By default will attempt to add a new binding if none is found, and add the actions to it.
+        /// Add Actions to binding 0. By default will attempt to add a new binding if none is found, and add the Actions to it.
         /// </summary>
         /// <param name="action">Parametrized action.</param>
         /// <param name="actionNoArgs">Non-parametrized action.</param>
-        /// <param name="addBinding">If true, will attempt to add a new binding if none is found, and add the actions to it. Defaults to true.</param>
+        /// <param name="addBinding">If true, will attempt to add a new binding if none is found, and add the Actions to it. Defaults to true.</param>
         /// <returns>True if the binding was found, or if it was successfully added.</returns>
         public static bool AddActions(Action<T> action = null,
             Action actionNoArgs = null, bool addBinding = true)
@@ -90,12 +90,12 @@ namespace EventBus
             return AddActions(0, action, actionNoArgs);
         }
         /// <summary>
-        /// Add actions to a binding. By default will attempt to add a new binding if none is found, and add the actions to it.
+        /// Add Actions to a binding. By default will attempt to add a new binding if none is found, and add the Actions to it.
         /// </summary>
         /// <param name="bindingId">The id of the binding.</param>
         /// <param name="action">Parametrized action.</param>
         /// <param name="actionNoArgs">Non-parametrized action.</param>
-        /// <param name="addBinding">If true, will attempt to add a new binding if none is found, and add the actions to it. Defaults to true.</param>
+        /// <param name="addBinding">If true, will attempt to add a new binding if none is found, and add the Actions to it. Defaults to true.</param>
         /// <returns>True if the binding was found, or if it was successfully added.</returns>
         public static bool AddActions(int bindingId, Action<T> action = null,
             Action actionNoArgs = null, bool addBinding = true)
@@ -117,7 +117,7 @@ namespace EventBus
             return false;
         }
         /// <summary>
-        /// Removes actions from binding 0.
+        /// Removes Actions from binding 0.
         /// </summary>
         /// <param name="action">Parametrized action.</param>
         /// <param name="actionNoArgs">Non-parametrized action.</param>
@@ -128,7 +128,7 @@ namespace EventBus
             return RemoveActions(0, action, actionNoArgs);
         }
         /// <summary>
-        /// Removes actions from a binding.
+        /// Removes Actions from a binding.
         /// </summary>
         /// <param name="bindingId">The id of the binding.</param>
         /// <param name="action">Parametrized action.</param>

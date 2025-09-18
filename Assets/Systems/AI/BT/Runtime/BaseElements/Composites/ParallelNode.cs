@@ -6,7 +6,7 @@ namespace BT
     /// </summary>
     public class ParallelNode : Composite
     {
-        public ParallelNode(string name = "Parallel", Node leftChild, Node rightChild) : base(name)
+        public ParallelNode(string name, Node leftChild, Node rightChild) : base(name)
         {
             children.Add(leftChild);
             children.Add(rightChild);

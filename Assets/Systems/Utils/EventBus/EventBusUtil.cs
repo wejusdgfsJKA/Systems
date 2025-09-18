@@ -24,7 +24,7 @@ namespace EventBus
         /// fields or states of the class that are necessary during the editing state that also apply
         /// when the game enters Play Mode.
         /// The method sets up a subscriber to the playModeStateChanged Event to allow
-        /// actions to be performed when the Editor's play mode changes.
+        /// Actions to be performed when the Editor's play mode changes.
         /// </summary>    
         [InitializeOnLoadMethod]
         public static void InitializeEditor()

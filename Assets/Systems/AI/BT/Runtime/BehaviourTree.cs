@@ -59,7 +59,7 @@ namespace BT
             {
                 yield return waitInterval;
                 yield return waitForPermission;
-                root?.Evaluate();
+                root?.Evaluate(updateinterval);
             }
         }
         /// <summary>

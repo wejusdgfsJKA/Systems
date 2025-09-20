@@ -81,13 +81,15 @@ namespace BT
         }
         /// <summary>
         /// Evaluate the node: <br />
-        /// Run services. <br />
         /// If we have blocking decorators return false, node state is failure. <br />
+        /// Run services. <br />
         /// If node was not running previously, run onEnter.<br />
         /// Return true.
         /// </summary>
-        /// <returns>True if the execution so far was successfull. This is necessary because children need to know if they should continue execution or not.</returns>
-        public virtual bool Evaluate()
+        /// <param name="deltaTime">Time since last node execution.</param>
+        /// <returns>True if the execution so far was successfull. This is necessary because 
+        /// children need to know if they should continue execution or not.</returns>
+        public virtual bool Evaluate(float deltaTime)
         {
             if (BlockingDecorators > 0)
             {

@@ -1,20 +1,18 @@
-using Pooling;
-using Spawning;
 using UnityEngine;
-
-public class Poolable<Id> : MonoBehaviour, IPoolable<Id>
+using UnityEngine.Events;
+namespace Spawning.Pooling
 {
-    [SerializeField] protected Id id;
-    public Id ID
+    public class Poolable : Spawnable
     {
-        get
+        [SerializeField] protected UnityEvent reset;
+        public Manager Manager { get; set; }
+        public void ResetObject()
         {
-            return id;
+            reset?.Invoke();
+        }
+        public virtual void OnDisable()
+        {
+            Manager?.ReturnToPool(this);
         }
     }
-    public virtual void Init(ObjectData<Id> data)
-    {
-        id = data.ID;
-    }
-    public virtual void ResetObject() { }
 }

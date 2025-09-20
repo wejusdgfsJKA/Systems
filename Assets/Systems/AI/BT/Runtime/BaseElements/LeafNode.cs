@@ -16,9 +16,9 @@ namespace BT
         /// If possible, run onEvaluate.
         /// </summary>
         /// <returns></returns>
-        public override bool Evaluate()
+        public override bool Evaluate(float deltaTime)
         {
-            if (base.Evaluate())
+            if (base.Evaluate(deltaTime))
             {
                 if (onEvaluate != null)
                 {

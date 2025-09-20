@@ -52,7 +52,7 @@ public class OffenseAction : AIAction
 
     public override void Execute(Context context, float deltaTime)
     {
-        root.Evaluate();
+        root.Evaluate(deltaTime);
     }
 
     public override void Exit(Context context)

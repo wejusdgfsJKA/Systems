@@ -7,16 +7,7 @@ public class KnightBrain : FighterBrain
     protected override void SetupContext()
     {
         base.SetupContext();
-        if (guardArea != null && guardArea.Length > 0)
-        {
-            guardAreaCenter = guardArea[0].position;
-            for (int i = 1; i < guardArea.Length; i++)
-            {
-                guardAreaCenter += guardArea[i].position;
-            }
-            guardAreaCenter /= guardArea.Length;
-            Context.SetData(UtilityAI.ContextDataKeys.CurrentPatrolPoint, 0);
-        }
+        CalculateGuardAreaCenter();
         Context.SetData(UtilityAI.ContextDataKeys.DistToGuardArea, Mathf.Infinity);
         Context.SetData(UtilityAI.ContextDataKeys.GuardArea, guardArea);
     }
@@ -27,6 +18,25 @@ public class KnightBrain : FighterBrain
         {
             Context.SetData(UtilityAI.ContextDataKeys.DistToGuardArea,
                 Vector3.Distance(transform.position, guardAreaCenter.Value));
+        }
+    }
+    public void SetGuardArea(Transform[] guardArea)
+    {
+        this.guardArea = guardArea;
+        Context.SetData(UtilityAI.ContextDataKeys.GuardArea, guardArea);
+        CalculateGuardAreaCenter();
+    }
+    public void CalculateGuardAreaCenter()
+    {
+        if (guardArea != null && guardArea.Length > 0)
+        {
+            guardAreaCenter = guardArea[0].position;
+            for (int i = 1; i < guardArea.Length; i++)
+            {
+                guardAreaCenter += guardArea[i].position;
+            }
+            guardAreaCenter /= guardArea.Length;
+            Context.SetData(UtilityAI.ContextDataKeys.CurrentPatrolPoint, 0);
         }
     }
     protected void OnDrawGizmosSelected()

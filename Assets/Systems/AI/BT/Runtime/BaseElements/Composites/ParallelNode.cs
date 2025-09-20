@@ -15,15 +15,15 @@ namespace BT
         /// Evaluate the left child. If not failure, evaluate right child.
         /// </summary>
         /// <returns></returns>
-        public override bool Evaluate()
+        public override bool Evaluate(float deltaTime)
         {
-            if (base.Evaluate())
+            if (base.Evaluate(deltaTime))
             {
-                children[0].Evaluate();
+                children[0].Evaluate(deltaTime);
                 state = children[0].State;
                 if (state != NodeState.FAILURE)
                 {
-                    children[1].Evaluate();
+                    children[1].Evaluate(deltaTime);
                 }
                 return true;
             }

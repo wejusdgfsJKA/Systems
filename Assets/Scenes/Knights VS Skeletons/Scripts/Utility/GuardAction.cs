@@ -19,7 +19,7 @@ public class GuardAction : AIAction
     public override void Execute(Context context, float deltaTime)
     {
         var guardArea = context.GetData<Transform[]>(ContextDataKeys.GuardArea);
-        if (guardArea == null) return;
+        if (guardArea == null || guardArea.Length == 0) return;
         if (guardArea.Length == 1)
         {
             var tr = context.GetData<Transform>(ContextDataKeys.Target);
@@ -28,6 +28,7 @@ public class GuardAction : AIAction
             {
                 context.Transform.LookAt(new Vector3(tr.position.x, context.Transform.position.y, tr.position.z));
             }
+            return;
         }
         int currentPatrolPoint = context.GetData<int>(ContextDataKeys.CurrentPatrolPoint);
         if (context.Agent.remainingDistance <= context.Agent.stoppingDistance)

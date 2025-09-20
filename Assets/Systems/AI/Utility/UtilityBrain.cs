@@ -22,6 +22,9 @@ public abstract class UtilityBrain : MonoBehaviour
     protected WaitUntil waitForPermission;
     #endregion
     #region Setup
+    /// <summary>
+    /// Self-explanatory. Called in UtilityBrain on Awake.
+    /// </summary>
     protected virtual void SetupContext()
     {
         Context.Initialize(transform.root);
@@ -63,6 +66,10 @@ public abstract class UtilityBrain : MonoBehaviour
         }
     }
     #endregion
+    /// <summary>
+    /// Update the context, pick an action and execute it.
+    /// </summary>
+    /// <param name="deltaTime">Time since last execution.</param>
     public void Execute(float deltaTime)
     {
         UpdateContext();

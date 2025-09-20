@@ -13,13 +13,13 @@ namespace BT
         /// continue rightward.<br/>
         /// </summary>
         /// <returns>True if found child to evaluate, false otherwise.</returns>
-        public override bool Evaluate()
+        public override bool Evaluate(float deltaTime)
         {
-            if (base.Evaluate())
+            if (base.Evaluate(deltaTime))
             {
                 for (int i = leftmost; i < children.Count; i++)
                 {
-                    children[i].Evaluate();
+                    children[i].Evaluate(deltaTime);
                     switch (children[i].State)
                     {
                         case NodeState.FAILURE:

@@ -10,13 +10,13 @@ namespace BT
     public class Sequence : Composite
     {
         public Sequence(string name = "Sequence") : base(name) { }
-        public override bool Evaluate()
+        public override bool Evaluate(float deltaTime)
         {
-            if (base.Evaluate())
+            if (base.Evaluate(deltaTime))
             {
                 for (int i = leftmost; i < children.Count; i++)
                 {
-                    children[i].Evaluate();
+                    children[i].Evaluate(deltaTime);
                     switch (children[i].State)
                     {
                         case NodeState.RUNNING:

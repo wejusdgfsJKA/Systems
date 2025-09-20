@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 59893679155131562}
   - component: {fileID: 3075377677494895997}
   - component: {fileID: 507291240045069982}
-  - component: {fileID: 3861915247943317655}
+  - component: {fileID: 2489461072667767431}
   m_Layer: 7
   m_Name: KnightBT
   m_TagString: Untagged
@@ -120,13 +120,13 @@ MonoBehaviour:
   obstructionMask:
     serializedVersion: 2
     m_Bits: 0
-  radius: 30
+  radius: 50
   <ClosestTarget>k__BackingField: {fileID: 0}
   TargetChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3861915247943317655}
-        m_TargetAssemblyTypeName: KnightBT, Assembly-CSharp
+      - m_Target: {fileID: 2489461072667767431}
+        m_TargetAssemblyTypeName: KnightBrain, Assembly-CSharp
         m_MethodName: SetTarget
         m_Mode: 0
         m_Arguments:
@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HP.HPComponent
   <MaxHealth>k__BackingField: 5
+  currentHealth: 0
   OnDamageTaken:
     m_PersistentCalls:
       m_Calls: []
@@ -168,7 +169,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &3861915247943317655
+--- !u!114 &2489461072667767431
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,33 +178,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 4247135981312917775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a0b1252fc37e7d418e4817b0a04b69d, type: 3}
+  m_Script: {fileID: 11500000, guid: bdf273a030de9df4ca521bef2942bd7a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::KnightBT
-  updateinterval: 0.1
-  <ShouldRun>k__BackingField: 1
-  meleeRange: 2
-  attackEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 28717894133225911}
-        m_TargetAssemblyTypeName: AnimController, Assembly-CSharp
-        m_MethodName: Attack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  regularSpeed: 3.5
-  chaseSpeed: 5
-  chaseErrorThreshold: 0
-  wanderRadius: 30
-  nrOfWanderTries: 5
-  patrolPoints: []
+  m_EditorClassIdentifier: Assembly-CSharp::KnightBrain
+  Actions:
+  - {fileID: 11400000, guid: b1e4848f49ea09f4b8be938caf0a247b, type: 2}
+  - {fileID: 11400000, guid: dbcaafc7cc770e845aa234a6f227581a, type: 2}
+  <Context>k__BackingField:
+    <RegularSpeed>k__BackingField: 3.5
+    <ChaseSpeed>k__BackingField: 5
+    events:
+    - Key: 0
+      Event:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 28717894133225911}
+            m_TargetAssemblyTypeName: AnimController, Assembly-CSharp
+            m_MethodName: Attack
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+  updateCooldown: 0.1
+  <Target>k__BackingField: {fileID: 0}
+  guardArea: []
 --- !u!1001 &3957126422369941419
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -434,8 +437,8 @@ MonoBehaviour:
   - Event:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3861915247943317655}
-          m_TargetAssemblyTypeName: KnightBT, Assembly-CSharp
+        - m_Target: {fileID: 2489461072667767431}
+          m_TargetAssemblyTypeName: KnightBrain, Assembly-CSharp
           m_MethodName: set_ShouldRun
           m_Mode: 6
           m_Arguments:
@@ -450,8 +453,8 @@ MonoBehaviour:
   - Event:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3861915247943317655}
-          m_TargetAssemblyTypeName: KnightBT, Assembly-CSharp
+        - m_Target: {fileID: 2489461072667767431}
+          m_TargetAssemblyTypeName: KnightBrain, Assembly-CSharp
           m_MethodName: set_ShouldRun
           m_Mode: 6
           m_Arguments:

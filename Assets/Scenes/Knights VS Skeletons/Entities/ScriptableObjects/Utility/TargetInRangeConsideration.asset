@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ecbbf05620294947af79f6bad53aa24, type: 3}
   m_Name: TargetInRangeConsideration
   m_EditorClassIdentifier: Assembly-CSharp::UtilityAI.TransformInRangeConsideration
-  MaxDistance: 50
+  MaxDistance: 10
   Curve:
     serializedVersion: 2
     m_Curve:
@@ -26,17 +26,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.74610996
-      value: 0.6218601
-      inSlope: -1.499909
-      outSlope: -1.499909
+      time: 0.810302
+      value: 0.96820146
+      inSlope: -0.19191575
+      outSlope: -0.19191575
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.24119055
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 1
-      value: 0
+      time: 0.9932556
+      value: 0.5004883
       inSlope: 0
       outSlope: 0
       tangentMode: 0

@@ -261,9 +261,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75104317136edfc41b143817abd3ab94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CubeBrain
-  Actions:
+  <Actions>k__BackingField:
   - {fileID: 11400000, guid: 14294cfb3d1718b469f91de1e1a61f1f, type: 2}
   - {fileID: 11400000, guid: 7d04be78d1e57324bb5ac7abec492ce3, type: 2}
+  <Context>k__BackingField:
+    <RegularSpeed>k__BackingField: 3.5
+    <ChaseSpeed>k__BackingField: 3.5
+    events: []
+  <ShouldRun>k__BackingField: 0
+  updateCooldown: 0.1
+  <CurrentActionIndex>k__BackingField: 0
   target: {fileID: 142732903}
 --- !u!23 &1870393348
 MeshRenderer:

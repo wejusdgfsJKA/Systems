@@ -12,6 +12,10 @@ public class AnimController : AnimationController
     {
         animator.SetFloat(AnimatorHashes.SpeedFloat, agent.velocity.magnitude);
     }
+    public void ReturnToIdle()
+    {
+        ChangeState(AnimatorHashes.LocomotionState);
+    }
     public void Attack()
     {
         ChangeState(AnimatorHashes.AttackState);

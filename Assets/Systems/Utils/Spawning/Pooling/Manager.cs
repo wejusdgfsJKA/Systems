@@ -3,20 +3,20 @@ namespace Spawning.Pooling
     public abstract class Manager : Spawner
     {
         public abstract void ReturnToPool(Poolable poolable);
-        public override Spawnable Obtain(Spawnable spawnable)
+        public override Spawnable Obtain(SpawnableData objectData)
         {
-            var s = GetFromPool((Poolable)spawnable);
+            var s = GetFromPool(objectData);
             if (s != null)
             {
                 s.ResetObject();
             }
             else
             {
-                s = (Poolable)base.Obtain(spawnable);
+                s = (Poolable)base.Obtain(objectData);
                 s.Manager = this;
             }
             return s;
         }
-        public abstract Poolable GetFromPool(Poolable poolable);
+        public abstract Poolable GetFromPool(SpawnableData objectData);
     }
 }

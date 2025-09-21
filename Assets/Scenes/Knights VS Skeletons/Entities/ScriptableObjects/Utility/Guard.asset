@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8b75918d4abb9748a70540fd38d3b9f, type: 3}
   m_Name: Guard
   m_EditorClassIdentifier: Assembly-CSharp::GuardAction
-  Consideration: {fileID: 11400000, guid: 7207a4a32a6508245b3d2f79d14658b9, type: 2}
-  trackingSpeed: 1000
+  Consideration: {fileID: 11400000, guid: d58d08bf5bcd15e4098414b6dc0dbd43, type: 2}

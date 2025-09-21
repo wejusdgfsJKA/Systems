@@ -8,7 +8,7 @@ namespace Spawning.Pooling
         {
             pool.Push(poolable);
         }
-        public override Poolable GetFromPool(Poolable poolable)
+        public override Poolable GetFromPool(SpawnableData objectData)
         {
             if (pool.TryPop(out Poolable result))
             {

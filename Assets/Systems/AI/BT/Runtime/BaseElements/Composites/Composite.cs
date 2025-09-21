@@ -5,7 +5,7 @@ namespace BT
 {
     public abstract class Composite : Node
     {
-        protected List<Node> children = new();
+        public List<Node> children = new();
         /// <summary>
         /// Contains the indexes of all children in the children list.
         /// </summary>

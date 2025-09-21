@@ -15,7 +15,7 @@ namespace Animation
         /// </summary>
         /// <param name="stateHash">The hash of the state. Use Tools->Generate hashes to get a struct containing all the hashes of an animator controller.</param>
         /// <param name="transitionDuration">How long the transition should take.</param>
-        public void ChangeState(int stateHash, float transitionDuration = 0.1f)
+        public void ChangeState(int stateHash, float transitionDuration = 0.25f)
         {
             animator.CrossFade(stateHash, transitionDuration);
         }

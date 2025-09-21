@@ -57,7 +57,7 @@ namespace BT
         /// <summary>
         /// When the value of the resource given by the key changes, the given action will fire.
         /// </summary>
-        /// <param name="action">AIAction to execute when the value of the resource changes.</param>
+        /// <param name="action">AIActionData to execute when the value of the resource changes.</param>
         /// <param name="key">The key for the resource.</param>
         public void AddListener(Action action, ID key)
         {
@@ -69,7 +69,7 @@ namespace BT
         /// <summary>
         /// Remove an action that was tied to this resource.
         /// </summary>
-        /// <param name="action">AIAction to disconnect from the resource.</param>
+        /// <param name="action">AIActionData to disconnect from the resource.</param>
         /// <param name="key">The key of the resource.</param>
         public void RemoveListener(Action action, ID key)
         {

@@ -10,8 +10,7 @@ namespace Spawning.Pooling
             var p = poolable as IDPoolable<ID>;
             if (p != null)
             {
-                Stack<IDPoolable<ID>> pool;
-                if (!multiPool.TryGetValue(p.ID, out pool))
+                if (!multiPool.TryGetValue(p.ID, out Stack<IDPoolable<ID>> pool))
                 {
                     pool = new();
                     multiPool.Add(p.ID, pool);
@@ -23,9 +22,9 @@ namespace Spawning.Pooling
                 Debug.LogError($"{this} received invalid IDPoolable {poolable}!");
             }
         }
-        public override Poolable GetFromPool(Poolable poolable)
+        public override Poolable GetFromPool(SpawnableData objectData)
         {
-            var p = poolable as IDPoolable<ID>;
+            var p = objectData as IDPoolableData<ID>;
             if (p != null)
             {
                 if (multiPool.TryGetValue(p.ID, out Stack<IDPoolable<ID>> pool))
@@ -38,7 +37,7 @@ namespace Spawning.Pooling
             }
             else
             {
-                Debug.LogError($"{this} received invalid IDPoolable {poolable}!");
+                Debug.LogError($"{this} received invalid IDPoolableData {objectData}!");
             }
             return null;
         }

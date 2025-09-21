@@ -1,43 +1,42 @@
+using EventBus;
 using UnityEngine;
-
 public class KnightBrain : FighterBrain
 {
     [SerializeField] protected Transform[] guardArea;
-    protected Vector3? guardAreaCenter = null;
+    protected override void Awake()
+    {
+        base.Awake();
+        EventBus<AssignGuardArea>.AddActions(transform.GetInstanceID(), SetGuardArea);
+    }
+    protected virtual void OnDestroy()
+    {
+        EventBus<AssignGuardArea>.RemoveBinding(transform.GetInstanceID());
+    }
     protected override void SetupContext()
     {
         base.SetupContext();
-        CalculateGuardAreaCenter();
+        Context.SetData(UtilityAI.ContextDataKeys.CurrentPatrolPoint, 0);
         Context.SetData(UtilityAI.ContextDataKeys.DistToGuardArea, Mathf.Infinity);
         Context.SetData(UtilityAI.ContextDataKeys.GuardArea, guardArea);
     }
     protected override void UpdateContext()
     {
         base.UpdateContext();
-        if (guardAreaCenter != null)
-        {
-            Context.SetData(UtilityAI.ContextDataKeys.DistToGuardArea,
-                Vector3.Distance(transform.position, guardAreaCenter.Value));
-        }
-    }
-    public void SetGuardArea(Transform[] guardArea)
-    {
-        this.guardArea = guardArea;
-        Context.SetData(UtilityAI.ContextDataKeys.GuardArea, guardArea);
-        CalculateGuardAreaCenter();
-    }
-    public void CalculateGuardAreaCenter()
-    {
         if (guardArea != null && guardArea.Length > 0)
         {
-            guardAreaCenter = guardArea[0].position;
-            for (int i = 1; i < guardArea.Length; i++)
+            int currentPoint = 0;
+            if (guardArea.Length > 1)
             {
-                guardAreaCenter += guardArea[i].position;
+                currentPoint = Context.GetData<int>(UtilityAI.ContextDataKeys.CurrentPatrolPoint);
             }
-            guardAreaCenter /= guardArea.Length;
-            Context.SetData(UtilityAI.ContextDataKeys.CurrentPatrolPoint, 0);
+            Context.SetData(UtilityAI.ContextDataKeys.DistToGuardArea,
+                Vector3.Distance(transform.position, guardArea[currentPoint].position));
         }
+    }
+    public void SetGuardArea(AssignGuardArea @event)
+    {
+        guardArea = @event.GuardArea;
+        Context.SetData(UtilityAI.ContextDataKeys.GuardArea, guardArea);
     }
     protected void OnDrawGizmosSelected()
     {

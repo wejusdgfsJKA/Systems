@@ -10,36 +10,37 @@ namespace Detection
         [SerializeField] protected float radius;
         [field: SerializeField] public Transform ClosestTarget { get; protected set; }
         public UnityEvent<Transform> TargetChanged;
+        public void ResetTarget()
+        {
+            ClosestTarget = null;
+        }
         protected override void HandleDetection()
         {
-            if (ClosestTarget == null || !ClosestTarget.gameObject.activeSelf || !CanSee(ClosestTarget.position))
+            Transform newTarget = null;
+            int nrOfTargets = Physics.OverlapSphereNonAlloc(transform.position, radius, colliders, targetMask);
+            HashSet<int> set = new() { transform.root.GetInstanceID() };
+            for (int i = 0; i < nrOfTargets; i++)
             {
-                Transform newTarget = null;
-                int nrOfTargets = Physics.OverlapSphereNonAlloc(transform.position, radius, colliders, targetMask);
-                HashSet<int> set = new() { transform.root.GetInstanceID() };
-                for (int i = 0; i < nrOfTargets; i++)
+                var tr = colliders[i].transform.root;
+                if (set.Contains(tr.GetInstanceID())) continue;
+                if (CanSee(tr.position))
                 {
-                    var tr = colliders[i].transform.root;
-                    if (set.Contains(tr.GetInstanceID())) continue;
-                    if (CanSee(tr.position))
+                    set.Add(tr.GetInstanceID());
+                    if (newTarget == null)
                     {
-                        set.Add(tr.GetInstanceID());
-                        if (newTarget == null)
-                        {
-                            newTarget = tr;
-                            continue;
-                        }
-                        if (Vector3.Distance(transform.position, newTarget.position) > Vector3.Distance(transform.position, tr.position))
-                        {
-                            newTarget = tr;
-                        }
+                        newTarget = tr;
+                        continue;
+                    }
+                    if (Vector3.Distance(transform.position, newTarget.position) > Vector3.Distance(transform.position, tr.position))
+                    {
+                        newTarget = tr;
                     }
                 }
-                if (newTarget != ClosestTarget)
-                {
-                    TargetChanged?.Invoke(newTarget);
-                    ClosestTarget = newTarget;
-                }
+            }
+            if (newTarget != ClosestTarget)
+            {
+                TargetChanged?.Invoke(newTarget);
+                ClosestTarget = newTarget;
             }
         }
         protected virtual bool CanSee(Vector3 pos)

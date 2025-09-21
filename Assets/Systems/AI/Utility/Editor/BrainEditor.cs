@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace UtilityAI
 {
-    [CustomEditor(typeof(UtilityBrain))]
+    [CustomEditor(typeof(UtilityBrain), true)]
     public class BrainEditor : Editor
     {
         void OnEnable()
         {
-            this.RequiresConstantRepaint();
+            RequiresConstantRepaint();
         }
 
         public override void OnInspectorGUI()
@@ -19,72 +19,18 @@ namespace UtilityAI
 
             if (Application.isPlaying)
             {
-                AIAction chosenAction = GetChosenAction(brain);
+                AIActionData chosenAction = brain.CurrentActionIndex != -1 ? brain.Actions[brain.CurrentActionIndex] : null;
 
                 if (chosenAction != null)
                 {
-                    EditorGUILayout.LabelField($"Current Chosen Action: {chosenAction.name}", EditorStyles.boldLabel);
+                    EditorGUILayout.LabelField("Current Action:", chosenAction.name);
                 }
-
-                EditorGUILayout.Space();
-                EditorGUILayout.LabelField("Actions/Considerations", EditorStyles.boldLabel);
-
-
-                foreach (AIAction action in brain.Actions)
+                else
                 {
-                    float utility = action.Evaluate(brain.Context);
-                    EditorGUILayout.LabelField($"Action: {action.name}, Utility: {utility:F2}");
-
-                    // Draw the single consideration for the action
-                    DrawConsideration(action.Consideration, brain.Context, 1);
+                    EditorGUILayout.LabelField("Current Action:", "None");
                 }
+
             }
-            else
-            {
-                EditorGUILayout.HelpBox("Enter Play mode to view utility values.", MessageType.Info);
-            }
-        }
-
-        private void DrawConsideration(Consideration consideration, Context context, int indentLevel)
-        {
-            EditorGUI.indentLevel = indentLevel;
-
-            if (consideration is CompositeConsideration compositeConsideration)
-            {
-                EditorGUILayout.LabelField(
-                    $"Composite Consideration: {compositeConsideration.name}, Operation: {compositeConsideration.operation}"
-                );
-
-                foreach (Consideration subConsideration in compositeConsideration.considerations)
-                {
-                    DrawConsideration(subConsideration, context, indentLevel + 1);
-                }
-            }
-            else
-            {
-                float value = consideration.Evaluate(context);
-                EditorGUILayout.LabelField($"Consideration: {consideration.name}, Value: {value:F2}");
-            }
-
-            EditorGUI.indentLevel = indentLevel - 1; // Reset indentation after drawing
-        }
-
-        private AIAction GetChosenAction(UtilityBrain brain)
-        {
-            float highestUtility = float.MinValue;
-            AIAction chosenAction = null;
-
-            foreach (var action in brain.Actions)
-            {
-                float utility = action.Evaluate(brain.Context);
-                if (utility > highestUtility)
-                {
-                    highestUtility = utility;
-                    chosenAction = action;
-                }
-            }
-
-            return chosenAction;
         }
     }
 }

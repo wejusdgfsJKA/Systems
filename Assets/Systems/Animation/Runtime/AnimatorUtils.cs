@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEditor;
@@ -71,6 +72,10 @@ namespace Animation
             AssetDatabase.Refresh();
 
             Debug.Log($"{fileName}.cs generated successfully!");
+        }
+        static void ProcessStateMachine(AnimatorStateMachine stateMachine, string pathPrefix, Dictionary<string, int> hashDict)
+        {
+
         }
     }
 }

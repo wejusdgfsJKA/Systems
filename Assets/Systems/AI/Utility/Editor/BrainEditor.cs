@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -19,17 +20,16 @@ namespace UtilityAI
 
             if (Application.isPlaying)
             {
-                AIActionData chosenAction = brain.CurrentActionIndex != -1 ? brain.Actions[brain.CurrentActionIndex] : null;
-
-                if (chosenAction != null)
+                var actions = brain.Actions.OrderByDescending((a) =>
                 {
-                    EditorGUILayout.LabelField("Current Action:", chosenAction.name);
-                }
-                else
+                    return a.Consideration.Evaluate(brain.Context);
+                });
+                foreach (var action in actions)
                 {
-                    EditorGUILayout.LabelField("Current Action:", "None");
+                    EditorGUILayout.LabelField("Current Action:", action.name);
+                    EditorGUILayout.LabelField("Utility:", action.Consideration.Evaluate(brain.Context).ToString());
+                    EditorGUILayout.LabelField("");
                 }
-
             }
         }
     }

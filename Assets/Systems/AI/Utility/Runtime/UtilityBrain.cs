@@ -72,7 +72,7 @@ public abstract class UtilityBrain : MonoBehaviour
     /// Update the context, pick an action and execute it.
     /// </summary>
     /// <param name="deltaTime">Time since last execution.</param>
-    public void Execute(float deltaTime)
+    protected void Execute(float deltaTime)
     {
         UpdateContext();
 

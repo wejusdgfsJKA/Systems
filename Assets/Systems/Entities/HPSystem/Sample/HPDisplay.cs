@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
-public class HPDisplay : MonoBehaviour
+namespace Sample
 {
-    [SerializeField] TextMeshProUGUI text;
-    public void OnHPChange(float newValue)
+    public class HPDisplay : MonoBehaviour
     {
-        text.text = newValue.ToString();
+        [SerializeField] TextMeshProUGUI text;
+        public void OnHPChange(float newValue)
+        {
+            text.text = newValue.ToString();
+        }
     }
 }

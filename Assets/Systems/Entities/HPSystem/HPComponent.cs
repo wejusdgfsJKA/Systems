@@ -20,7 +20,7 @@ namespace HP
                 if (value != currentHealth)
                 {
                     currentHealth = value;
-                    OnDamageTaken?.Invoke(currentHealth);
+                    OnHealthChanged?.Invoke(currentHealth / MaxHealth);
                 }
             }
         }
@@ -28,7 +28,7 @@ namespace HP
         /// Fires when this entity's health value changes. Has as parameter the 
         /// entity's current health.
         /// </summary>
-        public UnityEvent<float> OnDamageTaken;
+        public UnityEvent<float> OnHealthChanged;
         /// <summary>
         /// Fires when this entity dies.
         /// </summary>

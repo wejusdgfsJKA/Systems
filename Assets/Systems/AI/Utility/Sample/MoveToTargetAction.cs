@@ -1,21 +1,24 @@
 using UnityEngine;
 using UtilityAI;
-[CreateAssetMenu(menuName = "UtilityAI/Actions/MoveToTarget")]
-public class MoveToTargetAction : AIActionData
+namespace Sample
 {
-    public override AIAction GetAction(Context context)
+    [CreateAssetMenu(menuName = "Sample/UtilityAI/Actions/MoveToTarget")]
+    public class MoveToTargetAction : AIActionData
     {
-        return new SimpleAIAction(Consideration, (_context, _deltaTime) =>
+        public override AIAction GetAction(Context context)
         {
-            Debug.Log("Moving");
-            var tr = _context.GetData<Transform>(ContextDataKeys.Target);
-            _context.Transform.Translate((tr.position - _context.Transform.position).normalized * _deltaTime);
-        }, (_context) =>
-        {
-            Debug.Log("Entering move");
-        }, (_context) =>
-        {
-            Debug.Log("Exiting move");
-        });
+            return new SimpleAIAction(Consideration, (_context, _deltaTime) =>
+            {
+                Debug.Log("Moving");
+                var tr = _context.GetData<Transform>(ContextDataKeys.Target);
+                _context.Transform.Translate((tr.position - _context.Transform.position).normalized * _deltaTime);
+            }, (_context) =>
+            {
+                Debug.Log("Entering move");
+            }, (_context) =>
+            {
+                Debug.Log("Exiting move");
+            });
+        }
     }
 }

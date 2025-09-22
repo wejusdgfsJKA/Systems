@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace UtilityAI
@@ -6,21 +5,20 @@ namespace UtilityAI
     [CreateAssetMenu(menuName = "UtilityAI/Considerations/Composite")]
     public class CompositeConsideration : Consideration
     {
-        public Consideration[] Considerations;
         public enum OperationType { Average, Multiply, Add, Subtract, Divide, Max, Min }
         public bool allMustBeNonZero = true;
         public OperationType operation = OperationType.Max;
-        public List<Consideration> considerations;
+        public Consideration[] considerations;
 
         public override float Evaluate(Context context)
         {
-            if (considerations == null || considerations.Count == 0) return 0f;
+            if (considerations == null || considerations.Length == 0) return 0f;
 
             float result = considerations[0].Evaluate(context);
             if (result == 0f && allMustBeNonZero) return 0f;
 
             // Suggestion: Only 2 Considerations per Composite
-            for (int i = 1; i < considerations.Count; i++)
+            for (int i = 1; i < considerations.Length; i++)
             {
                 float value = considerations[i].Evaluate(context);
 

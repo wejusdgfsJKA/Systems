@@ -1,18 +1,21 @@
 using HP;
 using UnityEngine;
-public class DamageDealer : MonoBehaviour
+namespace Sample
 {
-    public bool b;
-    public Transform target;
-    public Collider coll;
-    public int damage;
-    public bool c;
-    void Update()
+    public class DamageDealer : MonoBehaviour
     {
-        if (b)
+        public bool b;
+        public Transform target;
+        public Collider coll;
+        public int damage;
+        public bool c;
+        void Update()
         {
-            c = HPComponent.TakeDamage(target, new TakeDamage(damage, transform, coll));
-            b = false;
+            if (b)
+            {
+                c = HPComponent.TakeDamage(target, new TakeDamage(damage, transform, coll));
+                b = false;
+            }
         }
     }
 }

@@ -10,7 +10,10 @@ namespace UtilityAI
         PrevTargetPos,
         GuardArea,
         DistToGuardArea,
-        CurrentPatrolPoint
+        CurrentPatrolPoint,
+        ClosestHealArea,
+        HealAreaDist,
+        CurrentHP
     }
     public enum ContextEventKeys
     {

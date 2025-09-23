@@ -8,7 +8,7 @@ namespace Animation
         protected override void Awake()
         {
             base.Awake();
-            animator = transform.root.GetComponentInChildren<Animator>();
+            animator = transform.GetComponentInChildren<Animator>();
         }
         /// <summary>
         /// Change to a new animator state using CrossFade.
@@ -32,6 +32,21 @@ namespace Animation
             }
             animator.CrossFade(stateHash, transitionDuration);
             return true;
+        }
+        protected virtual void OnDrawGizmosSelected()
+        {
+            var tr = animator ? animator.transform : transform;
+            DrawChildren(tr);
+        }
+        protected virtual void DrawChildren(Transform tr)
+        {
+            for (int i = 0; i < tr.childCount; i++)
+            {
+                var child = tr.GetChild(i);
+                Gizmos.DrawSphere(child.position, 0.1f);
+                Gizmos.DrawLine(tr.position, child.position);
+                DrawChildren(child);
+            }
         }
     }
 }

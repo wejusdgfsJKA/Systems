@@ -30,8 +30,15 @@ namespace FSM
         }
         public bool ReturnToDefault()
         {
-            if (DefaultState == null) return false;
-            return ChangeState(DefaultState);
+            return ForceSetState(DefaultState);
+        }
+        public bool ForceSetState(State newState)
+        {
+            if (newState == null) return false;
+            CurrentState?.Exit();
+            CurrentState = newState;
+            CurrentState.Enter();
+            return true;
         }
     }
 }

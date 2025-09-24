@@ -8,7 +8,22 @@ namespace Detection
         [SerializeField] protected LayerMask targetMask, obstructionMask = 1 << 0;
         protected Collider[] colliders = new Collider[20];
         [SerializeField] protected float radius;
-        [field: SerializeField] public Transform ClosestTarget { get; protected set; }
+        [SerializeField] protected Transform target;
+        public Transform ClosestTarget
+        {
+            get
+            {
+                return target;
+            }
+            protected set
+            {
+                if (target != value)
+                {
+                    target = value;
+                    TargetChanged?.Invoke(target);
+                }
+            }
+        }
         public UnityEvent<Transform> TargetChanged;
         public void ResetTarget()
         {
@@ -17,6 +32,7 @@ namespace Detection
         protected override void HandleDetection()
         {
             Transform newTarget = null;
+            float bestDist = Mathf.Infinity;
             int nrOfTargets = Physics.OverlapSphereNonAlloc(transform.position, radius, colliders, targetMask);
             HashSet<int> set = new() { transform.root.GetInstanceID() };
             for (int i = 0; i < nrOfTargets; i++)
@@ -26,22 +42,15 @@ namespace Detection
                 if (CanSee(tr.position))
                 {
                     set.Add(tr.GetInstanceID());
-                    if (newTarget == null)
+                    var dist = Vector3.Distance(transform.position, tr.position);
+                    if (dist < bestDist)
                     {
-                        newTarget = tr;
-                        continue;
-                    }
-                    if (Vector3.Distance(transform.position, newTarget.position) > Vector3.Distance(transform.position, tr.position))
-                    {
+                        bestDist = dist;
                         newTarget = tr;
                     }
                 }
             }
-            if (newTarget != ClosestTarget)
-            {
-                TargetChanged?.Invoke(newTarget);
-                ClosestTarget = newTarget;
-            }
+            ClosestTarget = newTarget;
         }
         protected virtual bool CanSee(Vector3 pos)
         {

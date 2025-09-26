@@ -8,7 +8,7 @@ namespace Sample
         public AnimationClip idle, walk, attack;
         public float speed;
         public bool atk;
-        BudgetAnimancerState state;
+        public BudgetAnimancer.AnimationState state;
         private void Start()
         {
             component.Play(idle);
@@ -29,6 +29,10 @@ namespace Sample
             {
                 component.Play(attack);
                 atk = false;
+            }
+            if (component.Layers[0].CurrentState == state)
+            {
+                Debug.Log(state.NormalizedTime);
             }
         }
     }

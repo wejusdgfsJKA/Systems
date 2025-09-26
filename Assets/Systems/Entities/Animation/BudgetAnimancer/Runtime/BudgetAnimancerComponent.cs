@@ -38,11 +38,11 @@ namespace BudgetAnimancer
                 layerMixer.SetInputWeight(newIndex, 1f);
             }
         }
-        public BudgetAnimancerState CreateOrGetState(AnimationClip clip)
+        public AnimationState CreateOrGetState(AnimationClip clip)
         {
             return Layers[0].CreateOrGetState(clip);
         }
-        public BudgetAnimancerState Play(AnimationClip clip, float duration = 0.25f)
+        public AnimationState Play(AnimationClip clip, float duration = 0.25f)
         {
             return Layers[0].Play(clip, duration);
         }

@@ -5,7 +5,8 @@ namespace Sample
     public class BudgetAnimancerTest : MonoBehaviour
     {
         public BudgetAnimancerComponent component;
-        public AnimationClip idle, attack;
+        public AnimationClip idle, walk, attack;
+        public float speed;
         public bool atk;
         BudgetAnimancerState state;
         private void Start()

@@ -2,10 +2,10 @@ namespace BT
 {
     /// <summary>
     /// Evaluate all children in order, from left to right.
-    /// If found successfull child node, go to next child. State is RUNNING. <br />
+    /// If found successfull child node, go to next child. BudgetAnimancerState is RUNNING. <br />
     /// If found running child node, state is RUNNING. <br />
     /// If childd node has failed, state is FAILURE. <br />
-    /// State is SUCCESS if all child nodes return SUCCESS.
+    /// BudgetAnimancerState is SUCCESS if all child nodes return SUCCESS.
     /// </summary>
     public class Sequence : Composite
     {

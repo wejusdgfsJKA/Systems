@@ -7,61 +7,67 @@ namespace BudgetAnimancer
 {
     public class Layer
     {
-        public AnimationMixerPlayable mixer { get; protected set; }
+        public AnimationMixerPlayable Mixer { get; protected set; }
         protected PlayableGraph graph;
-        public Dictionary<object, AnimationState> stateCache { get; protected set; } = new();
-
-        private AnimationState previousState, currentState;
+        public Dictionary<object, BudgetAnimancerState> StateCache { get; protected set; } = new();
+        private BudgetAnimancerState previousState;
         private float blendDuration;
         private float blendTime;
-
+        public BudgetAnimancerState CurrentState { get; protected set; }
         public Layer(PlayableGraph playableGraph)
         {
             graph = playableGraph;
-            mixer = AnimationMixerPlayable.Create(playableGraph);
+            Mixer = AnimationMixerPlayable.Create(playableGraph);
         }
 
-        public AnimationState Play(AnimationClip clip, float duration = 0.25f)
+        public BudgetAnimancerState Play(AnimationClip clip, float duration = 0.25f)
         {
-            if (!stateCache.TryGetValue(clip, out var state))
-            {
-                int newIndex = mixer.GetInputCount();
-                state = new AnimationState(AnimationClipPlayable.Create(graph, clip), clip, newIndex);
-                stateCache.Add(clip, state);
-
-                mixer.SetInputCount(newIndex + 1);
-                graph.Connect(state.Playable, 0, mixer, newIndex);
-                mixer.SetInputWeight(newIndex, 0f); // start at 0 weight
-            }
-
+            var state = CreateOrGetState(clip);
             StartBlend(state, duration);
             return state;
         }
 
-        private void StartBlend(AnimationState nextState, float duration)
+        public BudgetAnimancerState CreateOrGetState(AnimationClip clip)
         {
-            if (currentState != null && currentState != nextState)
+            if (!StateCache.TryGetValue(clip, out var state))
+            {
+                int newIndex = Mixer.GetInputCount();
+                state = new BudgetAnimancerState(AnimationClipPlayable.Create(graph, clip), clip, newIndex);
+                StateCache.Add(clip, state);
+
+                Mixer.SetInputCount(newIndex + 1);
+                graph.Connect(state.Playable, 0, Mixer, newIndex);
+                Mixer.SetInputWeight(newIndex, 0f); // start at 0 weight
+            }
+            return state;
+        }
+
+        private void StartBlend(BudgetAnimancerState nextState, float duration)
+        {
+            if (CurrentState == nextState) return;
+            if (CurrentState != null)
             {
                 // Previous animation is being interrupted
-                currentState.TriggerInterrupt();
+                CurrentState.TriggerInterrupt();
             }
-            previousState = currentState;
-            currentState = nextState;
+            previousState = CurrentState;
+            CurrentState = nextState;
             blendDuration = duration;
             blendTime = 0f;
 
-            currentState.Time = 0f;
-            currentState.Weight = 0f;
-            currentState.Speed = 1f;
+            CurrentState.Time = 0f;
+            CurrentState.Speed = 1f;
+            CurrentState.IsActive = true;
         }
+
         protected void HandleBlend(float deltaTime)
         {
-            if (currentState == null) return;
+            if (CurrentState == null) return;
 
             // If no previous state, just make current fully active
             if (previousState == null)
             {
-                mixer.SetInputWeight(currentState.Index, 1f);
+                Mixer.SetInputWeight(CurrentState.Index, 1f);
                 return;
             }
 
@@ -70,15 +76,15 @@ namespace BudgetAnimancer
             float t = blendDuration > 0f ? Mathf.Clamp01(blendTime / blendDuration) : 1f;
 
             // Apply weights
-            mixer.SetInputWeight(previousState.Index, 1f - t);
-            mixer.SetInputWeight(currentState.Index, t);
+            Mixer.SetInputWeight(previousState.Index, 1f - t);
+            Mixer.SetInputWeight(CurrentState.Index, t);
 
             // Blend finished
             if (t >= 1f)
             {
-                mixer.SetInputWeight(previousState.Index, 0f);
+                Mixer.SetInputWeight(previousState.Index, 0f);
                 previousState = null;
-                mixer.SetInputWeight(currentState.Index, 1f);
+                Mixer.SetInputWeight(CurrentState.Index, 1f);
             }
         }
 
@@ -90,18 +96,18 @@ namespace BudgetAnimancer
 
         protected void HandleCurrentState()
         {
-            if (currentState == null) return;
+            if (CurrentState == null) return;
 
 
             // Fire events only if the state is active
-            currentState.CheckEvents();
+            CurrentState.CheckEvents();
 
             // Stop if non-looping and reached end
-            if (currentState.IsActive && !currentState.Loop &&
-                (float)currentState.Playable.GetTime() >= currentState.Clip.length)
+            if (CurrentState.IsActive && !CurrentState.Loop &&
+                (float)CurrentState.Playable.GetTime() >= CurrentState.Clip.length)
             {
-                currentState.Speed = 0f;          // stop playback
-                currentState.IsActive = false;
+                CurrentState.Speed = 0f;          // stop playback
+                CurrentState.IsActive = false;
             }
         }
     }

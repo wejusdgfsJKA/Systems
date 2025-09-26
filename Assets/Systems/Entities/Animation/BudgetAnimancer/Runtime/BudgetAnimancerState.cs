@@ -5,11 +5,10 @@ using UnityEngine.Animations;
 using UnityEngine.Playables;
 namespace BudgetAnimancer
 {
-    public class AnimationState
+    public class BudgetAnimancerState
     {
         public readonly AnimationClipPlayable Playable;
         public readonly AnimationClip Clip;
-        public float Weight { get; set; }
         public bool Loop
         {
             get => Clip.isLooping;
@@ -35,11 +34,16 @@ namespace BudgetAnimancer
             set => Playable.SetSpeed(value);
         }
         public bool IsActive { get; set; } = true;
-        public AnimationState(AnimationClipPlayable playable, AnimationClip clip, int index)
+        public BudgetAnimancerState(AnimationClipPlayable playable, AnimationClip clip, int index)
         {
             Playable = playable;
             Clip = clip;
             Index = index;
+        }
+        public void AddEvent(float time, Action action)
+        {
+            events.Add((time, action));
+            events.Sort((a, b) => a.Item1.CompareTo(b.Item1));
         }
         public void CheckEvents()
         {
@@ -56,7 +60,7 @@ namespace BudgetAnimancer
             lastTime = currentTime;
 
             // Fire OnEnd for non-looping clips
-            if (!Loop && currentTime >= Clip.length)
+            if (!Loop && currentTime >= 1)
             {
                 OnEnd?.Invoke();
             }
@@ -66,6 +70,10 @@ namespace BudgetAnimancer
             if (!IsActive) return;
             IsActive = false;
             OnInterrupt?.Invoke();
+        }
+        public override string ToString()
+        {
+            return Clip.name;
         }
     }
 }

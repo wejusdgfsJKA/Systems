@@ -17,7 +17,7 @@ namespace BudgetAnimancer
             graph = PlayableGraph.Create("BudgetAnimancerComponent");
             graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
 
-            // Root layer mixer
+            // Root layer Mixer
             layerMixer = AnimationLayerMixerPlayable.Create(graph, 1);
 
             var output = AnimationPlayableOutput.Create(graph, "AnimancerOutput", animator);
@@ -34,11 +34,15 @@ namespace BudgetAnimancer
                 var layer = new Layer(graph);
                 Layers.Add(layer);
                 int newIndex = Layers.Count - 1;
-                graph.Connect(layer.mixer, 0, layerMixer, newIndex);
+                graph.Connect(layer.Mixer, 0, layerMixer, newIndex);
                 layerMixer.SetInputWeight(newIndex, 1f);
             }
         }
-        public AnimationState Play(AnimationClip clip, float duration = 0.25f)
+        public BudgetAnimancerState CreateOrGetState(AnimationClip clip)
+        {
+            return Layers[0].CreateOrGetState(clip);
+        }
+        public BudgetAnimancerState Play(AnimationClip clip, float duration = 0.25f)
         {
             return Layers[0].Play(clip, duration);
         }

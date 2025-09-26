@@ -47,7 +47,7 @@ namespace Animation
             foreach (var pair in GenerateFullPathHashes(controller))
             {
                 string stateNameSafe = pair.Key.Replace(" ", "_");
-                sb.AppendLine($"    public const int {stateNameSafe}State = {pair.Value};");
+                sb.AppendLine($"    public const int {stateNameSafe}AnimatorState = {pair.Value};");
             }
             sb.AppendLine();
 

@@ -11,11 +11,11 @@ namespace Animation
             animator = transform.GetComponentInChildren<Animator>();
         }
         /// <summary>
-        /// Change to a new animator state using CrossFade.
+        /// Change to a new animator attackState using CrossFade.
         /// </summary>
-        /// <param name="stateHash">The full path hash of the state.</param>
+        /// <param name="stateHash">The full path hash of the attackState.</param>
         /// <param name="transitionDuration">How long should the transition take.</param>
-        /// <param name="layer">The layer where the state change should occur.</param>
+        /// <param name="layer">The layer where the attackState change should occur.</param>
         /// <param name="canInterruptSelf">If true, the transition will still occur</param>
         /// <returns>True if the transition has occured successfully.</returns>
         public bool ChangeAnimatorState(int stateHash, float transitionDuration = 0.25f, int layer = 0, bool canInterruptSelf = false)

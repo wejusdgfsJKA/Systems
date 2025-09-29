@@ -6,10 +6,10 @@ namespace BT
     {
         public string Name { get; protected set; }
         /// <summary>
-        /// Get debug text regarding the state of this element.
+        /// Get debug text regarding the attackState of this element.
         /// </summary>
         /// <param name="indentlevel">How much we should indent.</param>
-        /// <returns>Text regarding the state of this element.</returns>
+        /// <returns>Text regarding the attackState of this element.</returns>
         public string GetDebugText(int indentlevel = 0)
         {
             StringBuilder debugtextbuilder = new StringBuilder();

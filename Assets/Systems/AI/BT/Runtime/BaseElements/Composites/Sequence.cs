@@ -3,8 +3,8 @@ namespace BT
     /// <summary>
     /// Evaluate all children in order, from left to right.
     /// If found successfull child node, go to next child. NodeState is RUNNING. <br />
-    /// If found running child node, state is RUNNING. <br />
-    /// If childd node has failed, state is FAILURE. <br />
+    /// If found running child node, attackState is RUNNING. <br />
+    /// If childd node has failed, attackState is FAILURE. <br />
     /// NodeState is SUCCESS if all child nodes return SUCCESS.
     /// </summary>
     public class Sequence : Composite

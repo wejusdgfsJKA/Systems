@@ -24,7 +24,7 @@ namespace BT
             {
                 if (result != value)
                 {
-                    //the decorator's state changes, we need to notify our listeners
+                    //the decorator's attackState changes, we need to notify our listeners
                     result = value;
                     if (result)
                     {

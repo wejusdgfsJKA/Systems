@@ -4,33 +4,6 @@ using UnityEngine.Animations;
 using UnityEngine.Playables;
 namespace BudgetAnimancer
 {
-    public class MixerState : BudgetAnimancerState
-    {
-        public readonly AnimationMixerPlayable Mixer;
-        protected PlayableGraph graph;
-        protected List<BudgetAnimancerState> children = new();
-        public MixerState(PlayableGraph graph, AnimationMixerPlayable mixer, int index) : base(mixer, index)
-        {
-            this.graph = graph;
-            Mixer = mixer;
-        }
-
-        protected void AddInput(BudgetAnimancerState state)
-        {
-            var count = Mixer.GetInputCount();
-            Mixer.SetInputCount(count + 1);
-            Mixer.SetInputWeight(count + 1, 0);
-            graph.Connect(state.Playable, 0, Mixer, count);
-            children.Add(state);
-        }
-        public override void Update()
-        {
-            for (int i = 0; i < children.Count; i++)
-            {
-                children[i].Update();
-            }
-        }
-    }
     public class LinearMixerState : MixerState
     {
         protected float parameter;
@@ -48,11 +21,25 @@ namespace BudgetAnimancer
             }
         }
         (int, int) prevThresholds = new(0, 0);
-        public LinearMixerState(PlayableGraph graph, AnimationMixerPlayable mixer, int index) :
-            base(graph, mixer, index)
-        { }
+        public LinearMixerState(PlayableGraph graph, int index, List<(float, AnimationClip, float)> motionFields,
+            float initialParameterValue = 0) :
+            base(graph, index)
+        {
+            var Mixer = (AnimationMixerPlayable)Playable;
+            Mixer.SetInputCount(motionFields.Count);
+            for (int i = 0; i < motionFields.Count; i++)
+            {
+                var playable = AnimationClipPlayable.Create(graph, motionFields[i].Item2);
+                playable.SetSpeed(motionFields[i].Item3);
+                Mixer.SetInputWeight(i, 0);
+                graph.Connect(playable, 0, Mixer, i);
+                thresholds.Add(motionFields[i].Item1);
+            }
+            parameter = initialParameterValue;
+            ParameterValueChanged();
+        }
 
-        protected void ParameterValueChanged()
+        protected override void ParameterValueChanged()
         {
             switch (thresholds.Count)
             {
@@ -63,12 +50,13 @@ namespace BudgetAnimancer
                     }
                 case 1:
                     {
-                        Mixer.SetInputWeight(0, 1);
+                        ((AnimationMixerPlayable)Playable).SetInputWeight(0, 1);
                         return;
                     }
                 default:
                     {
-                        if (!(thresholds[prevThresholds.Item1] < parameter && parameter < thresholds[prevThresholds.Item2]))
+                        if (!(thresholds[prevThresholds.Item1] < parameter && parameter <
+                            thresholds[prevThresholds.Item2]))
                         {
                             if (thresholds[0] == parameter)
                             {
@@ -98,24 +86,29 @@ namespace BudgetAnimancer
                     }
             }
         }
+
         public void PerformBlend()
         {
+            var Mixer = (AnimationMixerPlayable)Playable;
             if (prevThresholds.Item1 == prevThresholds.Item2)
             {
                 Mixer.SetInputWeight(prevThresholds.Item1, 1);
                 return;
             }
-            float normalized = (parameter - thresholds[prevThresholds.Item1]) / (thresholds[prevThresholds.Item2] - thresholds[prevThresholds.Item1]);
+            float normalized = Mathf.Clamp01((parameter - thresholds[prevThresholds.Item1]) /
+                (thresholds[prevThresholds.Item2] - thresholds[prevThresholds.Item1]));
             Mixer.SetInputWeight(prevThresholds.Item1, 1 - normalized);
             Mixer.SetInputWeight(prevThresholds.Item2, normalized);
         }
+
         public void AddMotion(AnimationClip clip, float threshold)
         {
+            var Mixer = (AnimationMixerPlayable)Playable;
             var playable = AnimationClipPlayable.Create(graph, clip);
             var index = thresholds.Count;
 
             Mixer.SetInputCount(index + 1);
-            Mixer.SetInputWeight(index + 1, 0);
+            Mixer.SetInputWeight(index, 0);
             graph.Connect(playable, 0, Mixer, index);
             thresholds.Add(threshold);
             ParameterValueChanged();

@@ -81,7 +81,7 @@ namespace BT
         }
         /// <summary>
         /// Evaluate the node: <br />
-        /// If we have blocking decorators return false, node state is failure. <br />
+        /// If we have blocking decorators return false, node attackState is failure. <br />
         /// Run services. <br />
         /// If node was not running previously, run onEnter.<br />
         /// Return true.
@@ -170,7 +170,7 @@ namespace BT
             }
         }
         /// <summary>
-        /// Return state of this node, services and decorators.
+        /// Return attackState of this node, services and decorators.
         /// </summary>
         /// <param name="debug">StringBuilder object.</param>
         /// <param name="indentLevel">The level of indentation that we should apply.</param>

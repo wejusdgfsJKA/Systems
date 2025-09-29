@@ -1,9 +1,9 @@
 namespace BT
 {/// <summary>
  /// Evaluate first possible node.
- /// If found successfull child node, state is SUCCESS.<br />
- /// If found child node which can be ran, state is RUNNING.<br />
- /// Otherwise state is FAILURE.
+ /// If found successfull child node, attackState is SUCCESS.<br />
+ /// If found child node which can be ran, attackState is RUNNING.<br />
+ /// Otherwise attackState is FAILURE.
  /// </summary>
     public class Selector : Composite
     {

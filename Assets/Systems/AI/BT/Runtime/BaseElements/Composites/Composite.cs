@@ -61,7 +61,7 @@ namespace BT
             }
         }
         /// <summary>
-        /// Return state of this node, services and decorators, as well as its children.
+        /// Return attackState of this node, services and decorators, as well as its children.
         /// </summary>
         /// <param name="debug">StringBuilder object.</param>
         /// <param name="indentLevel">The level of indentation that we should apply.</param>

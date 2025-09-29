@@ -27,6 +27,7 @@ namespace BudgetAnimancer
 
             graph.Play();
         }
+
         public void EnsureLayer(int index)
         {
             while (Layers.Count <= index)
@@ -38,14 +39,17 @@ namespace BudgetAnimancer
                 layerMixer.SetInputWeight(newIndex, 1f);
             }
         }
+
         public AnimationState CreateOrGetState(AnimationClip clip)
         {
             return Layers[0].CreateOrGetState(clip);
         }
+
         public AnimationState Play(AnimationClip clip, float duration = 0.25f)
         {
             return Layers[0].Play(clip, duration);
         }
+
         void Update()
         {
             float dt = Time.deltaTime;

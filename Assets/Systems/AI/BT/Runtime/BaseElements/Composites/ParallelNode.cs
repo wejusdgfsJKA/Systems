@@ -2,7 +2,7 @@ namespace BT
 {
     /// <summary>
     /// Only has two children. Evaluate left child node. If not failure, evaluate 
-    /// right child node. NodeState is state of left child node.
+    /// right child node. NodeState is attackState of left child node.
     /// </summary>
     public class ParallelNode : Composite
     {

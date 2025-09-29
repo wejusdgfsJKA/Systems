@@ -83,7 +83,7 @@ namespace Animation
         }
         private static void ProcessStateMachine(AnimatorStateMachine stateMachine, string pathPrefix, Dictionary<string, int> hashDict)
         {
-            // Process all states in this state machine
+            // Process all states in this attackState machine
             foreach (var state in stateMachine.states)
             {
                 string fullPath = pathPrefix + "." + state.state.name;
@@ -91,7 +91,7 @@ namespace Animation
                 hashDict[fullPath.Replace(".", "_")] = hash;
             }
 
-            // Recursively process sub-state machines
+            // Recursively process sub-attackState machines
             foreach (var subSM in stateMachine.stateMachines)
             {
                 string subPathPrefix = pathPrefix + "." + subSM.stateMachine.name;

@@ -37,10 +37,42 @@ namespace BudgetAnimancer
                 StateCache.Add(clip, state);
 
                 Mixer.SetInputCount(newIndex + 1);
-                graph.Connect(((AnimationState)state).Playable, 0, Mixer, newIndex);
+                graph.Connect(state.Playable, 0, Mixer, newIndex);
                 Mixer.SetInputWeight(newIndex, 0f); // start at 0 weight
             }
             return (AnimationState)state;
+        }
+
+        public LinearMixerState PlayLinearMixer(object key, float blendDuration = 0.25f)
+        {
+            if (StateCache.TryGetValue(key, out var state))
+            {
+                StartBlend(state, blendDuration);
+                return (LinearMixerState)state;
+            }
+            return null;
+        }
+
+        public LinearMixerState PlayLinearMixer(object key, List<(float, AnimationClip, float)> motionFields, float blendDuration = 0.25f, float initialParameterValue = 0)
+        {
+            var state = GetOrAddLinearMixer(key, motionFields, initialParameterValue);
+            StartBlend(state, blendDuration);
+            return state;
+        }
+
+        public LinearMixerState GetOrAddLinearMixer(object key, List<(float, AnimationClip, float)> motionFields, float initialParameterValue = 0)
+        {
+            if (!StateCache.TryGetValue(key, out var state))
+            {
+                int newIndex = Mixer.GetInputCount();
+                state = new LinearMixerState(graph, newIndex, motionFields, initialParameterValue);
+                StateCache.Add(key, state);
+
+                Mixer.SetInputCount(newIndex + 1);
+                graph.Connect(state.Playable, 0, Mixer, newIndex);
+                Mixer.SetInputWeight(newIndex, 0f); // start at 0 weight
+            }
+            return (LinearMixerState)state;
         }
 
         private void StartBlend(BudgetAnimancerState nextState, float duration)
@@ -62,7 +94,7 @@ namespace BudgetAnimancer
         protected void HandleBlend(float deltaTime)
         {
             if (CurrentState == null) return;
-            // If no previous state, just make current fully active
+            // If no previous attackState, just make current fully active
             if (fadeouts.Count == 0)
             {
                 Mixer.SetInputWeight(CurrentState.Index, 1f);
@@ -87,7 +119,7 @@ namespace BudgetAnimancer
 
             foreach (var index in fadeouts.ToList())
             {
-                var weight = Mixer.GetInputWeight(index) - t;
+                var weight = 1 - t;
                 if (weight <= 0)
                 {
                     Mixer.SetInputWeight(index, 0);

@@ -6,7 +6,7 @@ namespace BudgetAnimancer
     [Serializable]
     public abstract class BudgetAnimancerState
     {
-        public readonly Playable Playable;
+        public Playable Playable { get; set; }
         public readonly int Index;
         [field: SerializeField] public float Speed { get; set; } = 1;
         public float CurrentSpeed

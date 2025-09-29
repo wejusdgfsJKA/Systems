@@ -48,6 +48,7 @@ namespace BudgetAnimancer
             if (!Loop && currentTime >= 1)
             {
                 OnEnd?.Invoke();
+                NormalizedTime = 1;
                 CurrentSpeed = 0;
                 IsActive = false;
             }
@@ -61,6 +62,7 @@ namespace BudgetAnimancer
         public override void Reset()
         {
             IsActive = true;
+            Playable.SetTime(0);
             base.Reset();
         }
         public override string ToString()

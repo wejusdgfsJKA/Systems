@@ -42,7 +42,7 @@ namespace BudgetAnimancer
 
         public AnimationState CreateOrGetState(AnimationClip clip)
         {
-            return Layers[0].CreateOrGetState(clip);
+            return Layers[0].CreateOrGetAnimationState(clip);
         }
 
         public AnimationState Play(AnimationClip clip, float duration = 0.25f)

@@ -1,16 +1,20 @@
+using BudgetAnimancer;
 using UnityEngine;
-
-public class ChodeTest : MonoBehaviour
+namespace Sample
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public class ChodeTest : MonoBehaviour
     {
-        
-    }
+        BudgetAnimancerComponent component;
+        public Vector2 @params;
+        void Start()
+        {
+            component = GetComponent<BudgetAnimancerComponent>();
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
 }

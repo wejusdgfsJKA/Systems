@@ -1,4 +1,5 @@
 using BudgetAnimancer;
+using System.Collections.Generic;
 using UnityEngine;
 namespace Sample
 {
@@ -13,9 +14,9 @@ namespace Sample
         protected int locomotionKey = 0;
         private void Start()
         {
-            locomotionState = component.Layers[0].GetOrAddLinearMixer(locomotionKey, new()
+            locomotionState = component.Layers[0].GetOrAddLinearMixer(locomotionKey, new List<MotionField<float>>()
             {
-                (.1f,idle,1),(1, walk, 1),(2, run, 1)
+                new (.1f,idle,1),new(1, walk, 1),new(2, run, 1)
             }, speed);
 
             SwitchToDefault();
@@ -37,10 +38,10 @@ namespace Sample
                 component.Play(attack);
                 atk = false;
             }
-            if (component.Layers[0].CurrentState == attackState)
-            {
-                Debug.Log(attackState.NormalizedTime);
-            }
+            //if (component.Layers[0].CurrentState == attackState)
+            //{
+            //    Debug.Log(attackState.NormalizedTime);
+            //}
             locomotionState.Parameter = speed;
         }
         void SwitchToDefault()

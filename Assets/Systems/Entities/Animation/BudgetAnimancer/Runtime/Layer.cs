@@ -21,14 +21,16 @@ namespace BudgetAnimancer
             Mixer = AnimationMixerPlayable.Create(playableGraph);
         }
 
+        #region States
+        #region AnimationStates
         public AnimationState Play(AnimationClip clip, float duration = 0.25f)
         {
-            var state = CreateOrGetState(clip);
+            var state = CreateOrGetAnimationState(clip);
             StartBlend(state, duration);
             return state;
         }
 
-        public AnimationState CreateOrGetState(AnimationClip clip)
+        public AnimationState CreateOrGetAnimationState(AnimationClip clip)
         {
             if (!StateCache.TryGetValue(clip, out var state))
             {
@@ -42,7 +44,9 @@ namespace BudgetAnimancer
             }
             return (AnimationState)state;
         }
+        #endregion
 
+        #region Linear mixers
         public LinearMixerState PlayLinearMixer(object key, float blendDuration = 0.25f)
         {
             if (StateCache.TryGetValue(key, out var state))
@@ -75,6 +79,24 @@ namespace BudgetAnimancer
             return (LinearMixerState)state;
         }
 
+        public LinearMixerState GetOrAddLinearMixer(object key, List<MotionField<float>> motionFields, float initialParameterValue = 0)
+        {
+            if (!StateCache.TryGetValue(key, out var state))
+            {
+                int newIndex = Mixer.GetInputCount();
+                state = new LinearMixerState(graph, newIndex, motionFields, initialParameterValue);
+                StateCache.Add(key, state);
+
+                Mixer.SetInputCount(newIndex + 1);
+                graph.Connect(state.Playable, 0, Mixer, newIndex);
+                Mixer.SetInputWeight(newIndex, 0f); // start at 0 weight
+            }
+            return (LinearMixerState)state;
+        }
+        #endregion
+        #endregion
+
+        #region Blending & updates
         private void StartBlend(BudgetAnimancerState nextState, float duration)
         {
             if (CurrentState == nextState) return;
@@ -138,5 +160,6 @@ namespace BudgetAnimancer
             HandleBlend(deltaTime);
             CurrentState?.Update();
         }
+        #endregion
     }
 }

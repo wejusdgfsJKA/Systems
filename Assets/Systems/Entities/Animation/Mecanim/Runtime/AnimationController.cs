@@ -11,7 +11,7 @@ namespace Animation
             animator = transform.GetComponentInChildren<Animator>();
         }
         /// <summary>
-        /// Change to a new animator attackState using CrossFade.
+        /// Change to a new component attackState using CrossFade.
         /// </summary>
         /// <param name="stateHash">The full path hash of the attackState.</param>
         /// <param name="transitionDuration">How long should the transition take.</param>

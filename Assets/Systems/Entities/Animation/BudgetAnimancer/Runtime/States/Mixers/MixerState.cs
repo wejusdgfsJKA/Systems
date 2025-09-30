@@ -11,16 +11,6 @@ namespace BudgetAnimancer
         {
             this.graph = graph;
         }
-
-        protected void AddInput(BudgetAnimancerState state)
-        {
-            var Mixer = (AnimationMixerPlayable)Playable;
-            var count = Mixer.GetInputCount();
-            Mixer.SetInputCount(count + 1);
-            Mixer.SetInputWeight(count + 1, 0);
-            graph.Connect(state.Playable, 0, Mixer, count);
-            children.Add(state);
-        }
         public override void Update() { }
         protected abstract void ParameterValueChanged();
     }

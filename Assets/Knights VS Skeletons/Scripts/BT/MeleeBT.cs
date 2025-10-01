@@ -12,7 +12,7 @@ public class MeleeBT : BehaviourTree<int>
     [Tooltip("Hook this to whatever actually does the attack.")]
     [SerializeField] protected UnityEvent attackEvent;
     [SerializeField] protected float regularSpeed = 3.5f, chaseSpeed = 3.5f;
-    [Tooltip("The chase node will only recalculate the agent's path when the target's position has changed " +
+    [Tooltip("The chase node will only recalculate the Agent's path when the target's position has changed " +
         "by at least this much.")]
     [SerializeField] protected float chaseErrorThreshold;
     protected NavMeshAgent agent;

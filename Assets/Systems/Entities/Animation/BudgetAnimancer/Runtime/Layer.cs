@@ -94,13 +94,19 @@ namespace BudgetAnimancer
             return (LinearMixerState)state;
         }
 
-        public LinearMixerState GetOrAddLinearMixer(object key, LinearMixerStateData data)
+        public LinearMixerState PlayLinearMixer(LinearMixerStateData data, float blendDuration = 0.25f)
         {
-            if (!StateCache.TryGetValue(key, out var state))
+            var state = GetOrAddLinearMixer(data);
+            StartBlend(state, blendDuration);
+            return state;
+        }
+        public LinearMixerState GetOrAddLinearMixer(LinearMixerStateData data)
+        {
+            if (!StateCache.TryGetValue(data.Key, out var state))
             {
                 int newIndex = Mixer.GetInputCount();
                 state = new LinearMixerState(graph, newIndex, data);
-                StateCache.Add(key, state);
+                StateCache.Add(data.Key, state);
 
                 Mixer.SetInputCount(newIndex + 1);
                 graph.Connect(state.Playable, 0, Mixer, newIndex);

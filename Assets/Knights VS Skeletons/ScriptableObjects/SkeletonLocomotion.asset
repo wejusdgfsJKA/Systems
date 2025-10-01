@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dd9a4d15e79c02a449b0276277cb8c1f, type: 3}
-  m_Name: KnightLocomotion
+  m_Name: SkeletonLocomotion
   m_EditorClassIdentifier: Assembly-CSharp::BudgetAnimancer.LinearMixerStateData
+  Key: 0
   MotionFields:
   - Threshold: 0
-    Clip: {fileID: 7400000, guid: a9e82453b26b1e346962cadcba80556a, type: 3}
+    Clip: {fileID: -4847777627775502037, guid: b1db32bf678632d4795b4299bce3da68, type: 3}
     Speed: 1
-  - Threshold: 3.5
-    Clip: {fileID: 7400000, guid: 0cbd46aa8abdd9b409d3cfd4265bdd3f, type: 3}
-    Speed: 1
-  - Threshold: 5
-    Clip: {fileID: 7400000, guid: 18c683f6167dbf84d91c818fa14a7e14, type: 3}
+  - Threshold: 1
+    Clip: {fileID: -4847777627775502037, guid: 74640c8c77162bb40aab8b2fc995e156, type: 3}
     Speed: 1
   DefaultParamValue: 1

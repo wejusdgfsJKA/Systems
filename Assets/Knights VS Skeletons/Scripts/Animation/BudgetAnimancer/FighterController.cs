@@ -11,25 +11,27 @@ public class FighterController : MonoBehaviour
     [SerializeField] protected AnimationClip attack;
     protected LinearMixerState locomotionState;
     protected AnimState attackState;
-    protected int locomotionKey = 0;
     [SerializeField] protected UnityEvent dealDamage;
-    protected virtual void Start()
+    protected virtual void Awake()
     {
         agent = transform.root.GetComponent<NavMeshAgent>();
         component = transform.root.GetComponentInChildren<BudgetAnimancerComponent>();
         attackState = component.CreateOrGetState(attack);
-        attackState.OnEnd += ReturnToDefault;
+        attackState.OnEnd += ReturnToIdle;
         attackState.AddEvent(0.33f, () => dealDamage?.Invoke());
-        locomotionState = component.Layers[0].GetOrAddLinearMixer(locomotionKey, locomotionData);
-        ReturnToDefault();
+        locomotionState = component.Layers[0].GetOrAddLinearMixer(locomotionData);
+    }
+    private void OnEnable()
+    {
+        ReturnToIdle();
     }
     protected void Update()
     {
         locomotionState.Parameter = agent.velocity.magnitude;
     }
-    public void ReturnToDefault()
+    public void ReturnToIdle()
     {
-        component.Layers[0].PlayLinearMixer(locomotionKey);
+        component.Layers[0].PlayLinearMixer(locomotionData.Key);
     }
     public void Attack()
     {

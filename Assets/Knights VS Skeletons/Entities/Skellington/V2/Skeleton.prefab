@@ -105,34 +105,10 @@ MonoBehaviour:
   OnDeath:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7756063252610609020}
-        m_TargetAssemblyTypeName: SkeletonAnimController, Assembly-CSharp
+      - m_Target: {fileID: 1971760947174150367}
+        m_TargetAssemblyTypeName: SkelletonController, Assembly-CSharp
         m_MethodName: Die
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 6990815688959790379}
-        m_TargetAssemblyTypeName: UnityEngine.CapsuleCollider, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 4188412106260480552}
-        m_TargetAssemblyTypeName: SkeletonBT, Assembly-CSharp
-        m_MethodName: set_ShouldRun
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -213,8 +189,8 @@ MonoBehaviour:
   attackEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7756063252610609020}
-        m_TargetAssemblyTypeName: SkeletonAnimController, Assembly-CSharp
+      - m_Target: {fileID: 1971760947174150367}
+        m_TargetAssemblyTypeName: SkelletonController, Assembly-CSharp
         m_MethodName: Attack
         m_Mode: 1
         m_Arguments:
@@ -259,6 +235,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 4389403043164755119}
+        m_TargetAssemblyTypeName: UnityEngine.AI.NavMeshAgent, UnityEngine
+        m_MethodName: set_isStopped
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &7289980652502188739
 MonoBehaviour:
@@ -375,6 +363,10 @@ PrefabInstance:
     - target: {fileID: 2803820806472684270, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2803820806472684270, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2803820806639422040, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
       propertyPath: m_Layer
@@ -579,7 +571,7 @@ PrefabInstance:
     - target: {fileID: 8881890470304338478, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: df3a9064a7a580d4eb0cb414a7b58157, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8881890470304338478, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -606,14 +598,26 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2803820806472684270, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7756063252610609020}
+      addedObject: {fileID: 4136004821176842724}
+    - targetCorrespondingSourceObject: {fileID: 2803820806472684270, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1971760947174150367}
+    - targetCorrespondingSourceObject: {fileID: 2803820806472684270, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3197609274194870497}
+    - targetCorrespondingSourceObject: {fileID: 2803820806472684270, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5065601331536755770}
+    - targetCorrespondingSourceObject: {fileID: 2803820806472684270, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1581095640190378080}
   m_SourcePrefab: {fileID: 100100000, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
 --- !u!1 &1318770908948232032 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2803820806472684270, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}
   m_PrefabInstance: {fileID: 3793186526659945870}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7756063252610609020
+--- !u!114 &4136004821176842724
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -622,74 +626,159 @@ MonoBehaviour:
   m_GameObject: {fileID: 1318770908948232032}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca277709291715f4c907efd134764ae5, type: 3}
+  m_Script: {fileID: 11500000, guid: 317c33e8a9448ee4881bdeabfd820188, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SkeletonAnimController
-  events:
-  - Event:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 615753703393790697}
-          m_TargetAssemblyTypeName: Weapons.Melee.MeleeAttack, Assembly-CSharp
-          m_MethodName: DealDamage
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    <ID>k__BackingField: {fileID: 11400000, guid: e533ac20e530b024085ebb873c944509, type: 2}
-  - Event:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 8212568794684222045}
-          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_MethodName: SetActive
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    <ID>k__BackingField: {fileID: 11400000, guid: 7f33b55d95ff2d24ab4d4619560b1e75, type: 2}
-  - Event:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4188412106260480552}
-          m_TargetAssemblyTypeName: SkeletonBT, Assembly-CSharp
-          m_MethodName: set_ShouldRun
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    <ID>k__BackingField: {fileID: 11400000, guid: 0d17f9841f9b1e645a43898709aae716, type: 2}
-  - Event:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 4188412106260480552}
-          m_TargetAssemblyTypeName: SkeletonBT, Assembly-CSharp
-          m_MethodName: set_ShouldRun
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
-    <ID>k__BackingField: {fileID: 11400000, guid: 4383061e677d2394f86b961cf855c460, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::BudgetAnimancer.BudgetAnimancerComponent
+--- !u!114 &1971760947174150367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318770908948232032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b9e316687b17b04485175b42bd5be5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkelletonController
+  locomotionState: {fileID: 3197609274194870497}
+  attackState: {fileID: 5065601331536755770}
+  deathState: {fileID: 1581095640190378080}
+  dealDamage:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 615753703393790697}
+        m_TargetAssemblyTypeName: Weapons.Melee.MeleeAttack, Assembly-CSharp
+        m_MethodName: DealDamage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  die:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8212568794684222045}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3197609274194870497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318770908948232032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 959c5291bc335244aaaec820b55af616, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ContMixerState
+  <Priority>k__BackingField: 0
+  <CanInterruptSelf>k__BackingField: 0
+  data: {fileID: 11400000, guid: 41a7275003ae12d4dafc214ec605dd55, type: 2}
+--- !u!114 &5065601331536755770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318770908948232032}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b7964e269df1d444babd07a44a13a49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OneShotAnimState
+  <Priority>k__BackingField: 1
+  <CanInterruptSelf>k__BackingField: 0
+  Clip: {fileID: -4847777627775502037, guid: 0c16cb1c1956d6e4ab7756249d85d85c, type: 3}
+  onEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4188412106260480552}
+        m_TargetAssemblyTypeName: SkeletonBT, Assembly-CSharp
+        m_MethodName: set_ShouldRun
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onExit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4188412106260480552}
+        m_TargetAssemblyTypeName: SkeletonBT, Assembly-CSharp
+        m_MethodName: set_ShouldRun
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &1581095640190378080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318770908948232032}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b7964e269df1d444babd07a44a13a49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OneShotAnimState
+  <Priority>k__BackingField: 2
+  <CanInterruptSelf>k__BackingField: 0
+  Clip: {fileID: -4847777627775502037, guid: 254689aa2c1fc52488b6438382c952c8, type: 3}
+  onEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6990815688959790379}
+        m_TargetAssemblyTypeName: UnityEngine.CapsuleCollider, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4188412106260480552}
+        m_TargetAssemblyTypeName: SkeletonBT, Assembly-CSharp
+        m_MethodName: set_ShouldRun
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1803383285352115674 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3288468337185982548, guid: fcc7e72ef9922724c9dbe91fe1141293, type: 3}

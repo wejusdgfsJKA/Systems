@@ -1,20 +1,20 @@
+using System;
 using UnityEngine;
 namespace FSM
 {
-    public enum Priority
+    public enum Priority : byte
     {
         Low,
         Medium,
         High
     }
-    [System.Serializable]
-    public abstract class State
+    [Serializable]
+    public class State : MonoBehaviour
     {
         [field: SerializeField] public Priority Priority { get; protected set; }
         [field: SerializeField] public bool CanInterruptSelf { get; protected set; }
-        public abstract void Enter();
-        public abstract void Update(float deltaTime);
-        public abstract void Exit();
+        public virtual void Enter() => enabled = true;
+        public virtual void Exit() => enabled = false;
         public bool CanChangeState(State newState)
         {
             if (newState == null) return false;

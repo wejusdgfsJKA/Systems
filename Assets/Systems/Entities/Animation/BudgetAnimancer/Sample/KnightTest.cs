@@ -11,10 +11,9 @@ namespace Sample
         public bool atk;
         protected AnimState attackState;
         protected LinearMixerState locomotionState;
-        protected int locomotionKey = 0;
         private void Start()
         {
-            locomotionState = component.Layers[0].GetOrAddLinearMixer(locomotionKey, locomotionData);
+            locomotionState = component.Layers[0].GetOrAddLinearMixer(locomotionData);
             SwitchToDefault();
             attackState = component.CreateOrGetState(attack);
             attackState.AddEvent(0.33f, () =>
@@ -34,7 +33,7 @@ namespace Sample
                 component.Play(attack);
                 atk = false;
             }
-            //if (component.Layers[0].CurrentState == attackState)
+            //if (Component.Layers[0].CurrentState == attackState)
             //{
             //    Debug.Log(attackState.NormalizedTime);
             //}
@@ -42,7 +41,7 @@ namespace Sample
         }
         void SwitchToDefault()
         {
-            component.Layers[0].PlayLinearMixer(locomotionKey);
+            component.Layers[0].PlayLinearMixer(locomotionData.Key);
         }
     }
 }

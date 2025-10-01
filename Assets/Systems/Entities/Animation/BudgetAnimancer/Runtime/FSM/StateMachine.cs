@@ -6,30 +6,26 @@ namespace FSM
     {
         [field: SerializeField] public State CurrentState { get; protected set; }
         [field: SerializeField] public State DefaultState { get; protected set; }
+        public StateMachine(State defaultState)
+        {
+            DefaultState = defaultState;
+            CurrentState = defaultState;
+        }
         public bool ChangeState(State newState)
         {
             if (newState == null) return false;
-            if (CurrentState == null)
+            if (CurrentState == null || CurrentState.CanChangeState(newState))
             {
-                CurrentState = newState;
-                CurrentState.Enter();
-                return true;
-            }
-            if (CurrentState.CanChangeState(newState))
-            {
-                CurrentState.Exit();
+                CurrentState?.Exit();
                 CurrentState = newState;
                 CurrentState.Enter();
                 return true;
             }
             return false;
         }
-        public void Update(float deltaTime)
+        public bool ReturnToDefault(bool force = false)
         {
-            CurrentState?.Update(deltaTime);
-        }
-        public bool ReturnToDefault()
-        {
+            if (force) return ChangeState(DefaultState);
             return ForceSetState(DefaultState);
         }
         public bool ForceSetState(State newState)

@@ -15,7 +15,7 @@ namespace Animation
             Animator animator = Selection.activeGameObject?.GetComponent<Animator>();
             if (animator == null)
             {
-                Debug.LogWarning("Select a GameObject with an Animator component.");
+                Debug.LogWarning("Select a GameObject with an Animator Component.");
                 return;
             }
 

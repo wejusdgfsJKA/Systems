@@ -81,6 +81,33 @@ namespace BudgetAnimancer
             ParameterValueChanged();
         }
 
+        public LinearMixerState(PlayableGraph graph, int index, LinearMixerStateData data) : base(graph, index)
+        {
+            var motionFields = data.MotionFields;
+            motionFields.Sort((a, b) => a.Threshold.CompareTo(b.Threshold));
+            Playable.SetInputCount(motionFields.Count);
+            var mixer = (AnimationMixerPlayable)Playable;
+
+            for (int i = 0; i < motionFields.Count; i++)
+            {
+                var (threshold, clip, speed) = (motionFields[i].Threshold, motionFields[i].Clip, motionFields[i].Speed);
+                var playable = AnimationClipPlayable.Create(graph, clip);
+                playable.SetSpeed(speed);
+
+                // Prevent IK/Root scaling artifacts
+                playable.SetApplyFootIK(false);
+                playable.SetApplyPlayableIK(false);
+
+                graph.Connect(playable, 0, mixer, i);
+                Playable.SetInputWeight(i, 0);
+
+                thresholds.Add(threshold);
+            }
+
+            parameter = data.DefaultParamValue;
+            ParameterValueChanged();
+        }
+
         protected override void ParameterValueChanged()
         {
             if (thresholds.Count == 0)
@@ -138,13 +165,6 @@ namespace BudgetAnimancer
 
             mixer.SetInputWeight(prevThresholds.Item1, 1 - normalized);
             mixer.SetInputWeight(prevThresholds.Item2, normalized);
-        }
-
-        private void SetOnlyWeight(int index)
-        {
-            var mixer = (AnimationMixerPlayable)Playable;
-            for (int i = 0; i < thresholds.Count; i++)
-                mixer.SetInputWeight(i, i == index ? 1f : 0f);
         }
 
         public void AddMotion(AnimationClip clip, float threshold, float speed = 1f)

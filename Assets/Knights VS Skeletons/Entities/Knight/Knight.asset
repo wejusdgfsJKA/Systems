@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36ee3c053e7a67a4698dfacc63d784b9, type: 3}
   m_Name: Knight
   m_EditorClassIdentifier: Assembly-CSharp::Spawning.SpawnableData
-  Prefab: {fileID: 2197154746812119453, guid: 8f2af08f5cc87f84880b88c4b0ce6d72, type: 3}
+  Prefab: {fileID: 3192167462525179358, guid: 59a491c06d921bc4f98a418cf14e02f4, type: 3}

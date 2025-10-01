@@ -5,7 +5,7 @@ using UnityEngine.Animations;
 using UnityEngine.Playables;
 namespace BudgetAnimancer
 {
-    public class AnimationState : BudgetAnimancerState
+    public class AnimState : BudgetAnimancerState
     {
         public readonly AnimationClip Clip;
         public bool Loop
@@ -21,7 +21,7 @@ namespace BudgetAnimancer
         public event Action OnEnd;
         public bool IsActive { get; set; } = true;
         float lastTime;
-        public AnimationState(AnimationClipPlayable playable, AnimationClip clip, int index) : base(playable, index)
+        public AnimState(AnimationClipPlayable playable, AnimationClip clip, int index) : base(playable, index)
         {
             Clip = clip;
         }

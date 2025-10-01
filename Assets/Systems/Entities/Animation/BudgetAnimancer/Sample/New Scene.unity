@@ -124,25 +124,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 100050, guid: ba24e610e0a338545b447ff44a3cf1cc, type: 3}
   m_PrefabInstance: {fileID: 1032963637}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &687983072
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 687983071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4ca01efbfd1e614e8c2459151dcdc97, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Sample.BudgetAnimancerTest
-  component: {fileID: 687983073}
-  idle: {fileID: 7400000, guid: a9e82453b26b1e346962cadcba80556a, type: 3}
-  walk: {fileID: 7400000, guid: 0cbd46aa8abdd9b409d3cfd4265bdd3f, type: 3}
-  run: {fileID: 7400000, guid: 18c683f6167dbf84d91c818fa14a7e14, type: 3}
-  attack: {fileID: 7400000, guid: 0932505f83189174e9405ca64f635505, type: 3}
-  speed: 0
-  atk: 0
 --- !u!114 &687983073
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,6 +136,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 317c33e8a9448ee4881bdeabfd820188, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BudgetAnimancer.BudgetAnimancerComponent
+--- !u!114 &687983076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687983071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4ca01efbfd1e614e8c2459151dcdc97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sample.KnightTest
+  component: {fileID: 687983073}
+  attack: {fileID: 7400000, guid: 0932505f83189174e9405ca64f635505, type: 3}
+  speed: 0
+  locomotionData: {fileID: 11400000, guid: b61f0ccbf2cae234a9f50eb0f74884dd, type: 2}
+  atk: 0
 --- !u!1 &696535942
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,7 +425,7 @@ PrefabInstance:
       addedObject: {fileID: 687983073}
     - targetCorrespondingSourceObject: {fileID: 100050, guid: ba24e610e0a338545b447ff44a3cf1cc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 687983072}
+      addedObject: {fileID: 687983076}
   m_SourcePrefab: {fileID: 100100000, guid: ba24e610e0a338545b447ff44a3cf1cc, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

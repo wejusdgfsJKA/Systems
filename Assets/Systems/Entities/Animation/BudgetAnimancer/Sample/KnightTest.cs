@@ -1,24 +1,20 @@
 using BudgetAnimancer;
-using System.Collections.Generic;
 using UnityEngine;
 namespace Sample
 {
     public class KnightTest : MonoBehaviour
     {
         public BudgetAnimancerComponent component;
-        public AnimationClip idle, walk, run, attack;
+        public AnimationClip attack;
         [Range(0, 2)] public float speed;
+        public LinearMixerStateData locomotionData;
         public bool atk;
-        public BudgetAnimancer.AnimationState attackState;
-        public LinearMixerState locomotionState;
+        protected AnimState attackState;
+        protected LinearMixerState locomotionState;
         protected int locomotionKey = 0;
         private void Start()
         {
-            locomotionState = component.Layers[0].GetOrAddLinearMixer(locomotionKey, new List<MotionField<float>>()
-            {
-                new (.1f,idle,1),new(1, walk, 1),new(2, run, 1)
-            }, speed);
-
+            locomotionState = component.Layers[0].GetOrAddLinearMixer(locomotionKey, locomotionData);
             SwitchToDefault();
             attackState = component.CreateOrGetState(attack);
             attackState.AddEvent(0.33f, () =>

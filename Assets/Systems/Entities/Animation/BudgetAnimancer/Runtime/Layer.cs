@@ -23,26 +23,26 @@ namespace BudgetAnimancer
 
         #region States
         #region AnimationStates
-        public AnimationState Play(AnimationClip clip, float duration = 0.25f)
+        public AnimState Play(AnimationClip clip, float duration = 0.25f)
         {
             var state = CreateOrGetAnimationState(clip);
             StartBlend(state, duration);
             return state;
         }
 
-        public AnimationState CreateOrGetAnimationState(AnimationClip clip)
+        public AnimState CreateOrGetAnimationState(AnimationClip clip)
         {
             if (!StateCache.TryGetValue(clip, out var state))
             {
                 int newIndex = Mixer.GetInputCount();
-                state = new AnimationState(AnimationClipPlayable.Create(graph, clip), clip, newIndex);
+                state = new AnimState(AnimationClipPlayable.Create(graph, clip), clip, newIndex);
                 StateCache.Add(clip, state);
 
                 Mixer.SetInputCount(newIndex + 1);
                 graph.Connect(state.Playable, 0, Mixer, newIndex);
                 Mixer.SetInputWeight(newIndex, 0f); // start at 0 weight
             }
-            return (AnimationState)state;
+            return (AnimState)state;
         }
         #endregion
 
@@ -85,6 +85,21 @@ namespace BudgetAnimancer
             {
                 int newIndex = Mixer.GetInputCount();
                 state = new LinearMixerState(graph, newIndex, motionFields, initialParameterValue);
+                StateCache.Add(key, state);
+
+                Mixer.SetInputCount(newIndex + 1);
+                graph.Connect(state.Playable, 0, Mixer, newIndex);
+                Mixer.SetInputWeight(newIndex, 0f); // start at 0 weight
+            }
+            return (LinearMixerState)state;
+        }
+
+        public LinearMixerState GetOrAddLinearMixer(object key, LinearMixerStateData data)
+        {
+            if (!StateCache.TryGetValue(key, out var state))
+            {
+                int newIndex = Mixer.GetInputCount();
+                state = new LinearMixerState(graph, newIndex, data);
                 StateCache.Add(key, state);
 
                 Mixer.SetInputCount(newIndex + 1);

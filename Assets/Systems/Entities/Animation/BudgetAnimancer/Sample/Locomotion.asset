@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd9a4d15e79c02a449b0276277cb8c1f, type: 3}
+  m_Name: Locomotion
+  m_EditorClassIdentifier: Assembly-CSharp::BudgetAnimancer.LinearMixerStateData
+  MotionFields:
+  - Threshold: 0
+    Clip: {fileID: 7400000, guid: a9e82453b26b1e346962cadcba80556a, type: 3}
+    Speed: 1
+  - Threshold: 1
+    Clip: {fileID: 7400000, guid: 0cbd46aa8abdd9b409d3cfd4265bdd3f, type: 3}
+    Speed: 1
+  - Threshold: 2
+    Clip: {fileID: 7400000, guid: 18c683f6167dbf84d91c818fa14a7e14, type: 3}
+    Speed: 1
+  DefaultParamValue: 0

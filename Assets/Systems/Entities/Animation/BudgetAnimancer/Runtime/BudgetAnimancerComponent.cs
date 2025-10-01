@@ -40,12 +40,13 @@ namespace BudgetAnimancer
             }
         }
 
-        public AnimationState CreateOrGetState(AnimationClip clip)
+        public AnimState CreateOrGetState(AnimationClip clip)
         {
+            EnsureLayer(0);
             return Layers[0].CreateOrGetAnimationState(clip);
         }
 
-        public AnimationState Play(AnimationClip clip, float duration = 0.25f)
+        public AnimState Play(AnimationClip clip, float duration = 0.25f)
         {
             return Layers[0].Play(clip, duration);
         }

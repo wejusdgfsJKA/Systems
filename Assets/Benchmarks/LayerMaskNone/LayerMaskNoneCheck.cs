@@ -1,62 +1,26 @@
-using System.Diagnostics;
+using Benchmarks;
 using UnityEngine;
-
-public class LayerMaskNoneCheck : MonoBehaviour
+namespace Sample
 {
-    public int nrOfCalls = 100000;
-    public int iterations = 5;
-    Transform tr;
-    public LayerMask mask;
-    private void Awake()
+    public class LayerMaskNoneCheck : BenchmarkBase
     {
-        tr = transform;
-    }
-    void Start()
-    {
-        tr = transform;
-        // Warm-up to avoid JIT compilation overhead
-        for (int i = 0; i < 1000; i++)
+        Transform tr;
+        public LayerMask mask;
+        private void Awake()
         {
-            CheckStopIfLayerMaskNone();
-            Check();
+            tr = transform;
+            functions.Add(new("Regular check", Check));
+            functions.Add(new("Special check", CheckStopIfLayerMaskNone));
         }
-
-        // Benchmark regular transform access
-        long totalRegular = 0;
-        for (int iter = 0; iter < iterations; iter++)
+        public void CheckStopIfLayerMaskNone()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-            for (int i = 0; i < nrOfCalls; i++)
-            {
-                Check();
-            }
-            sw.Stop();
-            totalRegular += sw.ElapsedTicks;
+            if (mask == 0)
+                return;
+            Physics.Raycast(tr.position, tr.forward, 100, mask);
         }
-        UnityEngine.Debug.Log($"Regular check average time: {(totalRegular / (float)iterations) / Stopwatch.Frequency * 1000f} ms");
-
-        // Benchmark cached transform access
-        long totalCached = 0;
-        for (int iter = 0; iter < iterations; iter++)
+        public void Check()
         {
-            Stopwatch sw = Stopwatch.StartNew();
-            for (int i = 0; i < nrOfCalls; i++)
-            {
-                CheckStopIfLayerMaskNone();
-            }
-            sw.Stop();
-            totalCached += sw.ElapsedTicks;
+            Physics.Raycast(tr.position, tr.forward, 100, mask);
         }
-        UnityEngine.Debug.Log($"Special check average time: {(totalCached / (float)iterations) / Stopwatch.Frequency * 1000f} ms");
-    }
-    public void CheckStopIfLayerMaskNone()
-    {
-        if (mask == 0)
-            return;
-        Physics.Raycast(tr.position, tr.forward, 100, mask);
-    }
-    public void Check()
-    {
-        Physics.Raycast(tr.position, tr.forward, 100, mask);
     }
 }

@@ -273,7 +273,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 852136797}
-  - component: {fileID: 852136796}
   - component: {fileID: 852136795}
   - component: {fileID: 852136794}
   - component: {fileID: 852136798}
@@ -318,19 +317,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &852136796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 852136793}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f78799880f11854fabfb333da0b226d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ChodeTest
-  params: {x: 0, y: 0}
 --- !u!4 &852136797
 Transform:
   m_ObjectHideFlags: 0
@@ -360,6 +346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChodeTest
   params: {x: 0, y: 0}
+  data: {fileID: 11400000, guid: 065999b5f7bd4734fa05410e6a3626af, type: 2}
 --- !u!1001 &1032963637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -371,6 +358,10 @@ PrefabInstance:
     - target: {fileID: 100050, guid: ba24e610e0a338545b447ff44a3cf1cc, type: 3}
       propertyPath: m_Name
       value: ToonRTS_demo_Knight
+      objectReference: {fileID: 0}
+    - target: {fileID: 100050, guid: ba24e610e0a338545b447ff44a3cf1cc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400050, guid: ba24e610e0a338545b447ff44a3cf1cc, type: 3}
       propertyPath: m_LocalPosition.x

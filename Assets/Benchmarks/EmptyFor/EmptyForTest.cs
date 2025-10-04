@@ -3,7 +3,7 @@ namespace Sample
 {
     public class EmptyForTest : BenchmarkBase
     {
-        int a = 0;
+        readonly int a = 0;
         private void Awake()
         {
             functions.Add(new("Empty for ", () =>

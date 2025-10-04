@@ -115,6 +115,39 @@ namespace BudgetAnimancer
             return (LinearMixerState)state;
         }
         #endregion
+
+        #region 2D mixers
+        public LinearMixerState Play2DMixer(object key, float blendDuration = 0.25f)
+        {
+            if (StateCache.TryGetValue(key, out var state))
+            {
+                StartBlend(state, blendDuration);
+                return (LinearMixerState)state;
+            }
+            return null;
+        }
+
+        public Mixer2DState PlayMixer2D(Mixer2DStateData data, float blendDuration = 0.25f)
+        {
+            var state = GetOrAddMixer2D(data);
+            StartBlend(state, blendDuration);
+            return state;
+        }
+        public Mixer2DState GetOrAddMixer2D(Mixer2DStateData data)
+        {
+            if (!StateCache.TryGetValue(data.Key, out var state))
+            {
+                int newIndex = Mixer.GetInputCount();
+                state = new Mixer2DState(graph, newIndex, data);
+                StateCache.Add(data.Key, state);
+
+                Mixer.SetInputCount(newIndex + 1);
+                graph.Connect(state.Playable, 0, Mixer, newIndex);
+                Mixer.SetInputWeight(newIndex, 0f); // start at 0 weight
+            }
+            return (Mixer2DState)state;
+        }
+        #endregion
         #endregion
 
         #region Blending & updates

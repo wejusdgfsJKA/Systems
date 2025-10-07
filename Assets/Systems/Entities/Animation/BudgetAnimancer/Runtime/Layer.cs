@@ -6,14 +6,23 @@ using UnityEngine.Playables;
 
 namespace BudgetAnimancer
 {
+    /// <summary>
+    /// Controls an animation layer.
+    /// </summary>
     public class Layer
     {
         public AnimationMixerPlayable Mixer { get; protected set; }
         protected PlayableGraph graph;
-        public Dictionary<object, BudgetAnimancerState> StateCache { get; protected set; } = new();
+        public Dictionary<object, BudgetAnimancerState> StateCache { get; } = new();
+        //don't mess with this
         private float blendDuration;
         private float blendTime;
         public BudgetAnimancerState CurrentState { get; protected set; }
+        /// <summary>
+        /// Holds all states with above zero weight other than the current state, to avoid ghost weights.
+        /// If we only held on to the previous state,rapid transitions could cause certain states' weights
+        /// to not be fully reduced to 0.
+        /// </summary>
         protected HashSet<int> fadeouts = new();
         public Layer(PlayableGraph playableGraph)
         {
@@ -23,15 +32,35 @@ namespace BudgetAnimancer
 
         #region States
         #region AnimationStates
-        public AnimState Play(AnimationClip clip, float duration = 0.25f)
+        /// <summary>
+        /// Play an animation on this layer. Calls CreateOrGetAnimationState, then start blend.
+        /// </summary>
+        /// <param name="clip">Animation clip to play.</param>
+        /// <param name="blendDuration">How long should blending take.</param>
+        /// <returns>The corresponding animation state.</returns>
+        public AnimState Play(AnimationClip clip, float blendDuration = 0.25f)
         {
+            if (clip == null)
+            {
+                Debug.LogError($"{this} cannot play empty clip!");
+            }
             var state = CreateOrGetAnimationState(clip);
-            StartBlend(state, duration);
+            StartBlend(state, blendDuration);
             return state;
         }
 
+        /// <summary>
+        /// Create (if necessary) and return an animation state for a clip on this layer.
+        /// </summary>
+        /// <param name="clip">Animation clip.</param>
+        /// <returns>The animation state.</returns>
         public AnimState CreateOrGetAnimationState(AnimationClip clip)
         {
+            if (clip == null)
+            {
+                Debug.LogError("Cannot create animation state from null clip!");
+                return null;
+            }
             if (!StateCache.TryGetValue(clip, out var state))
             {
                 int newIndex = Mixer.GetInputCount();
@@ -151,8 +180,20 @@ namespace BudgetAnimancer
         #endregion
 
         #region Blending & updates
-        private void StartBlend(BudgetAnimancerState nextState, float duration)
+        /// <summary>
+        /// Begin blending to a new state. Calls Interrupt on the old state if it exists and calls Reset 
+        /// on the new state. Removes the next state from fadeouts set.
+        /// </summary>
+        /// <param name="nextState">The next state to switch to. Nothing happens if this is null.</param>
+        /// <param name="blendDuration">How long should the blend take.</param>
+        private void StartBlend(BudgetAnimancerState nextState, float blendDuration)
         {
+            if (nextState == null)
+            {
+                Debug.LogError($"{this} cannot blend to an empty state!");
+                return;
+            }
+            fadeouts.Remove(nextState.Index);
             if (CurrentState == nextState) return;
             if (CurrentState != null)
             {
@@ -161,38 +202,35 @@ namespace BudgetAnimancer
                 fadeouts.Add(CurrentState.Index);
             }
             CurrentState = nextState;
-            blendDuration = duration;
+            this.blendDuration = blendDuration;
             blendTime = 0f;
 
             CurrentState.Reset();
+
+            if (fadeouts.Count == 0)
+            {
+                Mixer.SetInputWeight(CurrentState.Index, 1);
+            }
         }
 
+        /// <summary>
+        /// Blend from the old state(s) to a new one. Returns if the CurrentState is null or if the 
+        /// fadeouts hashset is empty. Otherwise slowly decreases the weights of all states in the hashset, 
+        /// while increasing the weight of the current state. All states in fadeouts which have weight 0 are
+        /// removed from the set.
+        /// </summary>
+        /// <param name="deltaTime">Time since last call.</param>
         protected void HandleBlend(float deltaTime)
         {
             if (CurrentState == null) return;
-            // If no previous attackState, just make current fully active
-            if (fadeouts.Count == 0)
-            {
-                Mixer.SetInputWeight(CurrentState.Index, 1f);
-                return;
-            }
+
+            if (fadeouts.Count == 0) return;
 
             // Update blend
             blendTime += deltaTime;
             float t = blendDuration > 0f ? Mathf.Clamp01(blendTime / blendDuration) : 1f;
 
-            // Blend finished
-            if (t >= 1f)
-            {
-                foreach (var index in fadeouts)
-                {
-                    Mixer.SetInputWeight(index, 0);
-                }
-                fadeouts.Clear();
-                Mixer.SetInputWeight(CurrentState.Index, 1f);
-                return;
-            }
-
+            //decrease the weights of all previous states
             foreach (var index in fadeouts.ToList())
             {
                 var weight = 1 - t;
@@ -209,6 +247,10 @@ namespace BudgetAnimancer
             Mixer.SetInputWeight(CurrentState.Index, t);
         }
 
+        /// <summary>
+        /// Calls HandleBlend and Update on the current state.
+        /// </summary>
+        /// <param name="deltaTime">Time since last call.</param>
         public void Update(float deltaTime)
         {
             HandleBlend(deltaTime);

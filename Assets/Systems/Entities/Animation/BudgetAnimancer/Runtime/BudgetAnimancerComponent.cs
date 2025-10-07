@@ -9,7 +9,10 @@ namespace BudgetAnimancer
         protected PlayableGraph graph;
         protected AnimationLayerMixerPlayable layerMixer;
         protected Animator animator;
-        public List<Layer> Layers { get; protected set; } = new();
+        /// <summary>
+        /// Animation layers.
+        /// </summary>
+        public List<Layer> Layers { get; } = new();
         protected void Awake()
         {
             animator = transform.root.GetComponentInChildren<Animator>();
@@ -28,6 +31,10 @@ namespace BudgetAnimancer
             graph.Play();
         }
 
+        /// <summary>
+        /// Make sure a layer of given index exists. Will create layers until Layers.count is equal to index.
+        /// </summary>
+        /// <param name="index">The index that we need to ensure a layer at.</param>
         public void EnsureLayer(int index)
         {
             while (Layers.Count <= index)
@@ -40,15 +47,37 @@ namespace BudgetAnimancer
             }
         }
 
+        /// <summary>
+        /// Returns the coresponding animation state on layer 0. Calls EnsureLayer(0).
+        /// </summary>
+        /// <param name="clip">The animation clip.</param>
+        /// <returns>The created animation state.</returns>
         public AnimState CreateOrGetState(AnimationClip clip)
         {
+            if (clip == null)
+            {
+                Debug.LogError($"{this} cannot create animation state from null clip!");
+                return null;
+            }
             EnsureLayer(0);
             return Layers[0].CreateOrGetAnimationState(clip);
         }
 
-        public AnimState Play(AnimationClip clip, float duration = 0.25f)
+        /// <summary>
+        /// Play a certain animation on layer 0. Calls EnsureLayer(0).
+        /// </summary>
+        /// <param name="clip">The animation clip.</param>
+        /// <param name="blendDuration">How long should blending take.</param>
+        /// <returns>The corresponding animation state.</returns>
+        public AnimState Play(AnimationClip clip, float blendDuration = 0.25f)
         {
-            return Layers[0].Play(clip, duration);
+            if (clip == null)
+            {
+                Debug.LogError($"{this} cannot create animation state from null clip!");
+                return null;
+            }
+            EnsureLayer(0);
+            return Layers[0].Play(clip, blendDuration);
         }
 
         void Update()
@@ -59,6 +88,7 @@ namespace BudgetAnimancer
                 layer.Update(dt);
             }
         }
+
         void OnDestroy()
         {
             graph.Destroy();

@@ -10,13 +10,9 @@ namespace FSM
     }
     public class State : MonoBehaviour
     {
-        /// <summary>
-        /// Normally a state can only be replaced by a state with equal/higher priority.
-        /// </summary>
+        [Tooltip("Normally a state can only be replaced by a state with equal/higher priority.")]
         [field: SerializeField] public Priority Priority { get; protected set; }
-        /// <summary>
-        /// If true, can reenter this state while it is executing.
-        /// </summary>
+        [Tooltip("If true, can reenter this state while it is executing.")]
         [field: SerializeField] public bool CanInterruptSelf { get; protected set; }
         /// <summary>
         /// Called when switching to this state.

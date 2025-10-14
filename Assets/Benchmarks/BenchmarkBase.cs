@@ -22,7 +22,7 @@ namespace Benchmarks
 
             for (int k = 0; k < functions.Count; k++)
             {
-                long totalCached = 0;
+                long totalTicks = 0;
                 for (int iter = 0; iter < iterations; iter++)
                 {
                     Stopwatch sw = Stopwatch.StartNew();
@@ -31,9 +31,9 @@ namespace Benchmarks
                         functions[k].Item2();
                     }
                     sw.Stop();
-                    totalCached += sw.ElapsedTicks;
+                    totalTicks += sw.ElapsedTicks;
                 }
-                UnityEngine.Debug.Log($"{functions[k].Item1} average time: {totalCached / (float)iterations / Stopwatch.Frequency * 1000f} ms");
+                UnityEngine.Debug.Log($"{functions[k].Item1} average time: {totalTicks / (float)iterations / Stopwatch.Frequency * 1000f} ms");
             }
         }
     }

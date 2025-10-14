@@ -7,10 +7,8 @@ namespace FSM
         /// <summary>
         /// The current state of the FSM.
         /// </summary>
-        [field: SerializeField] public State CurrentState { get; protected set; }
-        /// <summary>
-        /// The default state of the FSM.
-        /// </summary>
+        public State CurrentState { get; protected set; }
+        [Tooltip("The default state of the FSM.")]
         [field: SerializeField] public State DefaultState { get; protected set; }
         public StateMachine(State defaultState)
         {

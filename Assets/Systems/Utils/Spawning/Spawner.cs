@@ -11,7 +11,7 @@ namespace Spawning
         {
             return Spawn(objectData, position, Quaternion.identity, executeBeforeSpawn);
         }
-        public Spawnable Spawn(SpawnableData objectData, Vector3 position, Quaternion rotation, System.Action<Spawnable> executeBeforeSpawn = null)
+        public virtual Spawnable Spawn(SpawnableData objectData, Vector3 position, Quaternion rotation, System.Action<Spawnable> executeBeforeSpawn = null)
         {
             var s = Obtain(objectData);
             executeBeforeSpawn?.Invoke(s);

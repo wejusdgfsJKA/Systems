@@ -19,7 +19,12 @@ namespace Spawning
             s.gameObject.SetActive(true);
             return s;
         }
-        public virtual Spawnable Obtain(SpawnableData objectData)
+        /// <summary>
+        /// Get a spawnable object. In this version we just instantiate it.
+        /// </summary>
+        /// <param name="objectData">The data containing the prefab and used for initialization.</param>
+        /// <returns>The spawned object.</returns>
+        protected virtual Spawnable Obtain(SpawnableData objectData)
         {
             var s = Instantiate(objectData.Prefab);
             s.Initialize(objectData);

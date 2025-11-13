@@ -4,7 +4,7 @@ namespace Animation
 {
     public class AnimationEventReceiver : MonoBehaviour
     {
-        [Tooltip("Don't put two events with the same ID! Only the first " +
+        [Tooltip("Don't put two events with the same id! Only the first " +
             "will be executed!")]
         [SerializeField] protected AnimEvent[] events;
         protected virtual void Awake()

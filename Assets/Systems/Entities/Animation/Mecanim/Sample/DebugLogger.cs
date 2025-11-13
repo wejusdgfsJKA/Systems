@@ -5,15 +5,15 @@ namespace Sample
     {
         public void Debug1()
         {
-            Debug.Log($"{transform} received event with ID 1.");
+            Debug.Log($"{transform} received event with id 1.");
         }
         public void Debug2()
         {
-            Debug.Log($"{transform} received event with ID 2.");
+            Debug.Log($"{transform} received event with id 2.");
         }
         public void Debug3()
         {
-            Debug.Log($"{transform} received event with ID 3.");
+            Debug.Log($"{transform} received event with id 3.");
         }
     }
 }

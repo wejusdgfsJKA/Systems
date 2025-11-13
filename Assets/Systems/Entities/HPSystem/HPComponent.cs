@@ -58,7 +58,7 @@ namespace HP
         /// <param name="dmg">Damage Event.</param>
         public void TakeDamage(TakeDamage dmg)
         {
-            CurrentHealth -= CalculateDamage(dmg);
+            CurrentHealth = Mathf.Clamp(CurrentHealth - CalculateDamage(dmg), 0, MaxHealth);
             if (CurrentHealth <= 0)
             {
                 OnDeath?.Invoke();

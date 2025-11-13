@@ -25,7 +25,7 @@ namespace EventBus
         /// <summary>
         /// Maps the assembly name to the corresponding AssemblyType.
         /// </summary>
-        /// <param name="assemblyName">ID of the assembly.</param>
+        /// <param name="assemblyName">id of the assembly.</param>
         /// <returns>AssemblyType corresponding to the assembly name, null if no match.</returns>
         static AssemblyType? GetAssemblyType(string assemblyName)
         {
@@ -42,8 +42,8 @@ namespace EventBus
         /// <summary>
         /// Method looks through a given assembly and adds types that fulfill a certain interface to the provided collection.
         /// </summary>
-        /// <param name="assemblyTypes">Array of ID objects representing all the types in the assembly.</param>
-        /// <param name="interfaceType">ID representing the interface to be checked against.</param>
+        /// <param name="assemblyTypes">Array of id objects representing all the types in the assembly.</param>
+        /// <param name="interfaceType">id representing the interface to be checked against.</param>
         /// <param name="results">Collection of types where result should be added.</param>
         static void AddTypesFromAssembly(Type[] assemblyTypes, Type interfaceType, ICollection<Type> results)
         {

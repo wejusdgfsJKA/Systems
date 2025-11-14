@@ -13,8 +13,7 @@ namespace UtilityAI
         {
             var tr = context.GetData<Transform>(ContextKey);
             if (tr == null) return 0;
-            float dist = Vector3.Distance(context.Transform.position, tr.position);
-            if (dist < tr.localScale.x / 2 + context.Transform.localScale.x / 2) return 0;
+            float dist = Vector3.Distance(context.Transform.position, tr.position) - tr.localScale.x / 2;
             if (AllowBeyondMaxDistance || dist <= MaxDistance)
             {
                 float result = Curve.Evaluate(dist / MaxDistance);

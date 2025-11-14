@@ -6,6 +6,7 @@ namespace Effects
     public class HealArea : Taggable<AreaType>
     {
         [SerializeField] int healAmount = 1;
+        [SerializeField] float healInterval = 1;
         RemoveEffect removeHeal;
         private void Awake()
         {
@@ -15,7 +16,7 @@ namespace Effects
         private void OnTriggerEnter(Collider other)
         {
             HealableHPComponent.ReceiveHeal(other.transform.root, new(transform.GetInstanceID(),
-                float.PositiveInfinity, 1, healAmount));
+                float.PositiveInfinity, healInterval, healAmount));
             //EventBus<ReceiveHealOverTime>.Raise(other.transform.root.GetInstanceID(), @receiveHeal);
         }
         private void OnTriggerExit(Collider other)

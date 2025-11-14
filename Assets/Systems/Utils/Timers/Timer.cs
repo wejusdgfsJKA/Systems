@@ -16,22 +16,22 @@ namespace Timers
 
         public float Progress => Mathf.Clamp(CurrentTime / initialTime, 0, 1);
 
-        public Action OnTimerStart = delegate { };
-        public Action OnTimerStop = delegate { };
+        public Action OnTimerStart;
+        public Action OnTimerStop;
 
-        protected Timer(float value)
+        protected Timer(float initialTime)
         {
-            initialTime = value;
+            this.initialTime = initialTime;
         }
 
         public void Start()
         {
-            CurrentTime = initialTime;
+            Reset();
             if (!IsRunning)
             {
                 IsRunning = true;
                 TimerManager.RegisterTimer(this);
-                OnTimerStart.Invoke();
+                OnTimerStart?.Invoke();
             }
         }
 
@@ -41,7 +41,7 @@ namespace Timers
             {
                 IsRunning = false;
                 TimerManager.DeregisterTimer(this);
-                OnTimerStop.Invoke();
+                OnTimerStop?.Invoke();
             }
         }
 
@@ -66,8 +66,8 @@ namespace Timers
             Dispose(false);
         }
 
-        // Call Dispose to ensure deregistration of the timer from the TimerManager
-        // when the consumer is done with the timer or being destroyed
+        // Call Dispose to ensure deregistration of the countdown2 from the TimerManager
+        // when the consumer is done with the countdown2 or being destroyed
         public void Dispose()
         {
             Dispose(true);

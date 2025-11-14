@@ -1,23 +1,26 @@
-using UnityEngine;
 using Timers;
+using UnityEngine;
 public class TimerTest : MonoBehaviour
 {
-    Timer countdown = new CountdownTimer(3),timer=new CountdownTimer(5);
+    Timer countdown1 = new CountdownTimer(3), countdown2 = new CountdownTimer(5);
+    IntervalTimer interval1 = new(float.PositiveInfinity, 1);
     void Start()
     {
-        countdown.OnTimerStart += () => Debug.Log("Timer1 started.");
-        countdown.OnTimerStop += () => Debug.Log("Timer1 stopped.");
-        timer.OnTimerStart += () => Debug.Log("Timer2 started.");
-        timer.OnTimerStop += () => Debug.Log("Timer2 stopped.");
+        interval1.OnInterval += () => Debug.Log("Interval");
+        countdown1.OnTimerStart += () => Debug.Log("Timer1 started.");
+        countdown1.OnTimerStop += () => Debug.Log("Timer1 stopped.");
+        countdown2.OnTimerStart += () => Debug.Log("Timer2 started.");
+        countdown2.OnTimerStop += () => Debug.Log("Timer2 stopped.");
     }
     public bool b;
     private void Update()
     {
-        if(b)
+        if (b)
         {
             b = false;
-            countdown.Start();
-            timer.Start();
+            interval1.Start();
+            countdown1.Start();
+            countdown2.Start();
         }
     }
 

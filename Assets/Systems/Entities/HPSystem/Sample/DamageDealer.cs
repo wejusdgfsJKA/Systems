@@ -8,14 +8,14 @@ namespace Sample
         public Transform target;
         public Collider coll;
         public int damage;
-        public bool c;
         void Update()
         {
             if (b)
             {
-                c = HPComponent.TakeDamage(target, new TakeDamage(damage, transform, coll));
+                DealDamage();
                 b = false;
             }
         }
+        public void DealDamage() => Debug.Log(HPComponent.TakeDamage(target, new TakeDamage(damage, transform, coll)));
     }
 }

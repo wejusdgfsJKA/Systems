@@ -6,27 +6,25 @@ namespace Timers
     public class IntervalTimer : Timer
     {
         readonly float interval;
-        float nextInterval;
+        float lastInterval;
 
-        public Action OnInterval = delegate { };
+        public Action OnInterval;
 
         public IntervalTimer(float totalTime, float intervalSeconds) : base(totalTime)
         {
             interval = intervalSeconds;
-            nextInterval = totalTime - interval;
         }
 
         public override void Tick()
         {
-            if (IsRunning && CurrentTime > 0)
+            if (IsRunning && CurrentTime <= initialTime)
             {
-                CurrentTime -= Time.deltaTime;
+                CurrentTime += Time.deltaTime;
 
-                // Fire interval events as long as thresholds are crossed
-                while (CurrentTime <= nextInterval && nextInterval >= 0)
+                while (CurrentTime - lastInterval >= interval)
                 {
-                    OnInterval.Invoke();
-                    nextInterval -= interval;
+                    lastInterval += interval;
+                    OnInterval?.Invoke();
                 }
             }
 
@@ -36,7 +34,7 @@ namespace Timers
                 Stop();
             }
         }
-
-        public override bool IsFinished => CurrentTime <= 0;
+        public override void Reset() => CurrentTime = 0;
+        public override bool IsFinished => CurrentTime >= initialTime;
     }
 }

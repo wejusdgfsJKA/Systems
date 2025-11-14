@@ -5,7 +5,7 @@ namespace Effects
 {
     public class HealArea : Taggable<AreaType>
     {
-        [SerializeField] int healAmount = 5;
+        [SerializeField] int healAmount = 1;
         ReceiveHealOverTime @event;
         RemoveEffect removeEffect;
         private void Awake()

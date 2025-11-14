@@ -21,14 +21,16 @@ namespace HP
                 {
                     currentHealth = value;
                     OnHealthChanged?.Invoke(currentHealth / MaxHealth);
+                    OnHealthChangedString?.Invoke((currentHealth / MaxHealth).ToString());
                 }
             }
         }
         /// <summary>
         /// Fires when this entity's health value changes. Has as parameter the 
-        /// entity's current health.
+        /// entity's current health percentage in float format.
         /// </summary>
         public UnityEvent<float> OnHealthChanged;
+        public UnityEvent<string> OnHealthChangedString;
         /// <summary>
         /// Fires when this entity dies.
         /// </summary>

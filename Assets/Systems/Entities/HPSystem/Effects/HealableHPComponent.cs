@@ -15,7 +15,7 @@ namespace HP
         }
         public void Heal(int amount)
         {
-            currentHealth = Mathf.Clamp(currentHealth + amount, 0, MaxHealth);
+            CurrentHealth += amount;
         }
         public static bool ReceiveHeal(Transform transform, ReceiveHealOverTime heal)
         {
@@ -33,7 +33,7 @@ namespace HP
         {
             if (!gameObject.activeSelf) return;
             effect.OnCompleted += RemoveEffect;
-            activeEffects.Add(effect.ID, effect);
+            activeEffects.TryAdd(effect.ID, effect);
             effect.Apply(this);
             OnDeath.AddListener(RemoveAllEffects);
         }
@@ -59,6 +59,7 @@ namespace HP
             if (activeEffects.TryGetValue(effectID, out var effect))
             {
                 effect.OnCompleted -= RemoveEffect;
+                effect.Cancel();
                 activeEffects.Remove(effectID);
             }
         }

@@ -114,9 +114,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 28717894133225911, guid: 8f2af08f5cc87f84880b88c4b0ce6d72, type: 3}
+    - {fileID: 507291240045069982, guid: 8f2af08f5cc87f84880b88c4b0ce6d72, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4247135981312917775, guid: 8f2af08f5cc87f84880b88c4b0ce6d72, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 144166443044080104}
     - targetCorrespondingSourceObject: {fileID: 3957126422370038137, guid: 8f2af08f5cc87f84880b88c4b0ce6d72, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1464420125369452134}
@@ -170,12 +174,75 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &631027664030592332 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4247135981312917775, guid: 8f2af08f5cc87f84880b88c4b0ce6d72, type: 3}
+  m_PrefabInstance: {fileID: 3616680759417580611}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &144166443044080104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631027664030592332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab9ddb9ac19fcb041acf63fb610af981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HP.HealableHPComponent
+  <MaxHealth>k__BackingField: 5
+  currentHealth: 0
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1206208626936864452}
+        m_TargetAssemblyTypeName: KnightBrain, Assembly-CSharp
+        m_MethodName: SetHPPercentage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnHealthChangedString:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4051284755476729832}
+        m_TargetAssemblyTypeName: FighterController, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1206208626936864452 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2489461072667767431, guid: 8f2af08f5cc87f84880b88c4b0ce6d72, type: 3}
+  m_PrefabInstance: {fileID: 3616680759417580611}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631027664030592332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdf273a030de9df4ca521bef2942bd7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KnightBrain
 --- !u!114 &3667565099549595881 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 59893679155131562, guid: 8f2af08f5cc87f84880b88c4b0ce6d72, type: 3}
   m_PrefabInstance: {fileID: 3616680759417580611}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 631027664030592332}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 274735d17facfb34486343bb077c6312, type: 3}

@@ -463,6 +463,9 @@ MonoBehaviour:
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
+  OnHealthChangedString:
+    m_PersistentCalls:
+      m_Calls: []
   OnDeath:
     m_PersistentCalls:
       m_Calls:
@@ -756,6 +759,9 @@ MonoBehaviour:
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
+  OnHealthChangedString:
+    m_PersistentCalls:
+      m_Calls: []
   OnDeath:
     m_PersistentCalls:
       m_Calls:
@@ -954,6 +960,9 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 2
   currentHealth: 0
   OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthChangedString:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
@@ -1193,6 +1202,9 @@ MonoBehaviour:
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
+  OnHealthChangedString:
+    m_PersistentCalls:
+      m_Calls: []
   OnDeath:
     m_PersistentCalls:
       m_Calls:
@@ -1262,6 +1274,9 @@ MonoBehaviour:
   <MaxHealth>k__BackingField: 2
   currentHealth: 0
   OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHealthChangedString:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
@@ -1467,7 +1482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealArea
   currentTags: 00
-  healAmount: 5
+  healAmount: 1
 --- !u!54 &1718870783
 Rigidbody:
   m_ObjectHideFlags: 0

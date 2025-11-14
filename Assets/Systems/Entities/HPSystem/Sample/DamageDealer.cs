@@ -16,6 +16,6 @@ namespace Sample
                 b = false;
             }
         }
-        public void DealDamage() => Debug.Log(HPComponent.TakeDamage(target, new TakeDamage(damage, transform, coll)));
+        public void DealDamage() => HPComponent.TakeDamage(target, new TakeDamage(damage, transform, coll));
     }
 }

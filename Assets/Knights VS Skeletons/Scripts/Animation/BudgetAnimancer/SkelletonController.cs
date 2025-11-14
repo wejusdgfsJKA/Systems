@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(BudgetAnimancerComponent))]
 public class SkelletonController : MonoBehaviour
 {
     public BudgetAnimancerComponent Component { get; private set; }

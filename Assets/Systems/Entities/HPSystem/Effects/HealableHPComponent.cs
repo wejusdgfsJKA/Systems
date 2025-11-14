@@ -17,17 +17,23 @@ namespace HP
         {
             CurrentHealth += amount;
         }
+        /// <summary>
+        /// Attempt to apply a heal over time effect to a transform.
+        /// </summary>
+        /// <param name="transform"></param>
+        /// <param name="heal"></param>
+        /// <returns>True if the effect could be added.</returns>
         public static bool ReceiveHeal(Transform transform, ReceiveHealOverTime heal)
         {
             return EventBus<ReceiveHealOverTime>.Raise(transform.GetInstanceID(), heal);
         }
-        public static bool RemoveHeal(Transform transform, RemoveEffect @event)
+        public static bool RemoveEffect(Transform transform, RemoveEffect @event)
         {
             return EventBus<RemoveEffect>.Raise(transform.GetInstanceID(), @event);
         }
         public void ReceiveHeal(ReceiveHealOverTime heal)
         {
-            ApplyEffect(new HealOverTimeEffect(heal.ID, heal.Duration, heal.TickInterval, heal.HealAmount));
+            ApplyEffect(heal.Effect);
         }
         public void ApplyEffect(IEffect<IHealable> effect)
         {
@@ -46,14 +52,8 @@ namespace HP
             }
             activeEffects.Clear();
         }
-        protected void RemoveEffect(RemoveEffect @event)
-        {
-            RemoveEffect(@event.EffectID);
-        }
-        protected void RemoveEffect(IEffect<IHealable> effect)
-        {
-            RemoveEffect(effect.ID);
-        }
+        protected void RemoveEffect(RemoveEffect @event) => RemoveEffect(@event.EffectID);
+        protected void RemoveEffect(IEffect<IHealable> effect) => RemoveEffect(effect.ID);
         protected void RemoveEffect(int effectID)
         {
             if (activeEffects.TryGetValue(effectID, out var effect))

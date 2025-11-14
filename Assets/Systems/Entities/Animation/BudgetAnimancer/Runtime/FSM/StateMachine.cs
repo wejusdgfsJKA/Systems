@@ -44,8 +44,7 @@ namespace FSM
         /// <returns>True if the transition succeeded.</returns>
         public bool ReturnToDefault(bool force = false)
         {
-            if (force) return ChangeState(DefaultState);
-            return ForceSetState(DefaultState);
+            return force ? ForceSetState(DefaultState) : ChangeState(DefaultState);
         }
         /// <summary>
         /// Forcefully change to a new state. Will call Exit on the old state and Enter on the new State.

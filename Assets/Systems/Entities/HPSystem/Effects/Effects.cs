@@ -10,17 +10,12 @@ namespace Effects
     }
     public readonly struct ReceiveHealOverTime : IEvent
     {
-        public readonly float Duration;
-        public readonly float TickInterval;
-        public readonly int HealAmount;
-        public readonly int ID;
+        public readonly HealOverTimeEffect Effect;
         public ReceiveHealOverTime(int source, float duration, float tickInterval, int healAmount)
         {
-            ID = source;
-            Duration = duration;
-            TickInterval = tickInterval;
-            HealAmount = healAmount;
+            Effect = new(source, duration, tickInterval, healAmount);
         }
+        public ReceiveHealOverTime(HealOverTimeEffect effect) => Effect = effect;
     }
     public interface IHealable
     {

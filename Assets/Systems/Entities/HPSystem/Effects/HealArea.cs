@@ -1,4 +1,4 @@
-using EventBus;
+using HP;
 using Tags;
 using UnityEngine;
 namespace Effects
@@ -6,21 +6,23 @@ namespace Effects
     public class HealArea : Taggable<AreaType>
     {
         [SerializeField] int healAmount = 1;
-        ReceiveHealOverTime @event;
-        RemoveEffect removeEffect;
+        ReceiveHealOverTime receiveHeal;
+        RemoveEffect removeHeal;
         private void Awake()
         {
             currentTags ??= new() { AreaType.HealArea };
-            @event = new(transform.GetInstanceID(), float.PositiveInfinity, 1, healAmount);
-            removeEffect = new(transform.GetInstanceID());
+            receiveHeal = new(transform.GetInstanceID(), float.PositiveInfinity, 1, healAmount);
+            removeHeal = new(transform.GetInstanceID());
         }
         private void OnTriggerEnter(Collider other)
         {
-            EventBus<ReceiveHealOverTime>.Raise(other.transform.root.GetInstanceID(), @event);
+            HealableHPComponent.ReceiveHeal(other.transform.root, receiveHeal);
+            //EventBus<ReceiveHealOverTime>.Raise(other.transform.root.GetInstanceID(), @receiveHeal);
         }
         private void OnTriggerExit(Collider other)
         {
-            EventBus<RemoveEffect>.Raise(other.transform.root.GetInstanceID(), removeEffect);
+            HealableHPComponent.RemoveHeal(other.transform.root, removeHeal);
+            //EventBus<RemoveEffect>.Raise(other.transform.root.GetInstanceID(), removeHeal);
         }
     }
 }

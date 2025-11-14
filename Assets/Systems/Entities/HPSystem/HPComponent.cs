@@ -8,6 +8,9 @@ namespace HP
     {
         [field: SerializeField] public int MaxHealth { get; set; }
         [SerializeField] protected float currentHealth;
+        /// <summary>
+        /// Current health of the object. Invokes OnHealthChanged and its string counterpart when the value changes.
+        /// </summary>
         public float CurrentHealth
         {
             get

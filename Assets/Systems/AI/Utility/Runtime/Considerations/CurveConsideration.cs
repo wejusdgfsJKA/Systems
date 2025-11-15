@@ -7,11 +7,11 @@ namespace UtilityAI
     {
         public AnimationCurve Curve;
         public ContextDataKeys ContextKey;
-        public bool returnZeroForInfinity = true;
+        public bool ReturnZeroForInfinity = true;
         public override float Evaluate(Context context)
         {
             var value = context.GetData<float>(ContextKey);
-            if (returnZeroForInfinity && (value == Mathf.Infinity || value == Mathf.NegativeInfinity)) return 0;
+            if (ReturnZeroForInfinity && (value == Mathf.Infinity || value == Mathf.NegativeInfinity)) return 0;
             float result = Curve.Evaluate(value);
             return Mathf.Clamp01(result);
         }

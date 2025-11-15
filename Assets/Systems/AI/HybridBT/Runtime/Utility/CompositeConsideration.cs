@@ -1,16 +1,15 @@
 using UnityEngine;
 
-namespace UtilityAI
+namespace HybridBT
 {
-    [CreateAssetMenu(menuName = "UtilityAI/Considerations/Composite")]
-    public class CompositeConsideration : Consideration
+    public class CompositeConsideration<T> : Consideration<T>
     {
         public enum OperationType { Average, Multiply, Add, Subtract, Divide, Max, Min }
         public bool allMustBeNonZero = true;
         public OperationType operation = OperationType.Max;
-        public Consideration[] considerations;
+        public Consideration<T>[] considerations;
 
-        public override float Evaluate(Context context)
+        public override float Evaluate(Context<T> context)
         {
             if (considerations == null || considerations.Length == 0) return 0f;
 

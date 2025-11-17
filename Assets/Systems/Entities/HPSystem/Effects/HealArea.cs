@@ -17,12 +17,12 @@ namespace Effects
         {
             HealableHPComponent.ReceiveHeal(other.transform.root, new(transform.GetInstanceID(),
                 float.PositiveInfinity, healInterval, healAmount));
-            //EventBus<ReceiveHealOverTime>.Raise(other.transform.root.GetInstanceID(), @receiveHeal);
+            //EventBus<ReceiveHealOverTime>.Raise(other.transform.Root.GetInstanceID(), @receiveHeal);
         }
         private void OnTriggerExit(Collider other)
         {
             HealableHPComponent.RemoveEffect(other.transform.root, removeHeal);
-            //EventBus<RemoveEffect>.Raise(other.transform.root.GetInstanceID(), removeHeal);
+            //EventBus<RemoveEffect>.Raise(other.transform.Root.GetInstanceID(), removeHeal);
         }
     }
 }

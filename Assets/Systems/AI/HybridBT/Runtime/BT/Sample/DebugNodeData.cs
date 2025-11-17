@@ -7,6 +7,10 @@ namespace Sample
     public class DebugNodeData : LeafNodeData<TestBTKeys>
     {
         public string Text;
-        protected override Action<Context<TestBTKeys>> onEvaluate => (c) => Debug.Log(Text);
+        protected override Func<Context<TestBTKeys>, NodeState> onEvaluate => (context) =>
+                {
+                    Debug.Log(Text);
+                    return NodeState.RUNNING;
+                };
     }
 }

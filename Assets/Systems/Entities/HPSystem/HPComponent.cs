@@ -50,7 +50,7 @@ namespace HP
         /// <summary>
         /// Attempt to deal damage to an object.
         /// </summary>
-        /// <param name="transform">The object whose root that we are trying to damage.</param>
+        /// <param name="transform">The object whose Root that we are trying to damage.</param>
         /// <param name="dmg">The damage Event.</param>
         /// <returns>True if successfully dealt damage to the object.</returns>
         public static bool TakeDamage(Transform transform, TakeDamage dmg)

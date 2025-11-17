@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97ef689ffedc85c419d584537b46f283, type: 3}
-  m_Name: Root
-  m_EditorClassIdentifier: Assembly-CSharp::Sample.TestUtilitySelector
-  Name: Root
-  Conditions: []
-  Services: []
-  Children: []
+  m_Script: {fileID: 11500000, guid: 0a071782016d0834eb036d6df02243cf, type: 3}
+  m_Name: HipfireValue
+  m_EditorClassIdentifier: Assembly-CSharp::Sample.TestConstantConsideration
+  Value: 2

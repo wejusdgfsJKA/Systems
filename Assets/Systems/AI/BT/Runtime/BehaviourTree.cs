@@ -79,7 +79,7 @@ namespace BT
         /// <summary>
         /// Get information about the BT.
         /// </summary>
-        /// <returns>Text containing information about the root and its subtrees.</returns>
+        /// <returns>Text containing information about the Root and its subtrees.</returns>
         public string GetDebugText()
         {
             return root.GetDebugText();

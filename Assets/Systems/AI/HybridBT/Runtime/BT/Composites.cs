@@ -17,11 +17,31 @@ namespace HybridBT
         {
 
         }
+        /// <summary>
+        /// Add the child to a list.
+        /// </summary>
+        /// <param name="child"></param>
+        /// <exception cref="ArgumentNullException">Thrown if the method was passed a null child.</exception>
         public override void AddChild(Node<T> child)
         {
             if (child == null) throw new ArgumentNullException($"{this} was passed a null child!");
             children.Add(child);
             child.Parent = this;
+        }
+        /// <summary>
+        /// Return data about this composite. Same as the one for Node, but also returns the children 
+        /// below, each on a separate line.
+        /// </summary>
+        /// <param name="indentation"></param>
+        /// <returns></returns>
+        public override string GetInfo(int indentation)
+        {
+            var s = base.GetInfo(indentation);
+            for (int i = 0; i < children.Count; i++)
+            {
+                s += "\n" + children[i].GetInfo(indentation + 1);
+            }
+            return s;
         }
     }
     public abstract class RegularCompositeData<T> : NodeData<T>
@@ -41,6 +61,10 @@ namespace HybridBT
         {
             onEnter += () => currentChild = 0;
         }
+        /// <summary>
+        /// Execute all children in sequence. Abort on child FAILURE.
+        /// </summary>
+        /// <param name="context"></param>
         protected override void Execute(Context<T> context)
         {
             children[currentChild].Evaluate(context);
@@ -73,6 +97,11 @@ namespace HybridBT
         {
             onEnter += () => prevChild = -1;
         }
+        /// <summary>
+        /// Executes the first child which does not fail. If previously had a lower priority child, 
+        /// it will Abort it.
+        /// </summary>
+        /// <param name="context"></param>
         protected override void Execute(Context<T> context)
         {
             for (int i = 0; i < children.Count; i++)
@@ -110,11 +139,17 @@ namespace HybridBT
             AddChild(leftChild);
             AddChild(rightChild);
         }
+        /// <summary>
+        /// Executes the first child. If not FAILURE, will evaluate the second, otherwise if 
+        /// the second is RUNNING it will Abort it.
+        /// </summary>
+        /// <param name="context"></param>
         protected override void Execute(Context<T> context)
         {
             children[0].Evaluate(context);
             State = children[0].State;
             if (State != NodeState.FAILURE) children[1].Evaluate(context);
+            else if (children[1].State == NodeState.RUNNING) children[1].Abort();
         }
     }
     public class ParallelNodeData<T> : NodeData<T>

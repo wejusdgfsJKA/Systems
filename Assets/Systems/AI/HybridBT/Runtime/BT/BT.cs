@@ -5,10 +5,10 @@ namespace HybridBT
     public abstract class BT<T> : MonoBehaviour
     {
         protected Context<T> blackboard;
-        public NodeData<T> rootData;
+        [SerializeField] protected NodeData<T> rootData;
         [SerializeField] protected float tickInterval = 0.1f;
         protected WaitForSeconds wait;
-        protected Node<T> root;
+        public Node<T> Root { get; protected set; }
         protected void Awake()
         {
             wait = new WaitForSeconds(tickInterval);
@@ -19,7 +19,7 @@ namespace HybridBT
         protected abstract void SetupBlackboard();
         protected virtual void SetupTree()
         {
-            root = rootData.ObtainNode(blackboard);
+            Root = rootData.ObtainNode(blackboard);
         }
         protected virtual void OnEnable()
         {
@@ -30,7 +30,7 @@ namespace HybridBT
             while (gameObject.activeSelf)
             {
                 yield return wait;
-                root.Evaluate(blackboard);
+                Root.Evaluate(blackboard);
             }
         }
         public void SetValue(T key, object value) => blackboard.SetValue(key, value);

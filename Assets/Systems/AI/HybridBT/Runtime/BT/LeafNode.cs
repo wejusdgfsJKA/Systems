@@ -6,7 +6,7 @@ namespace HybridBT
     public class LeafNode<T> : Node<T>
     {
         protected Func<Context<T>, NodeState> onEvaluate;
-        public LeafNode(string name, Func<Context<T>, NodeState> onEvaluate, Action onEnter = null, Action onExit = null) : base(name, onEnter, onExit)
+        public LeafNode(string name, Func<Context<T>, NodeState> onEvaluate, Action<Context<T>> onEnter = null, Action onExit = null) : base(name, onEnter, onExit)
         {
             this.onEvaluate = onEvaluate;
         }

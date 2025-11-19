@@ -5,14 +5,14 @@ namespace HybridBT
 {
     public abstract class Composite<T> : Node<T>
     {
-        public Composite(string name, Action onEnter = null,
+        public Composite(string name, Action<Context<T>> onEnter = null,
             Action onExit = null) : base(name, onEnter, onExit) { }
         public abstract void AddChild(Node<T> child);
     }
     public abstract class RegularComposite<T> : Composite<T>
     {
         protected List<Node<T>> children = new();
-        public RegularComposite(string name, Action onEnter = null,
+        public RegularComposite(string name, Action<Context<T>> onEnter = null,
             Action onExit = null) : base(name, onEnter, onExit)
         {
 
@@ -57,9 +57,9 @@ namespace HybridBT
     public class Sequence<T> : RegularComposite<T>
     {
         protected int currentChild = 0;
-        public Sequence(string name, Action onEnter = null, Action onExit = null) : base(name, onEnter, onExit)
+        public Sequence(string name, Action<Context<T>> onEnter = null, Action onExit = null) : base(name, onEnter, onExit)
         {
-            onEnter += () => currentChild = 0;
+            onEnter += (_) => currentChild = 0;
         }
         /// <summary>
         /// Execute all children in sequence. Abort on child FAILURE.
@@ -93,9 +93,9 @@ namespace HybridBT
     public class Selector<T> : RegularComposite<T>
     {
         protected int prevChild = -1;
-        public Selector(string name, Action onEnter = null, Action onExit = null) : base(name, onEnter, onExit)
+        public Selector(string name, Action<Context<T>> onEnter = null, Action onExit = null) : base(name, onEnter, onExit)
         {
-            onEnter += () => prevChild = -1;
+            onEnter += (_) => prevChild = -1;
         }
         /// <summary>
         /// Executes the first child which does not fail. If previously had a lower priority child, 
@@ -133,7 +133,7 @@ namespace HybridBT
     }
     public class ParallelNode<T> : RegularComposite<T>
     {
-        public ParallelNode(string name, Node<T> leftChild, Node<T> rightChild, Action onEnter = null,
+        public ParallelNode(string name, Node<T> leftChild, Node<T> rightChild, Action<Context<T>> onEnter = null,
             Action onExit = null) : base(name, onEnter, onExit)
         {
             AddChild(leftChild);

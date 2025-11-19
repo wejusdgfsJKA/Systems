@@ -8,9 +8,9 @@ namespace HybridBT
     {
         protected int prevChild = -1;
         protected List<UtilityWrapper<T>> children = new();
-        public UtilitySelector(string name, Action onEnter = null, Action onExit = null) : base(name, onEnter, onExit)
+        public UtilitySelector(string name, Action<Context<T>> onEnter = null, Action onExit = null) : base(name, onEnter, onExit)
         {
-            onEnter += () => prevChild = -1;
+            onEnter += (_) => prevChild = -1;
         }
         /// <summary>
         /// Only accepts UtilityWrapper.

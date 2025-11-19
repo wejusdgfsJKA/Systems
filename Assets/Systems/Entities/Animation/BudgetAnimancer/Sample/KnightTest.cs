@@ -22,7 +22,7 @@ namespace Sample
             });
             attackState.OnEnd += () =>
             {
-                Debug.Log("Attack end");
+                Debug.Log("AttackEvent end");
                 SwitchToDefault();
             };
         }

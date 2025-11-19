@@ -28,8 +28,7 @@ namespace UtilityAI
         }
         public bool InvokeEvent(ContextEventKeys key)
         {
-            UnityEvent @event;
-            if (eventDictionary.TryGetValue(key, out @event))
+            if (eventDictionary.TryGetValue(key, out UnityEvent @event))
             {
                 @event?.Invoke();
             }

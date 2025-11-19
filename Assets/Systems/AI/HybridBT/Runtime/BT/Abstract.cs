@@ -29,7 +29,11 @@ namespace HybridBT
     }
     public abstract class BaseElementData : ScriptableObject
     {
-        public string Name;
+        [SerializeField] protected string myName;
+        public string Name
+        {
+            get => myName.Length > 0 ? myName : name;
+        }
     }
     public abstract class Node<T> : BaseElement
     {
@@ -98,10 +102,10 @@ namespace HybridBT
         /// <summary>
         /// Fires when the node is evaluated and not RUNNING.
         /// </summary>
-        protected Action onEnter;
+        protected Action<Context<T>> onEnter;
         protected readonly List<Condition> conditions = new();
         protected readonly List<Action<Context<T>>> services = new();
-        public Node(string name, Action onEnter, Action onExit) : base(name)
+        public Node(string name, Action<Context<T>> onEnter, Action onExit) : base(name)
         {
             this.onEnter = onEnter;
             this.onExit = onExit;
@@ -126,7 +130,7 @@ namespace HybridBT
             for (var i = 0; i < services.Count; i++) services[i](context);
             if (State != NodeState.RUNNING)
             {
-                onEnter?.Invoke();
+                onEnter?.Invoke(context);
                 State = NodeState.RUNNING;
             }
             Execute(context);
@@ -164,7 +168,7 @@ namespace HybridBT
     }
     public abstract class NodeData<T> : BaseElementData
     {
-        protected virtual Action onEnter { get => null; }
+        protected virtual Action<Context<T>> onEnter { get => null; }
         protected virtual Action onExit { get => null; }
         public List<ConditionData<T>> Conditions = new();
         public List<ServiceData<T>> Services = new();

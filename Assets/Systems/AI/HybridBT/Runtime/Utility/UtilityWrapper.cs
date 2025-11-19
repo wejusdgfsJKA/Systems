@@ -12,7 +12,8 @@ namespace HybridBT
         protected readonly Consideration<T> consideration;
         protected readonly Node<T> child;
         public float Score { get; protected set; }
-        public UtilityWrapper(string name, Node<T> child, Consideration<T> consideration, Action onEnter, Action onExit) : base(name, onEnter, onExit)
+        public UtilityWrapper(string name, Node<T> child, Consideration<T> consideration,
+            Action<Context<T>> onEnter, Action onExit) : base(name, onEnter, onExit)
         {
             this.child = child;
             child.Parent = this;

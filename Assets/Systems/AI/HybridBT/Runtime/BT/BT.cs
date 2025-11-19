@@ -7,11 +7,14 @@ namespace HybridBT
         protected Context<T> blackboard;
         [SerializeField] protected NodeData<T> rootData;
         [SerializeField] protected float tickInterval = 0.1f;
-        protected WaitForSeconds wait;
+        protected WaitForSeconds intervalWait;
+        [SerializeField] protected bool shouldRun = true;
+        protected WaitUntil pauseWait;
         public Node<T> Root { get; protected set; }
-        protected void Awake()
+        protected virtual void Awake()
         {
-            wait = new WaitForSeconds(tickInterval);
+            intervalWait = new WaitForSeconds(tickInterval);
+            pauseWait = new WaitUntil(() => shouldRun);
             blackboard = new(transform);
             SetupBlackboard();
             SetupTree();
@@ -29,10 +32,13 @@ namespace HybridBT
         {
             while (gameObject.activeSelf)
             {
-                yield return wait;
+                yield return intervalWait;
+                yield return pauseWait;
                 Root.Evaluate(blackboard);
             }
         }
-        public void SetValue(T key, object value) => blackboard.SetValue(key, value);
+        public void SetValue(T key, object value) => blackboard.SetData(key, value);
+        public void Pause() => shouldRun = false;
+        public void Resume() => shouldRun = true;
     }
 }

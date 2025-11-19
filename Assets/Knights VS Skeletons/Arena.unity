@@ -1483,6 +1483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HealArea
   currentTags: 00
   healAmount: 1
+  healInterval: 1
 --- !u!54 &1718870783
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1606,9 +1607,9 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 388438503}
   - {fileID: 626764517}
   - {fileID: 25434591}
-  - {fileID: 388438503}
   - {fileID: 1225648228}
   - {fileID: 774059644}
   - {fileID: 1235802521}

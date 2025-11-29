@@ -27,7 +27,7 @@ namespace BT
         /// </summary>
         protected BlackBoard<ID> localMemory = new();
         /// <summary>
-        /// This governs how often the BT updates.
+        /// This governs how often the TemplateBT updates.
         /// </summary>
         protected WaitForSeconds waitInterval;
         /// <summary>
@@ -63,7 +63,7 @@ namespace BT
             }
         }
         /// <summary>
-        /// Called on Awake, builds the BT.
+        /// Called on Awake, builds the TemplateBT.
         /// </summary>
         protected abstract void SetupTree();
         /// <summary>
@@ -77,7 +77,7 @@ namespace BT
             localMemory.SetData(key, value);
         }
         /// <summary>
-        /// Get information about the BT.
+        /// Get information about the TemplateBT.
         /// </summary>
         /// <returns>Text containing information about the Root and its subtrees.</returns>
         public string GetDebugText()

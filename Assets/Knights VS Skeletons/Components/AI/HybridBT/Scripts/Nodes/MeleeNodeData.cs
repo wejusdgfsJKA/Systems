@@ -23,5 +23,10 @@ namespace KvS.Hybrid
                 EventBus<AttackEvent>.Raise(context.Transform.GetInstanceID(), null);
                 return NodeState.RUNNING;
             };
+        protected override Node<KvS_Keys> GetNode(Context<KvS_Keys> context)
+        {
+            var agent = context.Agent;
+            return new LeafNode<KvS_Keys>(Name, onEvaluate, onEnter, () => agent.isStopped = false);
+        }
     }
 }

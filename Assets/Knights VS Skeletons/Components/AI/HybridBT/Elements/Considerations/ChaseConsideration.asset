@@ -26,7 +26,7 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0
+      value: 0.1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -38,5 +38,5 @@ MonoBehaviour:
     m_RotationOrder: 4
   ReturnZeroForInfinity: 1
   transformKey: 0
-  MaxDistance: 20
-  AllowBeyondMaxDistance: 0
+  MaxDistance: 100
+  AllowBeyondMaxDistance: 1

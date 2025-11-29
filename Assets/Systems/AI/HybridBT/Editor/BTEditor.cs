@@ -2,6 +2,10 @@ using UnityEditor;
 using UnityEngine;
 namespace HybridBT
 {
+    /// <summary>
+    /// Editor base class. If a concrete type is declared, the coresponding BT will show debug info in the inspector.
+    /// </summary>
+    /// <typeparam name="T">Key type.</typeparam>
     public class BTEditor<T> : Editor
     {
         void OnEnable()

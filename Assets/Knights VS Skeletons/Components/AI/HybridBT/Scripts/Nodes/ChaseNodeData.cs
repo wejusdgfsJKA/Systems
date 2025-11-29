@@ -19,8 +19,10 @@ namespace KvS.Hybrid
         };
         protected override Func<Context<KvS_Keys>, NodeState> onEvaluate => (context) =>
         {
+            var target = context.GetData<Transform>(KvS_Keys.Target);
+            if (target == null || !target.gameObject.activeSelf) return NodeState.FAILURE;
             var prevPos = context.GetData<Vector3>(KvS_Keys.PrevTargetPos);
-            var targetPos = context.GetData<Transform>(KvS_Keys.Target).position;
+            var targetPos = target.position;
             if ((prevPos - targetPos).magnitude > chaseErrorThreshold)
             {
                 context.Agent.destination = targetPos;

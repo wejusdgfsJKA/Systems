@@ -124,6 +124,7 @@ namespace HybridBT
                 if (!conditions[i].Evaluate(context))
                 {
                     if (State == NodeState.RUNNING) Abort();
+                    State = NodeState.FAILURE;
                     return;
                 }
             }

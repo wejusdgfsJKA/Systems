@@ -2,7 +2,7 @@ using UnityEngine;
 namespace HybridBT.Template
 {
     [CreateAssetMenu(menuName = "HybridBT/Template/ParallelData")]
-    public class ParallelData : ParallelNodeData<SomeEnum>
+    public class ParallelData : ParallelNodeData<BTKeys>
     {
 
     }

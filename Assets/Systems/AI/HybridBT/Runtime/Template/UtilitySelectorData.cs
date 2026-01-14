@@ -2,7 +2,7 @@ using UnityEngine;
 namespace HybridBT.Template
 {
     [CreateAssetMenu(menuName = "HybridBT/Template/UtilitySelectorData")]
-    public class UtilitySelectorData : UtilitySelectorData<SomeEnum>
+    public class UtilitySelectorData : UtilitySelectorData<BTKeys>
     {
 
     }

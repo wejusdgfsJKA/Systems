@@ -1,6 +1,6 @@
 namespace HybridBT.Template
 {
-    public abstract class TemplateBT : BT<SomeEnum>
+    public abstract class TemplateBT : BT<BTKeys>
     {
 
     }

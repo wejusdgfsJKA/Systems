@@ -5,7 +5,7 @@ namespace HybridBT.Template
     /// Without this, you won't get debug info for the hybrid BT in the inspector.
     /// </summary>
     [CustomEditor(typeof(TemplateBT))]
-    public class TemplateEditor : BTEditor<SomeEnum>
+    public class TemplateEditor : BTEditor<BTKeys>
     {
 
     }

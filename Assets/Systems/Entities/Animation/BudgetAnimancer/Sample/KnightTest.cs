@@ -11,11 +11,15 @@ namespace Sample
         public bool atk;
         protected AnimState attackState;
         protected LinearMixerState locomotionState;
+        public AvatarMask attackMask;
         private void Start()
         {
+            component.EnsureLayer(1, attackMask);
+            component.SetLayerWeight(1, 0);
             locomotionState = component.Layers[0].GetOrAddLinearMixer(locomotionData);
             SwitchToDefault();
-            attackState = component.CreateOrGetState(attack);
+
+            attackState = component.Layers[1].CreateOrGetAnimationState(attack);
             attackState.AddEvent(0.33f, () =>
             {
                 Debug.Log("Damage");
@@ -23,14 +27,16 @@ namespace Sample
             attackState.OnEnd += () =>
             {
                 Debug.Log("AttackEvent end");
-                SwitchToDefault();
+                //SwitchToDefault();
+                component.SetLayerWeight(1, 0, 0.5f);
             };
         }
         private void Update()
         {
             if (atk)
             {
-                component.Play(attack);
+                component.SetLayerWeight(1, 1, 0.5f);
+                component.Layers[1].Play(attack);
                 atk = false;
             }
             //if (Component.Layers[0].CurrentState == attackState)

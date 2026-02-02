@@ -36,7 +36,7 @@ using UnityEngine.InputSystem.Utilities;
 ///     {
 ///         m_Actions = new MyActions_Actions();              // Create asset object.
 ///         m_Player = m_Actions.Player;                      // Extract action map object.
-///         m_Player.AddCallbacks(this);                      // Register callback interface IPlayerActions.
+///         m_Player.AddCallbacks(this);                      // ComponentRegister callback interface IPlayerActions.
 ///     }
 ///
 ///     void OnDestroy()

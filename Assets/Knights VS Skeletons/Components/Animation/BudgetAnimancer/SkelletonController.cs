@@ -22,10 +22,10 @@ public class SkelletonController : MonoBehaviour
         attackState.Controller = this;
         deathState.Controller = this;
         stateMachine = new(locomotionState);
-        var state1 = Component.CreateOrGetState(attackState.Clip);
+        var state1 = Component.CreateOrGetAnimationState(attackState.Clip);
         state1.AddEvent(0.33f, () => dealDamage?.Invoke());
         state1.OnEnd += ReturnToIdle;
-        var state2 = Component.CreateOrGetState(deathState.Clip);
+        var state2 = Component.CreateOrGetAnimationState(deathState.Clip);
         state2.OnEnd += () => die?.Invoke();
     }
     private void OnEnable()

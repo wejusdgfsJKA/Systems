@@ -16,7 +16,7 @@ public class FighterController : MonoBehaviour
     {
         agent = transform.root.GetComponent<NavMeshAgent>();
         component = transform.root.GetComponentInChildren<BudgetAnimancerComponent>();
-        attackState = component.CreateOrGetState(attack);
+        attackState = component.CreateOrGetAnimationState(attack);
         attackState.OnEnd += ReturnToIdle;
         attackState.AddEvent(0.33f, () => dealDamage?.Invoke());
         locomotionState = component.Layers[0].GetOrAddLinearMixer(locomotionData);

@@ -18,6 +18,7 @@ namespace HybridBT
         [SerializeField] protected bool shouldRun = true;
         protected WaitUntil pauseWait;
         public Node<T> Root { get; protected set; }
+        protected Coroutine coroutine;
         protected virtual void Awake()
         {
             intervalWait = new WaitForSeconds(tickInterval);
@@ -36,8 +37,12 @@ namespace HybridBT
         }
         protected virtual void OnEnable()
         {
-            StartCoroutine(TickLoop());
+           coroutine= StartCoroutine(TickLoop());
         }
+        protected virtual void OnDisable()
+{
+    StopCoroutine(coroutine);
+}
         protected IEnumerator TickLoop()
         {
             while (gameObject.activeSelf)

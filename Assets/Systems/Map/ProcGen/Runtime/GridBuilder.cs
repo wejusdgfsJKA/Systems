@@ -49,25 +49,64 @@ namespace ProcGen
             }
 
             #region Build corridors
-            int mainCorridor = UnityEngine.Random.Range(padding + 1, gridLength - padding - 1);
+
+            #region Main horizontal corridor
+            int mainHorizontalCorridor = UnityEngine.Random.Range(padding + 1, gridLength - padding - 1);
             bool shifted = false;
-            int start = padding + 1;
-            int end = gridLength - padding - 1;
-            for (int j = start; j < end; j++)
+            int mainHorizontalCorridorStart = padding + 1;
+            int mainHorizontalCorridorEnd = gridLength - padding - 1;
+            chanceToShift = 1.0f / (mainHorizontalCorridorEnd - mainHorizontalCorridorStart);
+            for (int j = mainHorizontalCorridorStart; j < mainHorizontalCorridorEnd; j++)
             {
-                grid[mainCorridor, j].value = CellType.Corridor;
+                grid[mainHorizontalCorridor, j].value = CellType.Corridor;
                 if (!shifted)
                 {
                     var value = UnityEngine.Random.Range(0.0f, 1.0f);
                     if (value < chanceToShift)
                     {
                         shifted = true;
-                        mainCorridor += UnityEngine.Random.Range(0, 2) * 2 - 1;
-                        grid[mainCorridor, j].value = CellType.Corridor;
+                        mainHorizontalCorridor += UnityEngine.Random.Range(0, 2) * 2 - 1;
+                        grid[mainHorizontalCorridor, j].value = CellType.Corridor;
                         continue;
                     }
                 }
             }
+            #endregion
+
+            #region Main horizontal corridor
+            int newHorizontalCorridor = UnityEngine.Random.Range(padding + 1, gridLength - padding - 1);
+            shifted = false;
+            int newHorizontalCorridorStart = padding + 1;
+            int newHorizontalCorridorEnd = gridLength - padding - 1;
+            chanceToShift = 1.0f / (newHorizontalCorridorEnd - newHorizontalCorridorStart);
+            for (int j = newHorizontalCorridorStart; j < newHorizontalCorridorEnd; j++)
+            {
+                grid[newHorizontalCorridor, j].value = CellType.Corridor;
+                if (!shifted)
+                {
+                    var value = UnityEngine.Random.Range(0.0f, 1.0f);
+                    if (value < chanceToShift)
+                    {
+                        shifted = true;
+                        newHorizontalCorridor += UnityEngine.Random.Range(0, 2) * 2 - 1;
+                        grid[newHorizontalCorridor, j].value = CellType.Corridor;
+                        continue;
+                    }
+                }
+            }
+            #endregion
+
+            #region Main vertical corridor
+            int mainVerticalCorridor = UnityEngine.Random.Range(mainHorizontalCorridorStart, mainHorizontalCorridorEnd);
+            int mainVerticalCorridorStart = padding + 1;
+            int mainVerticalCorridorEnd = gridWidth - padding - 1;
+
+            for (int i = mainVerticalCorridorStart; i < mainVerticalCorridorEnd; i++)
+            {
+                grid[i, mainVerticalCorridor].value = CellType.Corridor;
+            }
+            #endregion
+
             #endregion
 
             bool ValidSpecialRoom(int i, int j)

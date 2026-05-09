@@ -1,6 +1,6 @@
 This project contains various systems which can be used in other projects. So far it contains:
 
-# Event Bus system.
+# Event Bus and Component Register system.
 
 # HP system with weakpoint support.
 
@@ -9,3 +9,5 @@ This project contains various systems which can be used in other projects. So fa
 # Spawning and Pooling system.
 
 # Weapon abstract class with cooldown system.
+
+# JSON save system

@@ -1,6 +1,12 @@
 This project contains various systems which can be used in other projects. So far it contains:
 
-# Event Bus and Component Register system.
+# Singleton
+
+# Event Bus and Component Register systems.
+
+# Tag system
+
+# Timer system
 
 # HP system with weakpoint support.
 
@@ -11,3 +17,7 @@ This project contains various systems which can be used in other projects. So fa
 # Weapon abstract class with cooldown system.
 
 # JSON save system
+
+# Global updater
+
+# Radar system prototype

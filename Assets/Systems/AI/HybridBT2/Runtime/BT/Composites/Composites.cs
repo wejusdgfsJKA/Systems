@@ -1,19 +1,19 @@
 using System;
 using System.Collections.Generic;
 
-namespace HybridBT
+namespace HybridBT2
 {
-    public abstract class Composite<T> : Node<T>
+    public abstract class Composite : Node
     {
-        public Composite(string name, Action<Context<T>> onEnter = null,
-            Action<Context<T>> onExit = null) : base(name, onEnter, onExit) { }
-        public abstract void AddChild(Node<T> child);
+        public Composite(string name, Action<Blackboard> onEnter = null,
+            Action<Blackboard> onExit = null) : base(name, onEnter, onExit) { }
+        public abstract void AddChild(Node child);
     }
-    public abstract class RegularComposite<T> : Composite<T>
+    public abstract class RegularComposite : Composite
     {
-        protected List<Node<T>> children = new();
-        public RegularComposite(string name, Action<Context<T>> onEnter = null,
-            Action<Context<T>> onExit = null) : base(name, onEnter, onExit)
+        protected List<Node> children = new();
+        public RegularComposite(string name, Action<Blackboard> onEnter = null,
+            Action<Blackboard> onExit = null) : base(name, onEnter, onExit)
         {
 
         }
@@ -22,7 +22,7 @@ namespace HybridBT
         /// </summary>
         /// <param name="child"></param>
         /// <exception cref="ArgumentNullException">Thrown if the method was passed a null child.</exception>
-        public override void AddChild(Node<T> child)
+        public override void AddChild(Node child)
         {
             if (child == null) throw new ArgumentNullException($"{this} was passed a null child!");
             children.Add(child);
@@ -44,20 +44,20 @@ namespace HybridBT
             return s;
         }
     }
-    public abstract class RegularCompositeData<T> : NodeData<T>
+    public abstract class RegularCompositeData : NodeData
     {
-        public List<NodeData<T>> Children;
-        public override Node<T> ObtainNode(Context<T> context)
+        public List<NodeData> Children;
+        public override Node GetNodeExternal()
         {
-            var node = (Composite<T>)base.ObtainNode(context);
-            foreach (var item in Children) node.AddChild(item.ObtainNode(context));
+            var node = (Composite)base.GetNodeExternal();
+            foreach (var item in Children) node.AddChild(item.GetNodeExternal());
             return node;
         }
     }
-    public class Sequence<T> : RegularComposite<T>
+    public class Sequence : RegularComposite
     {
         protected int currentChild = 0;
-        public Sequence(string name, Action<Context<T>> onEnter = null, Action<Context<T>> onExit = null) : base(name, onEnter, onExit)
+        public Sequence(string name, Action<Blackboard> onEnter = null, Action<Blackboard> onExit = null) : base(name, onEnter, onExit)
         {
             onEnter += (_) => currentChild = 0;
         }
@@ -65,7 +65,7 @@ namespace HybridBT
         /// ExecuteUnderlyingBehaviour all children in sequence. Abort on child FAILURE.
         /// </summary>
         /// <param name="context"></param>
-        protected override void Execute(Context<T> context)
+        protected override void ExecuteUnderlyingBehaviour(Blackboard context)
         {
             children[currentChild].Evaluate(context);
             switch (children[currentChild].State)
@@ -84,17 +84,10 @@ namespace HybridBT
             }
         }
     }
-    public class SequenceData<T> : RegularCompositeData<T>
-    {
-        protected override Node<T> GetNode(Context<T> context)
-        {
-            return new Sequence<T>(Name, onEnter, onExit);
-        }
-    }
-    public class Selector<T> : RegularComposite<T>
+    public class Selector : RegularComposite
     {
         protected int prevChild = -1;
-        public Selector(string name, Action<Context<T>> onEnter = null, Action<Context<T>> onExit = null) : base(name, onEnter, onExit)
+        public Selector(string name, Action<Blackboard> onEnter = null, Action<Blackboard> onExit = null) : base(name, onEnter, onExit)
         {
             onEnter += (_) => prevChild = -1;
         }
@@ -103,39 +96,34 @@ namespace HybridBT
         /// it will Abort it.
         /// </summary>
         /// <param name="context"></param>
-        protected override void Execute(Context<T> context)
+        protected override void ExecuteUnderlyingBehaviour(Blackboard context)
         {
             for (int i = 0; i < children.Count; i++)
             {
+                if (prevChild != -1 && !children[i].AlwaysCheck && i != prevChild) continue;
                 children[i].Evaluate(context);
                 if (children[i].State == NodeState.FAILURE)
                 {
                     if (i == children.Count - 1)
                     {
-                        state = NodeState.FAILURE;
+                        SetState(NodeState.FAILURE, context);
                         return;
                     }
                     SetState(NodeState.RUNNING, context);
                     continue;
                 }
-                if (prevChild != -1 && i > prevChild) children[prevChild].Abort(context);
+                if (prevChild != -1) children[prevChild].Abort(context);
                 prevChild = i;
                 SetState(children[i].State, context);
                 return;
             }
+            throw new Exception($"{this} did not finish executing main loop!");
         }
     }
-    public class SelectorData<T> : RegularCompositeData<T>
+    public class ParallelNode : RegularComposite
     {
-        protected override Node<T> GetNode(Context<T> context)
-        {
-            return new Selector<T>(Name, onEnter, onExit);
-        }
-    }
-    public class ParallelNode<T> : RegularComposite<T>
-    {
-        public ParallelNode(string name, Node<T> leftChild, Node<T> rightChild, Action<Context<T>> onEnter = null,
-            Action<Context<T>> onExit = null) : base(name, onEnter, onExit)
+        public ParallelNode(string name, Node leftChild, Node rightChild, Action<Blackboard> onEnter = null,
+            Action<Blackboard> onExit = null) : base(name, onEnter, onExit)
         {
             AddChild(leftChild);
             AddChild(rightChild);
@@ -145,20 +133,12 @@ namespace HybridBT
         /// the second is RUNNING it will Abort it.
         /// </summary>
         /// <param name="context"></param>
-        protected override void Execute(Context<T> context)
+        protected override void ExecuteUnderlyingBehaviour(Blackboard context)
         {
             children[0].Evaluate(context);
             SetState(children[0].State, context);
             if (State != NodeState.FAILURE) children[1].Evaluate(context);
             else if (children[1].State == NodeState.RUNNING) children[1].Abort(context);
-        }
-    }
-    public class ParallelNodeData<T> : NodeData<T>
-    {
-        public NodeData<T> LeftChild, RightChild;
-        protected override Node<T> GetNode(Context<T> context)
-        {
-            return new ParallelNode<T>(Name, LeftChild.ObtainNode(context), RightChild.ObtainNode(context), onEnter, onExit);
         }
     }
 }

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HybridBT
+namespace HybridBT2
 {
     public enum NodeState : byte
     {
@@ -35,21 +35,21 @@ namespace HybridBT
             get => myName.Length > 0 ? myName : name;
         }
     }
-    public abstract class Node<T> : BaseElement
+    public abstract class Node : BaseElement
     {
         /// <summary>
         /// HasTarget wrapper. Stores the last result and a name, together with the actual function.
         /// </summary>
         protected class Condition : BaseElement
         {
-            readonly Func<Context<T>, bool> function;
+            readonly Func<Blackboard, bool> function;
             public bool Result { get; protected set; }
-            public Condition(string name, Func<Context<T>, bool> function) : base(name)
+            public Condition(string name, Func<Blackboard, bool> function) : base(name)
             {
                 this.function = function;
                 Result = false;
             }
-            public bool Evaluate(Context<T> context)
+            public bool Evaluate(Blackboard context)
             {
                 Result = function(context);
                 return Result;
@@ -67,28 +67,28 @@ namespace HybridBT
         /// </summary>
         /// <param name="newValue"></param>
         /// <param name="context"></param>
-        public void SetState(NodeState newValue, Context<T> context)
+        public void SetState(NodeState newValue, Blackboard context)
         {
-            if (state != newValue)
+            if (state == newValue) return;
+
+            if (newValue == NodeState.RUNNING)
             {
-                if (newValue == NodeState.RUNNING)
-                {
-                    if (Parent != null) Parent.Abort += Abort;
-                }
-                else if (state == NodeState.RUNNING)
-                {
-                    if (Parent != null) Parent.Abort -= Abort;
-                    onExit?.Invoke(context);
-                }
-                state = newValue;
+                onEnter?.Invoke(context);
+                if (Parent != null) Parent.Abort += Abort;
             }
+            else if (state == NodeState.RUNNING)
+            {
+                if (Parent != null) Parent.Abort -= Abort;
+                onExit?.Invoke(context);
+            }
+            state = newValue;
         }
         /// <summary>
         /// Gets invoked when the node was previously RUNNING and either has blocking decorators or its parent aborted.
         /// </summary>
-        public Action<Context<T>> Abort { get; set; }
-        protected Node<T> parent;
-        public Node<T> Parent
+        public Action<Blackboard> Abort { get; set; }
+        protected Node parent;
+        public Node Parent
         {
             get => parent;
             set
@@ -99,14 +99,28 @@ namespace HybridBT
         /// <summary>
         /// Fires when the node exits RUNNING status.
         /// </summary>
-        protected Action<Context<T>> onExit;
+        protected Action<Blackboard> onExit;
         /// <summary>
         /// Fires when the node is evaluated and not RUNNING.
         /// </summary>
-        protected Action<Context<T>> onEnter;
+        protected Action<Blackboard> onEnter;
         protected readonly List<Condition> conditions = new();
-        protected readonly List<Action<Context<T>>> services = new();
-        public Node(string name, Action<Context<T>> onEnter, Action<Context<T>> onExit) : base(name)
+        protected readonly List<Action<Blackboard>> services = new();
+        protected bool? alwaysCheck = null;
+        public bool AlwaysCheck
+        {
+            get
+            {
+                return alwaysCheck.HasValue ? alwaysCheck.Value : false;
+            }
+            set
+            {
+                if (alwaysCheck == null) alwaysCheck = value;
+                else throw new InvalidOperationException($"Cannot set value of alwaysCheck after construction for {this}!");
+            }
+        }
+
+        public Node(string name, Action<Blackboard> onEnter, Action<Blackboard> onExit) : base(name)
         {
             this.onEnter = onEnter;
             this.onExit = onExit;
@@ -118,7 +132,7 @@ namespace HybridBT
         /// RUNNING, and then will fire ExecuteUnderlyingBehaviour.
         /// </summary>
         /// <param name="context">The context of the agent.</param>
-        public virtual void Evaluate(Context<T> context)
+        public virtual void Evaluate(Blackboard context)
         {
             for (var i = 0; i < conditions.Count; i++)
             {
@@ -129,24 +143,26 @@ namespace HybridBT
                 }
             }
             for (var i = 0; i < services.Count; i++) services[i](context);
-            if (State != NodeState.RUNNING)
-            {
-                onEnter?.Invoke(context);
-                SetState(NodeState.RUNNING, context);
-            }
-            Execute(context);
+
+            SetState(NodeState.RUNNING, context);
+
+            ExecuteUnderlyingBehaviour(context);
         }
         /// <summary>
         /// Contains the action the node should execute if possible.
         /// </summary>
         /// <param name="context">The context of the agent.</param>
-        protected abstract void Execute(Context<T> context);
-        public void AddService(Action<Context<T>> service)
+        protected abstract void ExecuteUnderlyingBehaviour(Blackboard context);
+        public void AddService(Action<Blackboard> service)
         {
             if (service == null) throw new ArgumentNullException($"{this} was passed a null service!");
             services.Add(service);
         }
-        public void AddCondition(ConditionData<T> data) => conditions.Add(new(data.Name, data.Function));
+        public void AddCondition(ConditionData data)
+        {
+            if (data == null) throw new ArgumentNullException($"{this} was passed a null condition!");
+            conditions.Add(new(data.Name, data.Function));
+        }
         /// <summary>
         /// Get this node's name, state, and status of conditions.
         /// </summary>
@@ -167,27 +183,32 @@ namespace HybridBT
             return s;
         }
     }
-    public abstract class NodeData<T> : BaseElementData
+    public abstract class NodeData : BaseElementData
     {
-        protected virtual Action<Context<T>> onEnter { get => null; }
-        protected virtual Action<Context<T>> onExit { get => null; }
-        public List<ConditionData<T>> Conditions = new();
-        public List<ServiceData<T>> Services = new();
-        protected abstract Node<T> GetNode(Context<T> context);
-        public virtual Node<T> ObtainNode(Context<T> context)
+        /// <summary>
+        /// If true, this node will always be checked by selectors if it has priority.
+        /// </summary>
+        public bool AlwaysCheck = true;
+        protected virtual Action<Blackboard> onEnter { get => delegate { }; }
+        protected virtual Action<Blackboard> onExit { get => delegate { }; }
+        public List<ConditionData> Conditions = new();
+        public List<ServiceData> Services = new();
+        protected abstract Node GetNodeInternal();
+        public virtual Node GetNodeExternal()
         {
-            var node = GetNode(context);
+            var node = GetNodeInternal();
+            node.AlwaysCheck = AlwaysCheck;
             foreach (var item in Conditions) node.AddCondition(item);
             foreach (var item in Services) node.AddService(item.Action);
             return node;
         }
     }
-    public abstract class ConditionData<DataKey> : BaseElementData
+    public abstract class ConditionData : BaseElementData
     {
-        public abstract Func<Context<DataKey>, bool> Function { get; }
+        public abstract Func<Blackboard, bool> Function { get; }
     }
-    public abstract class ServiceData<DataKey> : BaseElementData
+    public abstract class ServiceData : BaseElementData
     {
-        public abstract Action<Context<DataKey>> Action { get; }
+        public abstract Action<Blackboard> Action { get; }
     }
 }

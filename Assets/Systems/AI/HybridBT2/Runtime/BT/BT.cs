@@ -33,7 +33,7 @@ namespace HybridBT2
         /// </summary>
         protected virtual void SetupTree()
         {
-            Root = rootData.ObtainNode(blackboard);
+            Root = rootData.GetNodeExternal();
         }
         protected virtual void OnEnable()
         {
@@ -52,7 +52,7 @@ namespace HybridBT2
                 Root.Evaluate(blackboard);
             }
         }
-        public void SetValue(int key, object value) => blackboard.SetData(key, value);
+        public void SetValue(Blackboard.Keys key, object value) => blackboard.SetData(key, value);
         /// <summary>
         /// Sets shouldRun to false, pausing the tree.
         /// </summary>

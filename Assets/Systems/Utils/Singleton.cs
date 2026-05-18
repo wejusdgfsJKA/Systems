@@ -34,6 +34,16 @@ namespace Utilities
             InitializeSingleton();
         }
 
+        protected virtual void OnDestroy()
+        {
+            ClearSingleton();
+        }
+
+        protected virtual void ClearSingleton()
+        {
+            instance = null;
+        }
+
         protected virtual void InitializeSingleton()
         {
             if (!Application.isPlaying) return;

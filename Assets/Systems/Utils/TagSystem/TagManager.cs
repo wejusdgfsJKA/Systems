@@ -2,12 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Tags
 {
-    public static class TagManager<Tag>
+    public static class TagManager
     {
-        static Dictionary<Transform, List<Tag>> transformTagDict = new();
-        static Dictionary<Tag, HashSet<Transform>> tagTransformDict = new();
-        public static void Register(Transform transform, List<Tag> tags)
+        static readonly Dictionary<Transform, List<Tags>> transformTagDict = new();
+        static readonly Dictionary<Tags, HashSet<Transform>> tagTransformDict = new();
+        public static void Register(Transform transform, List<Tags> tags)
         {
+            if (tags == null || tags.Count == 0)
+            {
+                Debug.LogWarning($"Trying to register {transform} with no tags. Ignoring.");
+                return;
+            }
             for (int i = 0; i < tags.Count; i++)
             {
                 if (!tagTransformDict.TryGetValue(tags[i], out HashSet<Transform> transforms))
@@ -21,7 +26,12 @@ namespace Tags
         }
         public static void DeRegister(Transform transform)
         {
-            if (transformTagDict.TryGetValue(transform, out List<Tag> tags))
+            if (transform == null)
+            {
+                Debug.LogWarning($"Trying to deregister a null transform. Ignoring.");
+                return;
+            }
+            if (transformTagDict.TryGetValue(transform, out List<Tags> tags))
             {
                 for (int i = 0; i < tags.Count; i++)
                 {
@@ -35,9 +45,14 @@ namespace Tags
                 transformTagDict.Remove(transform);
             }
         }
-        public static List<Tag> GetTag(Transform transform)
+        public static List<Tags> GetTag(Transform transform)
         {
-            transformTagDict.TryGetValue(transform, out List<Tag> tags);
+            if (transform == null)
+            {
+                Debug.LogWarning($"Trying to get tags for a null transform. Ignoring.");
+                return new();
+            }
+            transformTagDict.TryGetValue(transform, out List<Tags> tags);
             return tags;
         }
         /// <summary>
@@ -45,7 +60,7 @@ namespace Tags
         /// </summary>
         /// <param name="tag">The tag we are searching for.</param>
         /// <returns>All transforms with said tag.</returns>
-        public static List<Transform> GetByTag(Tag tag)
+        public static List<Transform> GetByTag(Tags tag)
         {
             if (tagTransformDict.TryGetValue(tag, out HashSet<Transform> transforms))
             {
@@ -58,8 +73,13 @@ namespace Tags
         /// </summary>
         /// <param name="tags">All the tags we are searching for.</param>
         /// <returns>All transforms with any of the tags.</returns>
-        public static List<Transform> GetByTag(List<Tag> tags)
+        public static List<Transform> GetByTag(List<Tags> tags)
         {
+            if (tags == null || tags.Count == 0)
+            {
+                Debug.LogWarning($"Trying to get transforms with no tags. Ignoring.");
+                return new();
+            }
             List<Transform> trs = new();
             for (int i = 0; i < tags.Count; i++)
             {
@@ -69,6 +89,11 @@ namespace Tags
                 }
             }
             return trs;
+        }
+        public static void Clear()
+        {
+            transformTagDict.Clear();
+            tagTransformDict.Clear();
         }
     }
 }

@@ -6,13 +6,19 @@ namespace HybridBT2
 {
     public class UtilitySelector : Composite
     {
+        /// <summary>
+        /// The child that was running in the previous tick. If the new best child is different, 
+        /// the old one will be aborted, and the new one will run. If the new best child is 
+        /// the same as the previous one, it will just keep running. If there is no previous 
+        /// child, it will just run the new best child.
+        /// </summary>
         protected int prevChild = -1;
         protected List<UtilityWrapper> children = new();
         /// <summary>
         /// If we have a previous child, a new child must be better by at least this ammount to take over.
         /// </summary>
         protected float utilityDelta = 0;
-        public UtilitySelector(string name, float utilityDelta = 0, Action<Blackboard> onEnter = null, Action<Blackboard> onExit = null) : base(name, onEnter, onExit)
+        public UtilitySelector(string name, Action<Blackboard> onEnter = null, Action<Blackboard> onExit = null, float utilityDelta = 0) : base(name, onEnter, onExit)
         {
             this.utilityDelta = utilityDelta;
             onEnter += (_) => prevChild = -1;

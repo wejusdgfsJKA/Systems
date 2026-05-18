@@ -6,7 +6,7 @@ namespace HybridBT2
     /// Base behaviour tree class. Contains a blackboard and root node.
     /// </summary>
     /// <typeparam name="T">Key data type.</typeparam>
-    public abstract class BT : MonoBehaviour
+    public abstract class BT : MonoBehaviour, IResettable
     {
         protected Blackboard blackboard;
         [SerializeField] protected NodeData rootData;
@@ -43,6 +43,13 @@ namespace HybridBT2
         {
             StopCoroutine(coroutine);
         }
+        public void PerformReset()
+        {
+            if (blackboard == null) return;
+            Root?.Abort(blackboard);
+            blackboard.PerformReset();
+            Resume();
+        }
         protected IEnumerator TickLoop()
         {
             while (gameObject.activeSelf)
@@ -50,6 +57,7 @@ namespace HybridBT2
                 yield return intervalWait;
                 yield return pauseWait;
                 Root.Evaluate(blackboard);
+                blackboard.Tick();
             }
         }
         public void SetValue(Blackboard.Keys key, object value) => blackboard.SetData(key, value);

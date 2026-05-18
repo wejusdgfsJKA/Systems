@@ -2,8 +2,13 @@ using UnityEngine;
 using UnityEngine.AI;
 namespace Utilities
 {
-    public class Utilities
+    public static class Utilities
     {
+        public static T GetOrAdd<T>(this GameObject go) where T : Component
+        {
+            T comp = go.GetComponent<T>() ?? go.AddComponent<T>();
+            return comp;
+        }
         public static float GetNavmeshDistance(Vector3 start, Vector3 end, NavMeshAgent agent)
         {
             NavMeshPath path = new();

@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace Tags
 {
-    public class Taggable<T> : MonoBehaviour
+    public class Taggable : MonoBehaviour
     {
-        [SerializeField] protected List<T> currentTags;
+        [SerializeField] protected List<Tags> currentTags;
         protected void OnEnable()
         {
-            TagManager<T>.Register(transform, currentTags);
+            TagManager.Register(transform, currentTags);
         }
         protected void OnDisable()
         {
-            TagManager<T>.DeRegister(transform);
+            TagManager.DeRegister(transform);
         }
     }
 }

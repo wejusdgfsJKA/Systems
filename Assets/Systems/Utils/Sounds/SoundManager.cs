@@ -1,0 +1,115 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Pool;
+using Utilities;
+
+namespace AudioSystem
+{
+    public class SoundManager : Singleton<SoundManager>
+    {
+        IObjectPool<SoundEmitter> soundEmitterPool;
+        readonly List<SoundEmitter> activeSoundEmitters = new();
+        public readonly LinkedList<SoundEmitter> FrequentSoundEmitters = new();
+
+        [SerializeField] bool collectionCheck = true;
+        [SerializeField] int defaultCapacity = 10;
+        [SerializeField] int maxPoolSize = 100;
+        [SerializeField] int maxSoundInstances = 30;
+
+        void Start()
+        {
+            InitializePool();
+        }
+        public SoundBuilder CreateSoundBuilder() => new(this);
+
+        public bool CanPlaySound(SoundData data)
+        {
+            if (!data.frequentSound) return true;
+
+            if (FrequentSoundEmitters.Count >= maxSoundInstances)
+            {
+                try
+                {
+                    FrequentSoundEmitters.First.Value.Stop();
+                    return true;
+                }
+                catch
+                {
+                    Debug.Log("SoundEmitter is already released");
+                }
+                return false;
+            }
+            return true;
+        }
+
+        public SoundEmitter Get()
+        {
+            return soundEmitterPool.Get();
+        }
+        public void Play(SoundData data) => Play(data, Vector3.zero);
+        public void Play(SoundData data, Vector3 position)
+        {
+            var s = Get();
+            s.Transform.position = position;
+            s.Initialize(data);
+            s.Play();
+        }
+        public void ReturnToPool(SoundEmitter soundEmitter)
+        {
+            soundEmitterPool.Release(soundEmitter);
+        }
+
+        public void StopAll()
+        {
+            LinkedList<SoundEmitter> tempList = new LinkedList<SoundEmitter>(activeSoundEmitters);
+
+            foreach (var soundEmitter in tempList)
+            {
+                soundEmitter.Stop();
+            }
+
+            FrequentSoundEmitters.Clear();
+        }
+
+        void InitializePool()
+        {
+            soundEmitterPool = new ObjectPool<SoundEmitter>(
+                CreateSoundEmitter,
+                OnTakeFromPool,
+                OnReturnedToPool,
+                OnDestroyPoolObject,
+                collectionCheck,
+                defaultCapacity,
+                maxPoolSize);
+        }
+
+        SoundEmitter CreateSoundEmitter()
+        {
+            var soundEmitter = new GameObject("SoundEmitter").AddComponent<SoundEmitter>();
+            soundEmitter.gameObject.SetActive(false);
+            return soundEmitter;
+        }
+
+        void OnTakeFromPool(SoundEmitter soundEmitter)
+        {
+            soundEmitter.gameObject.SetActive(true);
+            activeSoundEmitters.Add(soundEmitter);
+        }
+
+        void OnReturnedToPool(SoundEmitter soundEmitter)
+        {
+            if (soundEmitter.Node != null)
+            {
+                FrequentSoundEmitters.Remove(soundEmitter.Node);
+                soundEmitter.Node = null;
+            }
+            soundEmitter.gameObject.SetActive(false);
+            activeSoundEmitters.Remove(soundEmitter);
+        }
+
+        void OnDestroyPoolObject(SoundEmitter soundEmitter)
+        {
+            Destroy(soundEmitter.gameObject);
+        }
+    }
+}

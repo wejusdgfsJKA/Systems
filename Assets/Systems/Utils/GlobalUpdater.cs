@@ -5,8 +5,9 @@ namespace Utilities
     public sealed class GlobalUpdater : Singleton<GlobalUpdater>
     {
         Action<float> update = delegate { }, lateUpdate = delegate { }, fixedUpdate = delegate { };
-        private void OnDestroy()
+        protected override void ClearSingleton()
         {
+            base.ClearSingleton();
             update = null;
             lateUpdate = null;
             fixedUpdate = null;

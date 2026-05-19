@@ -8,7 +8,7 @@ namespace Weapons
     [System.Serializable]
     public class WeaponParameters : ScriptableObject
     {
-        [Tooltip("Cooldown between shots.")]
+        [Tooltip("cooldown between shots.")]
         public float Cooldown;
         public BulletData BulletData;
     }

@@ -8,7 +8,7 @@ namespace Weapons
     {
         #region Utils
         /// <summary>
-        /// What layers should the weapon ClosestTarget?
+        /// What layers should the weapon BestTarget?
         /// </summary>
         protected static readonly LayerMask targetMask = 1 << 0 | 1 << 6;
         /// <summary>

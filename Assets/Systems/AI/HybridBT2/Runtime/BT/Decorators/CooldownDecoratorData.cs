@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace HybridBT2
 {
-    [CreateAssetMenu(menuName = "HybridBT2/Decorators/CooldownDecorator", fileName = "Cooldown")]
+    [CreateAssetMenu(menuName = "HybridBT2/Decorators/CooldownDecorator", fileName = "cooldown")]
     public class CooldownDecoratorData : DecoratorData
     {
         public float Cooldown = 10;

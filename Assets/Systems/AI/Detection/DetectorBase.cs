@@ -5,7 +5,7 @@ namespace Detection
     public abstract class DetectorBase : MonoBehaviour
     {
         /// <summary>
-        /// Cooldown between checks.
+        /// cooldown between checks.
         /// </summary>
         public float Cooldown { get; set; }
         protected WaitForSeconds waitForCooldown;

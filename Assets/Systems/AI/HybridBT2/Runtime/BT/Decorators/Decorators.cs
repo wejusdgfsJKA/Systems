@@ -45,40 +45,43 @@ namespace HybridBT2
         {
             return "Inverter";
         }
-        protected override void ExecuteUnderlyingBehaviour(Blackboard blackboard)
+        protected override void ExecuteUnderlyingBehaviour(Blackboard context)
         {
-            Child.Evaluate(blackboard);
-            if (Child.State == NodeState.SUCCESS) SetState(NodeState.FAILURE, blackboard);
-            else if (Child.State == NodeState.FAILURE) SetState(NodeState.SUCCESS, blackboard);
-            else SetState(NodeState.RUNNING, blackboard);
+            Child.Evaluate(context);
+            if (Child.State == NodeState.SUCCESS) SetState(NodeState.FAILURE, context);
+            else if (Child.State == NodeState.FAILURE) SetState(NodeState.SUCCESS, context);
+            else SetState(NodeState.RUNNING, context);
         }
     }
     public class TimeLimit : Decorator
     {
         public float MaxTime { get; protected set; }
         public float StartTime { get; protected set; }
+        public float TimeLeft => MaxTime - StartTime;
         public TimeLimit(string name, float maxTime, Action<Blackboard> onEnter, Action<Blackboard> onExit) : base(name, onEnter, onExit)
         {
             MaxTime = maxTime;
+            this.onEnter = onEnter;
+            this.onEnter ??= delegate { };
             this.onEnter += (_) => StartTime = 0;
         }
         protected override string DecoratorInfo(int indentation)
         {
-            return $"[Time left: {MaxTime - StartTime}]";
+            return $"[Time left: {TimeLeft}]";
         }
         public bool CanExecute()
         {
-            return StartTime <= MaxTime;
+            return StartTime < MaxTime;
         }
-        protected override void ExecuteUnderlyingBehaviour(Blackboard blackboard)
+        protected override void ExecuteUnderlyingBehaviour(Blackboard context)
         {
             if (CanExecute())
             {
-                Child.Evaluate(blackboard);
-                SetState(Child.State, blackboard);
-                StartTime += blackboard.DeltaTime;
+                Child.Evaluate(context);
+                SetState(Child.State, context);
+                StartTime += context.DeltaTime;
             }
-            else SetState(NodeState.FAILURE, blackboard);
+            else SetState(NodeState.FAILURE, context);
         }
     }
     public class Repeater : Decorator
@@ -89,7 +92,7 @@ namespace HybridBT2
         {
             Debug.Assert(maxNumber != 0);
             MaxNumber = maxNumber;
-            Count = 0;
+            this.onEnter = onEnter ?? delegate { };
             this.onEnter += (ctx) => Count = 0;
         }
         protected override string DecoratorInfo(int indentation)
@@ -97,19 +100,19 @@ namespace HybridBT2
             return MaxNumber > 0 ? $"[Repeats: {Count}/{MaxNumber}]" : $"[Repeats:{Count}]";
         }
 
-        protected override void ExecuteUnderlyingBehaviour(Blackboard blackboard)
+        protected override void ExecuteUnderlyingBehaviour(Blackboard context)
         {
-            Child.Evaluate(blackboard);
+            Child.Evaluate(context);
             if (Child.State != NodeState.FAILURE)
             {
-                if (MaxNumber < 0 || Count < MaxNumber)
+                if (MaxNumber < 0 || Count < MaxNumber - 1)
                 {
-                    Count++;
-                    SetState(NodeState.RUNNING, blackboard);
+                    SetState(NodeState.RUNNING, context);
                 }
-                else SetState(NodeState.SUCCESS, blackboard);
+                else SetState(NodeState.SUCCESS, context);
+                Count++;
             }
-            else SetState(NodeState.FAILURE, blackboard);
+            else SetState(NodeState.FAILURE, context);
         }
     }
     public class Retry : Decorator
@@ -120,7 +123,7 @@ namespace HybridBT2
         {
             Debug.Assert(maxNumber != 0);
             MaxNumber = maxNumber;
-            Count = 0;
+            this.onEnter = onEnter ?? delegate { };
             this.onEnter += (ctx) => Count = 0;
         }
         protected override string DecoratorInfo(int indentation)
@@ -128,19 +131,19 @@ namespace HybridBT2
             return MaxNumber > 0 ? $"[Repeats: {Count}/{MaxNumber}]" : $"[Repeats:{Count}]";
         }
 
-        protected override void ExecuteUnderlyingBehaviour(Blackboard blackboard)
+        protected override void ExecuteUnderlyingBehaviour(Blackboard context)
         {
-            Child.Evaluate(blackboard);
+            Child.Evaluate(context);
             if (Child.State != NodeState.SUCCESS)
             {
-                if (MaxNumber < 0 || Count < MaxNumber)
+                if (MaxNumber < 0 || Count < MaxNumber - 1)
                 {
-                    Count++;
-                    SetState(NodeState.RUNNING, blackboard);
+                    SetState(NodeState.RUNNING, context);
                 }
-                else SetState(NodeState.FAILURE, blackboard);
+                else SetState(NodeState.FAILURE, context);
+                Count++;
             }
-            else SetState(NodeState.SUCCESS, blackboard);
+            else SetState(NodeState.SUCCESS, context);
         }
     }
     public class CooldownDecorator : Decorator
@@ -171,15 +174,15 @@ namespace HybridBT2
             return State == NodeState.RUNNING ? "Operating" : (CanExecute() ? "[Ready]" : $"[{Time.time - LastTime}/{Cooldown}]");
         }
 
-        protected override void ExecuteUnderlyingBehaviour(Blackboard blackboard)
+        protected override void ExecuteUnderlyingBehaviour(Blackboard context)
         {
             if (CanExecute())
             {
                 hasExecuted = true;
-                Child.Evaluate(blackboard);
-                SetState(Child.State, blackboard);
+                Child.Evaluate(context);
+                SetState(Child.State, context);
             }
-            else SetState(NodeState.FAILURE, blackboard);
+            else SetState(NodeState.FAILURE, context);
         }
     }
 }

@@ -21,7 +21,9 @@ namespace HybridBT2
         public UtilitySelector(string name, Action<Blackboard> onEnter = null, Action<Blackboard> onExit = null, float utilityDelta = 0) : base(name, onEnter, onExit)
         {
             this.utilityDelta = utilityDelta;
-            onEnter += (_) => prevChild = -1;
+            this.onEnter = onEnter;
+            this.onEnter ??= delegate { };
+            this.onEnter += (_) => prevChild = -1;
         }
         /// <summary>
         /// Only accepts UtilityWrapper.

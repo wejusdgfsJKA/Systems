@@ -18,12 +18,12 @@ namespace HybridBT2
         /// If we have a previous child, a new child must be better by at least this ammount to take over.
         /// </summary>
         protected float utilityDelta = 0;
-        public UtilitySelector(string name, Action<Blackboard> onEnter = null, Action<Blackboard> onExit = null, float utilityDelta = 0) : base(name, onEnter, onExit)
+        public UtilitySelector(string name, Action<Node, Blackboard> onEnter = null, Action<Node, Blackboard> onExit = null, float utilityDelta = 0) : base(name, onEnter, onExit)
         {
             this.utilityDelta = utilityDelta;
             this.onEnter = onEnter;
             this.onEnter ??= delegate { };
-            this.onEnter += (_) => prevChild = -1;
+            this.onEnter += (_, _) => prevChild = -1;
         }
         /// <summary>
         /// Only accepts UtilityWrapper.

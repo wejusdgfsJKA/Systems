@@ -42,16 +42,16 @@ namespace HybridBT2
         /// </summary>
         protected class Condition : BaseElement
         {
-            readonly Func<Blackboard, bool> function;
+            readonly Func<Node, Blackboard, bool> function;
             public bool Result { get; protected set; }
-            public Condition(string name, Func<Blackboard, bool> function) : base(name)
+            public Condition(string name, Func<Node, Blackboard, bool> function) : base(name)
             {
                 this.function = function;
                 Result = false;
             }
-            public bool Evaluate(Blackboard context)
+            public bool Evaluate(Node node, Blackboard context)
             {
-                Result = function(context);
+                Result = function(node, context);
                 return Result;
             }
         }
@@ -73,13 +73,13 @@ namespace HybridBT2
 
             if (newValue == NodeState.RUNNING)
             {
-                onEnter?.Invoke(context);
+                onEnter?.Invoke(this, context);
                 if (Parent != null) Parent.Abort += Abort;
             }
             else if (state == NodeState.RUNNING)
             {
                 if (Parent != null) Parent.Abort -= Abort;
-                onExit?.Invoke(context);
+                onExit?.Invoke(this, context);
             }
             state = newValue;
         }
@@ -99,13 +99,13 @@ namespace HybridBT2
         /// <summary>
         /// Fires when the node exits RUNNING status.
         /// </summary>
-        protected Action<Blackboard> onExit;
+        protected Action<Node, Blackboard> onExit;
         /// <summary>
         /// Fires when the node is evaluated and not RUNNING.
         /// </summary>
-        protected Action<Blackboard> onEnter;
+        protected Action<Node, Blackboard> onEnter;
         protected readonly List<Condition> conditions = new();
-        protected readonly List<Action<Blackboard>> services = new();
+        protected readonly List<Action<Node, Blackboard>> services = new();
         protected bool? alwaysCheck = null;
         public bool AlwaysCheck
         {
@@ -120,10 +120,10 @@ namespace HybridBT2
             }
         }
 
-        public Node(string name, Action<Blackboard> onEnter, Action<Blackboard> onExit) : base(name)
+        public Node(string name, Action<Node, Blackboard> onEnter, Action<Node, Blackboard> onExit) : base(name)
         {
-            this.onEnter = onEnter;
-            this.onExit = onExit;
+            this.onEnter = onEnter ?? delegate { };
+            this.onExit = onExit ?? delegate { };
             Abort += (ctx) => SetState(NodeState.FAILURE, ctx);
         }
         /// <summary>
@@ -136,13 +136,13 @@ namespace HybridBT2
         {
             for (var i = 0; i < conditions.Count; i++)
             {
-                if (!conditions[i].Evaluate(context))
+                if (!conditions[i].Evaluate(this, context))
                 {
                     if (State == NodeState.RUNNING) Abort(context);
                     return;
                 }
             }
-            for (var i = 0; i < services.Count; i++) services[i](context);
+            for (var i = 0; i < services.Count; i++) services[i](this, context);
 
             SetState(NodeState.RUNNING, context);
 
@@ -153,7 +153,7 @@ namespace HybridBT2
         /// </summary>
         /// <param name="context">The context of the agent.</param>
         protected abstract void ExecuteUnderlyingBehaviour(Blackboard context);
-        public void AddService(Action<Blackboard> service)
+        public void AddService(Action<Node, Blackboard> service)
         {
             if (service == null) throw new ArgumentNullException($"{this} was passed a null service!");
             services.Add(service);
@@ -189,8 +189,8 @@ namespace HybridBT2
         /// If true, this node will always be checked by selectors if it has priority.
         /// </summary>
         public bool AlwaysCheck = true;
-        protected virtual Action<Blackboard> onEnter { get => delegate { }; }
-        protected virtual Action<Blackboard> onExit { get => delegate { }; }
+        protected virtual Action<Node, Blackboard> onEnter { get => delegate { }; }
+        protected virtual Action<Node, Blackboard> onExit { get => delegate { }; }
         public List<ConditionData> Conditions = new();
         public List<ServiceData> Services = new();
         protected abstract Node GetNodeInternal();
@@ -205,10 +205,10 @@ namespace HybridBT2
     }
     public abstract class ConditionData : BaseElementData
     {
-        public abstract Func<Blackboard, bool> Function { get; }
+        public abstract Func<Node, Blackboard, bool> Function { get; }
     }
     public abstract class ServiceData : BaseElementData
     {
-        public abstract Action<Blackboard> Action { get; }
+        public abstract Action<Node, Blackboard> Action { get; }
     }
 }

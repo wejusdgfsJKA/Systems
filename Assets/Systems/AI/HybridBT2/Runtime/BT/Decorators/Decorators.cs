@@ -15,7 +15,7 @@ namespace HybridBT2
                 child.Parent = this;
             }
         }
-        protected Decorator(string name, Action<Blackboard> onEnter, Action<Blackboard> onExit) : base(name, onEnter, onExit)
+        protected Decorator(string name, Action<Node, Blackboard> onEnter, Action<Node, Blackboard> onExit) : base(name, onEnter, onExit)
         {
 
         }
@@ -38,7 +38,7 @@ namespace HybridBT2
     }
     public class Inverter : Decorator
     {
-        public Inverter(string name, Action<Blackboard> onEnter, Action<Blackboard> onExit) : base(name, onEnter, onExit)
+        public Inverter(string name, Action<Node, Blackboard> onEnter, Action<Node, Blackboard> onExit) : base(name, onEnter, onExit)
         {
         }
         protected override string DecoratorInfo(int indentation)
@@ -58,12 +58,10 @@ namespace HybridBT2
         public float MaxTime { get; protected set; }
         public float StartTime { get; protected set; }
         public float TimeLeft => MaxTime - StartTime;
-        public TimeLimit(string name, float maxTime, Action<Blackboard> onEnter, Action<Blackboard> onExit) : base(name, onEnter, onExit)
+        public TimeLimit(string name, float maxTime, Action<Node, Blackboard> onEnter, Action<Node, Blackboard> onExit) : base(name, onEnter, onExit)
         {
             MaxTime = maxTime;
-            this.onEnter = onEnter;
-            this.onEnter ??= delegate { };
-            this.onEnter += (_) => StartTime = 0;
+            this.onEnter += (_, _) => StartTime = 0;
         }
         protected override string DecoratorInfo(int indentation)
         {
@@ -88,12 +86,11 @@ namespace HybridBT2
     {
         public int MaxNumber = -1;
         public int Count { get; protected set; }
-        public Repeater(string name, int maxNumber, Action<Blackboard> onEnter, Action<Blackboard> onExit) : base(name, onEnter, onExit)
+        public Repeater(string name, int maxNumber, Action<Node, Blackboard> onEnter, Action<Node, Blackboard> onExit) : base(name, onEnter, onExit)
         {
             Debug.Assert(maxNumber != 0);
             MaxNumber = maxNumber;
-            this.onEnter = onEnter ?? delegate { };
-            this.onEnter += (ctx) => Count = 0;
+            this.onEnter += (_, _) => Count = 0;
         }
         protected override string DecoratorInfo(int indentation)
         {
@@ -119,12 +116,12 @@ namespace HybridBT2
     {
         public int MaxNumber = -1;
         public int Count { get; protected set; }
-        public Retry(string name, int maxNumber, Action<Blackboard> onEnter, Action<Blackboard> onExit) : base(name, onEnter, onExit)
+        public Retry(string name, int maxNumber, Action<Node, Blackboard> onEnter, Action<Node, Blackboard> onExit) : base(name, onEnter, onExit)
         {
             Debug.Assert(maxNumber != 0);
             MaxNumber = maxNumber;
             this.onEnter = onEnter ?? delegate { };
-            this.onEnter += (ctx) => Count = 0;
+            this.onEnter += (_, _) => Count = 0;
         }
         protected override string DecoratorInfo(int indentation)
         {
@@ -151,12 +148,12 @@ namespace HybridBT2
         public float LastTime { get; protected set; }
         public readonly float Cooldown;
         protected bool hasExecuted;
-        public CooldownDecorator(string name, float cooldown, Action<Blackboard> onEnter, Action<Blackboard> onExit) : base(name, onEnter, onExit)
+        public CooldownDecorator(string name, float cooldown, Action<Node, Blackboard> onEnter, Action<Node, Blackboard> onExit) : base(name, onEnter, onExit)
         {
             Cooldown = cooldown;
             LastTime = -Cooldown;
             this.onExit ??= delegate { };
-            this.onExit += (ctx) =>
+            this.onExit += (_, _) =>
             {
                 if (hasExecuted)
                 {

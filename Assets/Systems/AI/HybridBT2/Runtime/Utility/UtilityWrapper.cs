@@ -19,7 +19,7 @@ namespace HybridBT2
         /// </summary>
         public float Score { get; protected set; }
         public UtilityWrapper(string name, Consideration consideration,
-            Action<Blackboard> onEnter, Action<Blackboard> onExit) : base(name, onEnter, onExit)
+            Action<Node, Blackboard> onEnter, Action<Node, Blackboard> onExit) : base(name, onEnter, onExit)
         {
             this.consideration = consideration;
         }

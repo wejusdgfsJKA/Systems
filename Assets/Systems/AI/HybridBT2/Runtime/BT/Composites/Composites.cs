@@ -5,15 +5,15 @@ namespace HybridBT2
 {
     public abstract class Composite : Node
     {
-        public Composite(string name, Action<Blackboard> onEnter = null,
-            Action<Blackboard> onExit = null) : base(name, onEnter, onExit) { }
+        public Composite(string name, Action<Node, Blackboard> onEnter = null,
+            Action<Node, Blackboard> onExit = null) : base(name, onEnter, onExit) { }
         public abstract void AddChild(Node child);
     }
     public abstract class RegularComposite : Composite
     {
         protected List<Node> children = new();
-        public RegularComposite(string name, Action<Blackboard> onEnter = null,
-            Action<Blackboard> onExit = null) : base(name, onEnter, onExit)
+        public RegularComposite(string name, Action<Node, Blackboard> onEnter = null,
+            Action<Node, Blackboard> onExit = null) : base(name, onEnter, onExit)
         {
 
         }
@@ -57,9 +57,9 @@ namespace HybridBT2
     public class Sequence : RegularComposite
     {
         protected int currentChild = 0;
-        public Sequence(string name, Action<Blackboard> onEnter = null, Action<Blackboard> onExit = null) : base(name, onEnter, onExit)
+        public Sequence(string name, Action<Node, Blackboard> onEnter = null, Action<Node, Blackboard> onExit = null) : base(name, onEnter, onExit)
         {
-            onEnter += (_) => currentChild = 0;
+            this.onEnter += (_, _) => currentChild = 0;
         }
         /// <summary>
         /// ExecuteUnderlyingBehaviour all children in sequence. Abort on child FAILURE.
@@ -87,9 +87,9 @@ namespace HybridBT2
     public class Selector : RegularComposite
     {
         protected int prevChild = -1;
-        public Selector(string name, Action<Blackboard> onEnter = null, Action<Blackboard> onExit = null) : base(name, onEnter, onExit)
+        public Selector(string name, Action<Node, Blackboard> onEnter = null, Action<Node, Blackboard> onExit = null) : base(name, onEnter, onExit)
         {
-            onEnter += (_) => prevChild = -1;
+            this.onEnter += (_, _) => prevChild = -1;
         }
         /// <summary>
         /// Executes the first child which does not fail. If previously had a lower priority child, 
@@ -122,8 +122,8 @@ namespace HybridBT2
     }
     public class ParallelNode : RegularComposite
     {
-        public ParallelNode(string name, Node leftChild, Node rightChild, Action<Blackboard> onEnter = null,
-            Action<Blackboard> onExit = null) : base(name, onEnter, onExit)
+        public ParallelNode(string name, Node leftChild, Node rightChild, Action<Node, Blackboard> onEnter = null,
+            Action<Node, Blackboard> onExit = null) : base(name, onEnter, onExit)
         {
             AddChild(leftChild);
             AddChild(rightChild);

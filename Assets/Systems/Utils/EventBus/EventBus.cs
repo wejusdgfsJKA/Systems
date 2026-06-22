@@ -5,7 +5,7 @@ namespace EventBus
 {
     public static class EventBus<T> where T : IEvent
     {
-        static Dictionary<int, EventBinding<T>> bindings = new();
+        static readonly Dictionary<int, EventBinding<T>> bindings = new();
         static void Clear()
         {
             bindings.Clear();
@@ -27,8 +27,7 @@ namespace EventBus
         /// <returns>True if the binding was found and raised.</returns>
         public static bool Raise(int bindingId, T @event)
         {
-            EventBinding<T> binding;
-            if (bindings.TryGetValue(bindingId, out binding))
+            if (bindings.TryGetValue(bindingId, out var binding))
             {
                 binding.Invoke(@event);
                 return true;
@@ -51,11 +50,9 @@ namespace EventBus
         /// <returns>True if the binding was successfully removed.</returns>
         public static bool RemoveBinding(int id = 0)
         {
-            EventBinding<T> binding;
-            if (bindings.TryGetValue(id, out binding))
+            if (bindings.TryGetValue(id, out var binding))
             {
                 binding.Clear();
-                binding = null;
                 bindings.Remove(id);
                 return true;
             }
@@ -68,11 +65,9 @@ namespace EventBus
         /// <returns>True if the binding was found.</returns>
         public static bool ClearBinding(int id = 0)
         {
-            EventBinding<T> binding;
-            if (bindings.TryGetValue(id, out binding))
+            if (bindings.TryGetValue(id, out var binding))
             {
                 binding.Clear();
-                binding = null;
                 return true;
             }
             return false;
@@ -84,10 +79,10 @@ namespace EventBus
         /// <param name="actionNoArgs">Non-parametrized action.</param>
         /// <param name="addBinding">If true, will attempt to add a new binding if none is found, and add the Actions to it. Defaults to true.</param>
         /// <returns>True if the binding was found, or if it was successfully added.</returns>
-        public static bool AddActions(Action<T> action = null,
+        public static bool AddActions(Action<T> action,
             Action actionNoArgs = null, bool addBinding = true)
         {
-            return AddActions(0, action, actionNoArgs);
+            return AddActions(0, action, actionNoArgs, addBinding);
         }
         /// <summary>
         /// Add Actions to a binding. By default will attempt to add a new binding if none is found, and add the Actions to it.
@@ -97,21 +92,20 @@ namespace EventBus
         /// <param name="actionNoArgs">Non-parametrized action.</param>
         /// <param name="addBinding">If true, will attempt to add a new binding if none is found, and add the Actions to it. Defaults to true.</param>
         /// <returns>True if the binding was found, or if it was successfully added.</returns>
-        public static bool AddActions(int bindingId, Action<T> action = null,
+        public static bool AddActions(int bindingId, Action<T> action,
             Action actionNoArgs = null, bool addBinding = true)
         {
-            EventBinding<T> e;
-            if (bindings.TryGetValue(bindingId, out e))
+            if (bindings.TryGetValue(bindingId, out var binding))
             {
-                e.Add(action);
-                e.Add(actionNoArgs);
+                binding.Add(action);
+                binding.Add(actionNoArgs);
                 return true;
             }
-            if (bindings.TryAdd(bindingId, new()))
+            if (addBinding && bindings.TryAdd(bindingId, new()))
             {
-                e = bindings[bindingId];
-                e.Add(action);
-                e.Add(actionNoArgs);
+                binding = bindings[bindingId];
+                binding.Add(action);
+                binding.Add(actionNoArgs);
                 return true;
             }
             return false;
@@ -122,7 +116,7 @@ namespace EventBus
         /// <param name="action">Parametrized action.</param>
         /// <param name="actionNoArgs">Non-parametrized action.</param>
         /// <returns></returns>
-        public static bool RemoveActions(Action<T> action = null,
+        public static bool RemoveActions(Action<T> action,
             Action actionNoArgs = null)
         {
             return RemoveActions(0, action, actionNoArgs);
@@ -134,14 +128,13 @@ namespace EventBus
         /// <param name="action">Parametrized action.</param>
         /// <param name="actionNoArgs">Non-parametrized action.</param>
         /// <returns></returns>
-        public static bool RemoveActions(int bindingId, Action<T> action = null,
+        public static bool RemoveActions(int bindingId, Action<T> action,
             Action actionNoArgs = null)
         {
-            EventBinding<T> e;
-            if (bindings.TryGetValue(bindingId, out e))
+            if (bindings.TryGetValue(bindingId, out var binding))
             {
-                e.Remove(action);
-                e.Remove(actionNoArgs);
+                binding.Remove(action);
+                binding.Remove(actionNoArgs);
                 return true;
             }
             return false;

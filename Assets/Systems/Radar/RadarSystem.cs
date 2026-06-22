@@ -14,11 +14,11 @@ namespace Radar
         protected readonly Dictionary<RadarTarget, GameObject> radarPings = new();
         protected void OnEnable()
         {
-            GlobalUpdater.Instance.RegisterLateUpdate(UpdateRadar);
+            GlobalUpdater.TryGetInstance(true).RegisterLateUpdate(UpdateRadar);
         }
         protected void OnDisable()
         {
-            GlobalUpdater.Instance.UnregisterLateUpdate(UpdateRadar);
+            GlobalUpdater.TryGetInstance().UnregisterLateUpdate(UpdateRadar);
             registeredTargets.Clear();
             foreach (var ping in radarPings.Values) Destroy(ping);
             radarPings.Clear();

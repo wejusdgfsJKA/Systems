@@ -77,7 +77,7 @@ namespace AudioSystem
             }
 
             audioSource.Stop();
-            SoundManager.Instance.ReturnToPool(this);
+            SoundManager.TryGetInstance().ReturnToPool(this);
         }
 
         public void WithRandomPitch(float min = -0.05f, float max = 0.05f)

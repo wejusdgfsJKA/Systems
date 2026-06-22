@@ -37,7 +37,7 @@ namespace Weapons
         }
         protected virtual void OnEnable()
         {
-            SoundManager.Instance.Play(soundData, tr.position);
+            SoundManager.TryGetInstance(true).Play(soundData, tr.position);
             lifeTimeTimer.Start();
         }
         public override void Initialize(PoolableData poolableData)

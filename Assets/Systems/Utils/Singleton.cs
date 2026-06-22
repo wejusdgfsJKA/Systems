@@ -6,24 +6,18 @@ namespace Utilities
         protected static T instance;
 
         public static bool HasInstance => instance != null;
-        public static T TryGetInstance() => HasInstance ? instance : null;
-
-        public static T Instance
+        public static T TryGetInstance(bool createOnMissing = false)
         {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindAnyObjectByType<T>();
-                    if (instance == null)
-                    {
-                        var go = new GameObject(typeof(T).Name + " Auto-Generated");
-                        instance = go.AddComponent<T>();
-                    }
-                }
+            if (HasInstance) return instance;
+            if (!createOnMissing) return null;
 
-                return instance;
+            instance = FindAnyObjectByType<T>();
+            if (instance == null)
+            {
+                var go = new GameObject(typeof(T).Name + " Auto-Generated");
+                instance = go.AddComponent<T>();
             }
+            return instance;
         }
 
         /// <summary>

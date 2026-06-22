@@ -98,7 +98,7 @@ namespace Weapons
             }
 
             var targetRotation = tr.position + tr.forward;
-            var b = (Bullet)ObjectPool.Instance.Spawn(bulletData);
+            var b = (Bullet)ObjectPool.TryGetInstance(true).Spawn(bulletData);
             if (b == null)
             {
                 Debug.LogError($"{transform} failed to spawn bullet with data {bulletData}!");

@@ -7,11 +7,11 @@ namespace Radar
         [field: SerializeField] public float RadarSignature { get; protected set; } = 1f;
         protected void OnEnable()
         {
-            RadarSystem.Instance.RegisterTarget(this);
+            RadarSystem.TryGetInstance(true).RegisterTarget(this);
         }
         protected void OnDisable()
         {
-            RadarSystem.Instance.UnregisterTarget(this);
+            RadarSystem.TryGetInstance().UnregisterTarget(this);
         }
     }
 }

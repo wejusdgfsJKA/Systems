@@ -23,7 +23,7 @@ namespace Spawning2
         protected virtual void ReturnToPool()
         {
             gameObject.SetActive(false);
-            ObjectPool.Instance.ReturnToPool(this);
+            ObjectPool.TryGetInstance().ReturnToPool(this);
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Utilities
         /// <param name="fileName">The name of the JSON file.</param>
         /// <param name="result">The variable to store the loaded object.</param>
         /// <returns>True if the data was successfully loaded; otherwise, false.</returns>
-        public static bool LoadData<T>(string fileName, T result)
+        public static bool LoadData<T>(string fileName,out T result)
         {
             result = default;
             string path = Application.persistentDataPath + "/" + fileName;
